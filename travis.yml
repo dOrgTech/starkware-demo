@@ -1,0 +1,18 @@
+ 
+language: node_js
+node_js:
+- 12
+cache: yarn
+before_script:
+- yarn
+script:
+- yarn lint:check
+- yarn build
+deploy:
+  provider: heroku
+  repo: dOrgTech/starkware-demo
+  api_key: cb0fde8c-74d4-439c-ac86-f7a2dbba0f46
+  app:
+    develop: starkware-demo-staging
+    master: starkware-demo-production
+  skip_cleanup: 'true'
