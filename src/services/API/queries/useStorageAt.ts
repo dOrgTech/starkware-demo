@@ -7,7 +7,7 @@ export interface StorageArgs {
 }
 
 interface StorageResult {
-  value: any
+  value: unknown
 }
 
 export const useStorageAt = (args: StorageArgs) => {

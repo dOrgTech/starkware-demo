@@ -4,11 +4,11 @@ import { HTTPClient } from "services/http"
 export interface CallArgs {
   contractAddress: string;
   function: string;
-  data: any[]
+  data: []
 }
 
 interface CallResult {
-  data: any
+  data: unknown
 }
 
 export const useCall = (args: CallArgs) => {

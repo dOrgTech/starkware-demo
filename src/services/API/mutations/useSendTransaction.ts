@@ -4,7 +4,7 @@ import { HTTPClient } from "services/http"
 export interface TransactionArgs {
   contractAddress: string;
   function: string;
-  data: any[]
+  data: []
 }
 
 interface TransactionResult {

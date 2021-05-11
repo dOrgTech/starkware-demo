@@ -6,7 +6,7 @@ export interface BlockArgs {
 }
 
 interface BlockResult {
-  block: any
+  block: unknown
 }
 
 export const useBlock = (args: BlockArgs) => {
