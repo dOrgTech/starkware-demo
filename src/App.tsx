@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, styled, Typography } from '@material-ui/core';
+import { Box, styled } from '@material-ui/core';
+import { Home } from 'pages/Home';
 
 const Layout = styled(Box)({
 	background:
@@ -11,7 +12,7 @@ const Layout = styled(Box)({
 function App() {
 	return (
 		<Layout>
-			<Typography variant="body1">Hello</Typography>
+			<Home />
 		</Layout>
 	);
 }
