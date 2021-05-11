@@ -21,9 +21,9 @@
 		"prettier"
 	],
 	"rules": {
-		"@typescript-eslint/no-explicit-any": "on",
+		"@typescript-eslint/no-explicit-any": 2,
 		"react/prop-types": "off",
-		"@typescript-eslint/no-var-requires": "on",
+		"@typescript-eslint/no-var-requires": 2,
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/explicit-module-boundary-types": "off"
 	}
