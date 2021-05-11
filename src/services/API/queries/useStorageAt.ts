@@ -1,5 +1,5 @@
 import { useQuery } from "react-query"
-import { httpClient } from "../utils"
+import { HTTPClient } from "../../http"
 
 export interface StorageArgs {
   contractAddress: string;
@@ -13,6 +13,7 @@ interface StorageResult {
 export const useStorageAt = (args: StorageArgs) => {
   return useQuery<StorageResult, Error>(["storageAt", args], async () => {
     //TODO
+    const httpClient = HTTPClient.create({ baseURL: "", timeout: 500, headers: {}})
     const { data } = await httpClient.get("")
 
     return data

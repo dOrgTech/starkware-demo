@@ -1,5 +1,5 @@
 import { useMutation } from "react-query"
-import { httpClient } from "../utils"
+import { HTTPClient } from "services/http"
 
 export interface TransactionArgs {
   contractAddress: string;
@@ -14,6 +14,7 @@ interface TransactionResult {
 export const useSendTransaction = () => {
   return useMutation<TransactionResult, Error, TransactionArgs>(async (args) => {
     //TODO
+    const httpClient = HTTPClient.create({ baseURL: "", timeout: 500, headers: {}})
     return httpClient.post("", args)
   })
 }
