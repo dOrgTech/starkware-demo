@@ -41,7 +41,7 @@
 		"lint:ci": "eslint --color 'src/**/*.{js,jsx,ts,tsx}'",
 		"lint:check": "eslint --quiet 'src/**/*.{js,jsx,ts,tsx}'",
 		"lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
-		"format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
+		"format": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|css|md)\""
 	},
 	"eslintConfig": {
 		"extends": [
