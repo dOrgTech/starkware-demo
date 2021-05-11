@@ -1,22 +1,22 @@
-import { useQuery } from "react-query"
-import { HTTPClient } from "services/http"
+import { useQuery } from 'react-query';
+import { HTTPClient } from 'services/http';
 
 export interface CallArgs {
-  contractAddress: string;
-  function: string;
-  data: []
+	contractAddress: string;
+	function: string;
+	data: [];
 }
 
 interface CallResult {
-  data: unknown
+	data: unknown;
 }
 
 export const useCall = (args: CallArgs) => {
-  return useQuery<CallResult, Error>(["call", args], async () => {
-    //TODO
-    const httpClient = HTTPClient.create({ baseURL: "", timeout: 500, headers: {}})
-    const { data } = await httpClient.get("")
+	return useQuery<CallResult, Error>(['call', args], async () => {
+		//TODO
+		const httpClient = HTTPClient.create({ baseURL: '', timeout: 500, headers: {} });
+		const { data } = await httpClient.get('');
 
-    return data;
-  })
-}
+		return data;
+	});
+};
