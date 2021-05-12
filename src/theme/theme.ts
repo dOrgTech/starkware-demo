@@ -4,7 +4,10 @@ import hexToRgba from 'hex-to-rgba';
 export const theme = createMuiTheme({
 	palette: {
 		primary: {
-			main: '#FE4A49',
+			main: '##FAFAF5',
+		},
+		secondary: {
+			main: '#FB514F',
 		},
 		background: {
 			paper: '#28286E',
