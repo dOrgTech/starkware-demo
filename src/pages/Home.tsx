@@ -1,19 +1,124 @@
-import React from 'react';
-import { Grid, styled, Container } from '@material-ui/core';
-import { ModeSelector } from '../components/ModeSelector';
+import React, { useState } from 'react';
+import { styled, Container, Box, Tabs, createStyles, makeStyles, Tab } from '@material-ui/core';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import { useCallback } from 'react';
+import { Mint } from 'components/Mint';
+import { Swap } from 'components/Swap';
+import { Liquidity } from 'components/Liquidity';
 
-const ModeSelectorContainer = styled(Grid)({
-	marginTop: '10%',
+const CardContainer = styled(Box)({
+	margin: 'auto',
+	width: "100%",
+	maxWidth: '440px',
+	minHeight: '493px',
+	padding: '26px 33px 31px 33px',
+	marginTop: 110,
+	background: '#28286E',
+	border: '1.5px solid rgba(83, 83, 135, 0.3)',
+	boxSizing: 'border-box',
+	boxShadow: '0px 8px 15px 3px rgba(7, 7, 7, 0.13)',
+	borderRadius: '8px',
 });
 
+const CardContent = styled(Box)({
+	paddingTop: 22,
+	boxSizing: 'border-box',
+});
+
+const useTabsStyles = makeStyles((theme) =>
+	createStyles({
+		root: {
+			minHeight: 'unset',
+		},
+		indicator: {
+			display: 'flex',
+			backgroundColor: 'transparent',
+			'& > span': {
+				width: '75%',
+				margin: '0 auto 0 0',
+				height: 1.5,
+				backgroundColor: theme.palette.secondary.main,
+			},
+		},
+	}),
+);
+
+const useTabStyles = makeStyles(() =>
+	createStyles({
+		root: {
+			minHeight: 'unset',
+			fontSize: 20,
+			textTransform: 'none',
+			color: 'white',
+			padding: '0 0 5px 0',
+			'&:focus': {
+				opacity: 1,
+			},
+			minWidth: 80,
+		},
+		wrapper: {
+			flexDirection: 'row',
+			justifyContent: 'start',
+		},
+	}),
+);
+
+const TABS = [
+	{
+		label: 'Mint',
+		value: 'mint',
+	},
+	{
+		label: 'Swap',
+		value: 'swap',
+	},
+	{
+		label: 'Liquidity',
+		value: 'liquidity',
+	},
+];
+
 export const Home = (): JSX.Element => {
+	const tabsStyles = useTabsStyles();
+	const tabStyles = useTabStyles();
+	const [selectedTab, setSelectedTab] = useState('mint');
+	const history = useHistory();
+
+	const handleTabSelected = useCallback(
+		(_: unknown, tab: string) => {
+			setSelectedTab(tab);
+			history.push(tab);
+		},
+		[history],
+	);
+
 	return (
 		<Container maxWidth="lg">
-			<Grid container justify="center">
-				<ModeSelectorContainer item xs={12} sm={8} md={6} lg={5}>
-					<ModeSelector />
-				</ModeSelectorContainer>
-			</Grid>
+			<CardContainer>
+				<Tabs
+					TabIndicatorProps={{ children: <span /> }}
+					classes={tabsStyles}
+					value={selectedTab}
+					onChange={handleTabSelected}
+				>
+					{TABS.map(({ label, value }, i) => (
+						<Tab key={`tab-${i}`} disableRipple classes={tabStyles} label={label} value={value} />
+					))}
+				</Tabs>
+				<CardContent>
+					<Switch>
+						<Route path="/mint">
+							<Mint />
+						</Route>
+						<Route path="/swap">
+							<Swap />
+						</Route>
+						<Route path="/liquidity">
+							<Liquidity />
+						</Route>
+					</Switch>
+				</CardContent>
+			</CardContainer>
 		</Container>
 	);
 };
