@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, styled } from '@material-ui/core';
+import { Grid, styled } from '@material-ui/core';
 import { Home } from 'pages/Home';
 import { Navbar } from 'components/Navbar';
 
