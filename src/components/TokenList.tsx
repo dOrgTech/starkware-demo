@@ -3,9 +3,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 
 import { createStyles, ListItemSecondaryAction, makeStyles, styled, Theme, Typography } from '@material-ui/core';
+import { TokenIcon, TokenIconProps } from './common/TokenIcon';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -23,13 +23,6 @@ const StyledListItemText = styled(ListItemText)(({ theme }) => ({
 	color: theme.palette.text.primary,
 }));
 
-const StyledAvatar = styled(Avatar)({
-	'& > *': {
-		width: '100%',
-		height: '100%',
-	},
-});
-
 const StyledDivider = styled('hr')({
 	opacity: '0.2',
 	border: '0.5px solid #C1C1FF',
@@ -37,7 +30,7 @@ const StyledDivider = styled('hr')({
 
 interface Props {
 	tokens: {
-		Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+		icon: TokenIconProps;
 		symbol: string;
 		amount: string;
 	}[];
@@ -48,13 +41,11 @@ export const TokenList: React.FC<Props> = ({ tokens }) => {
 
 	return (
 		<List className={classes.root}>
-			{tokens.map(({ Icon, symbol, amount }, i) => (
+			{tokens.map(({ icon, symbol, amount }, i) => (
 				<>
 					<ListItem key={`token-${i}`}>
 						<ListItemAvatar>
-							<StyledAvatar>
-								<Icon />
-							</StyledAvatar>
+							<TokenIcon {...icon}/>
 						</ListItemAvatar>
 						<StyledListItemText primary={symbol} />
 						<ListItemSecondaryAction>

@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { styled, Container, Box, Tabs, createStyles, makeStyles, Tab } from '@material-ui/core';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { useCallback } from 'react';
 import { Mint } from 'components/Mint';
 import { Swap } from 'components/Swap';
-import { Liquidity } from 'components/Liquidity';
+import { useMemo } from 'react';
 
 const CardContainer = styled(Box)({
 	margin: 'auto',
 	width: "100%",
 	maxWidth: '440px',
-	minHeight: '493px',
 	padding: '26px 33px 31px 33px',
 	marginTop: 110,
 	background: '#28286E',
@@ -72,16 +71,15 @@ const TABS = [
 		label: 'Swap',
 		value: 'swap',
 	},
-	{
-		label: 'Liquidity',
-		value: 'liquidity',
-	},
 ];
 
 export const Home = (): JSX.Element => {
 	const tabsStyles = useTabsStyles();
 	const tabStyles = useTabStyles();
-	const [selectedTab, setSelectedTab] = useState('mint');
+	const location = useLocation()
+	const initialTab = useMemo(() => location.pathname.split("/").slice(-1)[0], [location])
+	
+	const [selectedTab, setSelectedTab] = useState(initialTab);
 	const history = useHistory();
 
 	const handleTabSelected = useCallback(
@@ -113,9 +111,7 @@ export const Home = (): JSX.Element => {
 						<Route path="/swap">
 							<Swap />
 						</Route>
-						<Route path="/liquidity">
-							<Liquidity />
-						</Route>
+						<Redirect to="/swap" />
 					</Switch>
 				</CardContent>
 			</CardContainer>
