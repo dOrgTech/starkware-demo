@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputBase, InputBaseComponentProps, makeStyles } from '@material-ui/core';
 
-interface Props {
+export interface NumericInputProps {
 	value?: string;
 	placeholder?: string;
 	disabled?: boolean;
@@ -12,12 +12,8 @@ interface Props {
 
 const useStyles = makeStyles((theme) => ({
 	input: {
-		color: theme.palette.text.secondary,
-		fontWeight: 'normal',
-		[theme.breakpoints.only('xs')]: {
-			paddingLeft: theme.spacing(1),
-			paddingBottom: theme.spacing(1),
-		},
+		color: theme.palette.text.primary,
+		fontWeight: 'normal'
 	},
 }));
 
@@ -36,7 +32,7 @@ export const NumericInput = ({
 	className = '',
 	inputProps = {},
 	onChange,
-}: Props): JSX.Element => {
+}: NumericInputProps): JSX.Element => {
 	const classes = useStyles();
 
 	const handleAmountChange = (event: React.ChangeEvent<{ value: unknown }>) => {

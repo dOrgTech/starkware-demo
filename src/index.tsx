@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core';
 
 import App from 'App';
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
 import { theme } from 'theme/theme';
 import reportWebVitals from './reportWebVitals';
 import './assets/css/body.css';
@@ -10,7 +13,9 @@ import './assets/css/body.css';
 ReactDOM.render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
-			<App />
+			<Router>
+				<App />
+			</Router>
 		</ThemeProvider>
 	</React.StrictMode>,
 	document.getElementById('root'),
