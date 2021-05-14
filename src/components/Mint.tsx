@@ -1,11 +1,17 @@
-import React from "react"
+import React from 'react';
+import { DarkBox } from './common/DarkBox';
 import { TokenSelector } from './TokenSelector';
-import { TOKENS } from "./Swap";
+import { TOKENS } from './Swap';
 
 export const Mint = (): JSX.Element => {
 	return (
-		<TokenSelector handleSelect={(e) => {
-			console.log(e)
-		}} tokens={TOKENS}/>
+		<DarkBox>
+			<TokenSelector
+				onChange={(e) => {
+					console.log(e);
+				}}
+				options={TOKENS}
+			/>
+		</DarkBox>
 	);
 };
