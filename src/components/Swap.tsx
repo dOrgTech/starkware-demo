@@ -51,7 +51,7 @@ const Label = ({ text }: { text: string }): JSX.Element => (
 	</Box>
 );
 
-export const TOKENS: Token[] = [
+const TOKENS: Token[] = [
 	{
 		id: '1',
 		name: 'Token 1',
