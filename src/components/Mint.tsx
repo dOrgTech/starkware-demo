@@ -1,10 +1,10 @@
 import React from "react"
-import { EmptyTokenInput } from './EmptyTokenInput';
+import { TokenSelector } from './TokenSelector';
 import { TOKENS } from "./Swap";
 
 export const Mint = (): JSX.Element => {
 	return (
-		<EmptyTokenInput handleSelect={(e) => {
+		<TokenSelector handleSelect={(e) => {
 			console.log(e)
 		}} tokens={TOKENS}/>
 	);

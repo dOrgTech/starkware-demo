@@ -1,14 +1,14 @@
 import { Button, createStyles, Grid, makeStyles, styled } from '@material-ui/core';
 import React, { useCallback } from 'react';
+import { Token } from 'models/token';
 import { DarkBox } from './common/DarkBox';
 import { TokenIcon } from './common/TokenIcon';
 import { NumericInput } from './NumericInput';
 import { ReactComponent as TokenSVG } from 'assets/tokens/token.svg';
-import { Token } from './Swap';
 import { TokenSelectModal } from './TokenSelectModal';
 import { useState } from 'react';
 
-const InputsContainer = styled(Grid)({
+const StyledInputsContainer = styled(Grid)({
 	padding: '0 0 0 12px',
 });
 
@@ -30,7 +30,7 @@ interface Props {
 	tokens: Token[];
 }
 
-export const EmptyTokenInput: React.FC<Props> = ({ handleSelect, tokens }) => {
+export const TokenSelector = ({ handleSelect, tokens }: Props): JSX.Element => {
 	const buttonStyles = useButtonStyles();
 	const [open, setOpen] = useState(false);
 
@@ -45,7 +45,7 @@ export const EmptyTokenInput: React.FC<Props> = ({ handleSelect, tokens }) => {
 					<Grid item>
 						<TokenIcon Icon={TokenSVG} size="large" />
 					</Grid>
-					<InputsContainer item xs>
+					<StyledInputsContainer item xs>
 						<Grid container justify="space-between" alignItems="center">
 							<Grid item xs>
 								<Button
@@ -61,7 +61,7 @@ export const EmptyTokenInput: React.FC<Props> = ({ handleSelect, tokens }) => {
 								<NumericInput onChange={() => false} />
 							</Grid>
 						</Grid>
-					</InputsContainer>
+					</StyledInputsContainer>
 				</Grid>
 			</DarkBox>
 			<TokenSelectModal
