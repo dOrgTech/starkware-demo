@@ -46,7 +46,7 @@ const Label: React.FC<{ text: string }> = ({ text }) => (
 	</Box>
 );
 
-interface Token {
+export interface Token {
 	id: string;
 	name: string;
 	symbol: string;
@@ -79,8 +79,8 @@ export const Swap = (): JSX.Element => {
 	const [fromValue, setFromValue] = useState('');
 	const [toValue, setToValue] = useState('');
 
-	const [fromToken, setFromToken] = useState<Token>(TOKENS[0]);
-	const [toToken, setToToken] = useState<Token>(TOKENS[1]);
+	const [fromToken, setFromToken] = useState<Token| undefined>(TOKENS[0]);
+	const [toToken, setToToken] = useState<Token | undefined>();
 
 	const handleSwitch = useCallback(() => {
 		setFromValue(toValue);
@@ -110,9 +110,18 @@ export const Swap = (): JSX.Element => {
 						onChange: (amount) => setFromValue(amount),
 					}}
 					tokenProps={{ symbol: fromToken.symbol, icon: fromToken.icon }}
+					tokens={TOKENS}
+					handleSelect={(token) => {
+						setFromToken(token);
+					}}
 				/>
 			) : (
-				<EmptyTokenInput />
+				<EmptyTokenInput
+					handleSelect={(token) => {
+						setFromToken(token);
+					}}
+					tokens={TOKENS}
+				/>
 			)}
 
 			<ArrowsContainer container justify="center" alignItems="center">
@@ -138,9 +147,18 @@ export const Swap = (): JSX.Element => {
 						onChange: (amount) => setToValue(amount),
 					}}
 					tokenProps={{ symbol: toToken.symbol, icon: toToken.icon }}
+					tokens={TOKENS}
+					handleSelect={(token) => {
+						setToToken(token);
+					}}
 				/>
 			) : (
-				<EmptyTokenInput />
+				<EmptyTokenInput
+					handleSelect={(e) => {
+						setToToken(e);
+					}}
+					tokens={TOKENS}
+				/>
 			)}
 			<SwapButton fullWidth variant="contained">
 				Swap
