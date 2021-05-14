@@ -18,6 +18,10 @@ const StyledTokenSymbol = styled(Box)({
 	paddingLeft: 12,
 });
 
+const StyledTypography = styled(Typography)({
+	fontWeight: 600,
+});
+
 const useButtonStyles = makeStyles(() =>
 	createStyles({
 		root: {
@@ -67,9 +71,7 @@ export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.E
 					</Grid>
 					<Grid item xs>
 						<StyledTokenSymbol>
-							<Typography variant="body1" color="textPrimary">
-								{token.symbol}
-							</Typography>
+							<StyledTypography color="textPrimary">{token.symbol}</StyledTypography>
 						</StyledTokenSymbol>
 					</Grid>
 					<Grid item>
