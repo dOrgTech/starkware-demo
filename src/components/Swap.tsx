@@ -94,8 +94,8 @@ export const Swap = (): JSX.Element => {
 						<Grid item xs>
 							<TokenSelector
 								value={fromToken}
-								onChange={(token) => setFromToken(token)}
 								options={TOKENS}
+								onChange={(token) => setFromToken(token)}
 							/>
 						</Grid>
 						{fromToken && (
