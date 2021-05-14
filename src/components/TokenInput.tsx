@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { DarkBox } from './common/DarkBox';
 import { TokenIcon } from './common/TokenIcon';
 import { NumericInput, NumericInputProps } from './NumericInput';
-import { Token } from './Swap';
+import { Token } from 'models/token';
 import { TokenSelectModal } from './TokenSelectModal';
 
 const InputsContainer = styled(Grid)({
@@ -30,9 +30,9 @@ const TokenContainer = styled(Box)({
 });
 
 const TokenSymbol = styled(Grid)({
-	boxSizing: "border-box",
-	paddingLeft: 12
-})
+	boxSizing: 'border-box',
+	paddingLeft: 12,
+});
 
 export const TokenInput: React.FC<TokenInputProps> = ({ tokenProps, inputProps, tokens, handleSelect }) => {
 	const [open, setOpen] = useState(false);

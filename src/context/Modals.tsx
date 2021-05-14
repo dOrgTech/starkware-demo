@@ -1,4 +1,4 @@
-import { Token } from "components/Swap";
+import { Token } from "models/token";
 import React, { createContext, Dispatch, useReducer } from "react";
 import { useCallback } from "react";
 

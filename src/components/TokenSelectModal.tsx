@@ -13,7 +13,7 @@ import {
 	styled,
 	Typography,
 } from '@material-ui/core';
-import { Token } from './Swap';
+import { Token } from 'models/token';
 import { TokenIcon } from './common/TokenIcon';
 
 const useStyles = makeStyles((theme) =>
@@ -56,7 +56,6 @@ const StyledDivider = styled('hr')({
 
 interface Props extends DialogProps {
 	tokens: Token[];
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	handleSelect: (token: Token) => void;
 }
 

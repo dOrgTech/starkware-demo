@@ -4,10 +4,11 @@ import { ReactComponent as TokenSVG } from 'assets/tokens/token.svg';
 import { ReactComponent as Token2SVG } from 'assets/tokens/token2.svg';
 import { ReactComponent as ArrowUpSVG } from 'assets/icons/arrow-up.svg';
 import { ReactComponent as ArrowDownSVG } from 'assets/icons/arrow-down.svg';
+import { Token } from 'models/token';
 import { useState } from 'react';
 import { useCallback } from 'react';
 import { TokenInput } from './TokenInput';
-import { EmptyTokenInput } from './EmptyTokenInput';
+import { TokenSelector } from './TokenSelector';
 
 const ArrowsContainer = styled(Grid)({
 	width: '100%',
@@ -46,18 +47,6 @@ const Label: React.FC<{ text: string }> = ({ text }) => (
 	</Box>
 );
 
-export interface Token {
-	id: string;
-	name: string;
-	symbol: string;
-	icon: React.FunctionComponent<
-		React.SVGProps<SVGSVGElement> & {
-			title?: string | undefined;
-		}
-	>;
-	price: string;
-}
-
 export const TOKENS: Token[] = [
 	{
 		id: '1',
@@ -79,7 +68,7 @@ export const Swap = (): JSX.Element => {
 	const [fromValue, setFromValue] = useState('');
 	const [toValue, setToValue] = useState('');
 
-	const [fromToken, setFromToken] = useState<Token| undefined>(TOKENS[0]);
+	const [fromToken, setFromToken] = useState<Token | undefined>(TOKENS[0]);
 	const [toToken, setToToken] = useState<Token | undefined>();
 
 	const handleSwitch = useCallback(() => {
@@ -116,7 +105,7 @@ export const Swap = (): JSX.Element => {
 					}}
 				/>
 			) : (
-				<EmptyTokenInput
+				<TokenSelector
 					handleSelect={(token) => {
 						setFromToken(token);
 					}}
@@ -153,7 +142,7 @@ export const Swap = (): JSX.Element => {
 					}}
 				/>
 			) : (
-				<EmptyTokenInput
+				<TokenSelector
 					handleSelect={(e) => {
 						setToToken(e);
 					}}
