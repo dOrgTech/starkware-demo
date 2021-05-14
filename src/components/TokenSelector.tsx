@@ -1,15 +1,21 @@
-import { Button, createStyles, Grid, makeStyles, styled } from '@material-ui/core';
+import { Box, Button, createStyles, Grid, makeStyles, styled, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
 import { Token } from 'models/token';
-import { DarkBox } from './common/DarkBox';
 import { TokenIcon } from './common/TokenIcon';
-import { NumericInput } from './NumericInput';
-import { ReactComponent as TokenSVG } from 'assets/tokens/token.svg';
+import { ReactComponent as DropdownArrow } from 'assets/icons/dropdown-arrow.svg';
+import { ReactComponent as PlaceholderToken } from 'assets/tokens/placeholder.svg';
 import { TokenSelectModal } from './TokenSelectModal';
 import { useState } from 'react';
 
-const StyledInputsContainer = styled(Grid)({
-	padding: '0 0 0 12px',
+const StyledTokenContainer = styled(Box)({
+	width: '100%',
+	height: '100%',
+	cursor: 'pointer',
+});
+
+const StyledTokenSymbol = styled(Box)({
+	boxSizing: 'border-box',
+	paddingLeft: 12,
 });
 
 const useButtonStyles = makeStyles(() =>
@@ -26,11 +32,12 @@ const useButtonStyles = makeStyles(() =>
 );
 
 interface Props {
-	handleSelect: (token: Token) => void;
-	tokens: Token[];
+	value?: Token;
+	options: Token[];
+	onChange: (token: Token) => void;
 }
 
-export const TokenSelector = ({ handleSelect, tokens }: Props): JSX.Element => {
+export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.Element => {
 	const buttonStyles = useButtonStyles();
 	const [open, setOpen] = useState(false);
 
@@ -38,38 +45,52 @@ export const TokenSelector = ({ handleSelect, tokens }: Props): JSX.Element => {
 		setOpen(true);
 	}, []);
 
+	const Selector = () => (
+		<Grid container alignItems="center" spacing={1}>
+			<Grid item>
+				<PlaceholderToken />
+			</Grid>
+			<Grid item xs>
+				<Button color="secondary" variant="outlined" classes={buttonStyles} onClick={handleClick}>
+					Select a Token
+				</Button>
+			</Grid>
+		</Grid>
+	);
+
+	const SelectedToken = ({ token }: { token: Token }) => (
+		<Grid item>
+			<StyledTokenContainer onClick={handleClick}>
+				<Grid container alignItems="center" spacing={1}>
+					<Grid item>
+						<TokenIcon Icon={token.icon} size="large" />
+					</Grid>
+					<Grid item xs>
+						<StyledTokenSymbol>
+							<Typography variant="body1" color="textPrimary">
+								{token.symbol}
+							</Typography>
+						</StyledTokenSymbol>
+					</Grid>
+					<Grid item>
+						<DropdownArrow />
+					</Grid>
+				</Grid>
+			</StyledTokenContainer>
+		</Grid>
+	);
+
 	return (
 		<>
-			<DarkBox>
-				<Grid container alignItems="center">
-					<Grid item>
-						<TokenIcon Icon={TokenSVG} size="large" />
-					</Grid>
-					<StyledInputsContainer item xs>
-						<Grid container justify="space-between" alignItems="center">
-							<Grid item xs>
-								<Button
-									color="secondary"
-									variant="outlined"
-									classes={buttonStyles}
-									onClick={handleClick}
-								>
-									Select a Token
-								</Button>
-							</Grid>
-							<Grid item xs>
-								<NumericInput onChange={() => false} />
-							</Grid>
-						</Grid>
-					</StyledInputsContainer>
-				</Grid>
-			</DarkBox>
+			<Grid container alignItems="center">
+				{token ? <SelectedToken token={token} /> : <Selector />}
+			</Grid>
 			<TokenSelectModal
 				open={open}
 				onClose={() => setOpen(false)}
-				tokens={tokens}
+				tokens={options}
 				handleSelect={(e) => {
-					handleSelect(e);
+					onChange(e);
 					setOpen(false);
 				}}
 			/>
