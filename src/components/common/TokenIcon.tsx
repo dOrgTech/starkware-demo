@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 export type LogoSize = 'default' | 'large';
 
 export interface TokenIconProps extends AvatarProps {
-	Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+	icon: string;
 	size?: LogoSize;
 }
 
@@ -19,7 +19,7 @@ const TokenLogoContainer = styled(Avatar)((props: { dimension: number }) => ({
 	},
 }));
 
-export const TokenIcon: React.FC<TokenIconProps> = ({ Icon, size = 'default', ...props }) => {
+export const TokenIcon: React.FC<TokenIconProps> = ({ icon, size = 'default', ...props }) => {
 	const iconSize: number = useMemo(() => {
 		switch (size) {
 			case 'default':
@@ -31,7 +31,7 @@ export const TokenIcon: React.FC<TokenIconProps> = ({ Icon, size = 'default', ..
 
 	return (
 		<TokenLogoContainer dimension={iconSize} {...props}>
-			<Icon />
+			<img src={icon} />
 		</TokenLogoContainer>
 	);
 };

@@ -1,6 +1,6 @@
-import { Token } from 'models/token';
 import React, { createContext, Dispatch, useReducer } from 'react';
 import { useCallback } from 'react';
+import { Token } from 'services/API/token/types';
 
 export enum ActionTypes {
 	OPEN_SUCCESS = 'OPEN_SUCCESS',

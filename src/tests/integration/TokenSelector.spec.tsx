@@ -3,8 +3,8 @@ import '@testing-library/jest-dom';
 
 import { customRender, screen, fireEvent } from '../utils';
 import { TokenSelector } from '../../components/TokenSelector';
-import { ReactComponent as TokenSVG } from '../../assets/tokens/token.svg';
-import { ReactComponent as Token2SVG } from '../../assets/tokens/token2.svg';
+import TokenSVG from '../../assets/tokens/token.svg';
+import Token2SVG from '../../assets/tokens/token2.svg';
 
 const options = [
 	{
@@ -13,6 +13,7 @@ const options = [
 		symbol: 'TK1',
 		icon: TokenSVG,
 		price: '2',
+		color: '#FE9493',
 	},
 	{
 		id: '2',
@@ -20,6 +21,7 @@ const options = [
 		symbol: 'TK2',
 		icon: Token2SVG,
 		price: '1',
+		color: '#48C8FF',
 	},
 ];
 

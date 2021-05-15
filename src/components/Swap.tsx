@@ -1,13 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Button, Grid, IconButton, styled, Typography } from '@material-ui/core';
 
-import { Token } from 'models/token';
-import { ReactComponent as TokenSVG } from 'assets/tokens/token.svg';
-import { ReactComponent as Token2SVG } from 'assets/tokens/token2.svg';
 import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg';
 import { TokenSelector } from './TokenSelector';
 import { DarkBox } from './common/DarkBox';
 import { NumericInput } from './NumericInput';
+import { Token } from 'services/API/token/types';
+import { useTokens } from 'services/API/token/hooks/useTokens';
+import { useTokenOptions } from 'services/API/token/hooks/useTokenOptions';
 
 const StyledInputContainer = styled(Grid)({
 	padding: '0 0 0 12px',
@@ -45,35 +45,23 @@ const Label = ({ text }: { text: string }): JSX.Element => (
 	</Box>
 );
 
-const TOKENS: Token[] = [
-	{
-		id: '1',
-		name: 'Token 1',
-		symbol: 'TK1',
-		icon: TokenSVG,
-		price: '2',
-	},
-	{
-		id: '2',
-		name: 'Token 2',
-		symbol: 'TK2',
-		icon: Token2SVG,
-		price: '1',
-	},
-];
-
 export const Swap = (): JSX.Element => {
 	const [fromValue, setFromValue] = useState('');
 	const [toValue, setToValue] = useState('');
+	const { data } = useTokens();
 
-	const [fromToken, setFromToken] = useState<Token | undefined>(TOKENS[0]);
+	const [fromToken, setFromToken] = useState<Token | undefined>();
 	const [fromAmount, setFromAmount] = useState<string>();
 	const [toToken, setToToken] = useState<Token>();
 	const [toAmount, setToAmount] = useState<string>();
 
-	const handleSwitch = useCallback(() => {
-		if (!fromToken || !toToken) return;
+	useEffect(() => {
+		if (data && !fromToken) {
+			setFromToken(data[0]);
+		}
+	}, [data, fromToken]);
 
+	const handleSwitch = useCallback(() => {
 		setFromValue(toValue);
 		setToValue(fromValue);
 
@@ -89,7 +77,7 @@ export const Swap = (): JSX.Element => {
 		setFromToken(token);
 	};
 
-	const options = fromToken ? TOKENS.filter((token) => token.symbol !== fromToken.symbol) : TOKENS;
+	const options = useTokenOptions(fromToken, data);
 
 	return (
 		<Grid container>

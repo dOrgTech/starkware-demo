@@ -8,16 +8,21 @@ import { theme } from 'theme/theme';
 import reportWebVitals from './reportWebVitals';
 import './assets/css/body.css';
 import { ModalsProvider } from 'context/Modals';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
 	<React.StrictMode>
-		<ThemeProvider theme={theme}>
-			<Router>
-				<ModalsProvider>
-					<App />
-				</ModalsProvider>
-			</Router>
-		</ThemeProvider>
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider theme={theme}>
+				<Router>
+					<ModalsProvider>
+						<App />
+					</ModalsProvider>
+				</Router>
+			</ThemeProvider>
+		</QueryClientProvider>
 	</React.StrictMode>,
 	document.getElementById('root'),
 );

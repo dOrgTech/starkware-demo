@@ -16,8 +16,8 @@ import {
 import IconButton from '@material-ui/core/IconButton';
 
 import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
-import { Token } from 'models/token';
 import { TokenIcon } from './common/TokenIcon';
+import { Token } from 'services/API/token/types';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -101,7 +101,7 @@ export const TokenSelectModal = ({
 								classes={{ gutters: classes.gutters }}
 							>
 								<ListItemAvatar>
-									<TokenIcon Icon={token.icon} size="default" />
+									<TokenIcon icon={token.icon} size="default" />
 								</ListItemAvatar>
 								<StyledListItemText primary={token.symbol} />
 								<Typography color="textPrimary" variant="body1">

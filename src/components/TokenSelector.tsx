@@ -10,12 +10,12 @@ import {
 	Typography,
 } from '@material-ui/core';
 
-import { Token } from 'models/token';
 import { TokenIcon } from './common/TokenIcon';
 import { ReactComponent as DropdownArrow } from 'assets/icons/dropdown-arrow.svg';
 import { ReactComponent as PlaceholderToken } from 'assets/tokens/placeholder.svg';
 import { TokenSelectModal } from './TokenSelectModal';
 import { useState } from 'react';
+import { Token } from 'services/API/token/types';
 
 const StyledTokenContainer = styled(Box)({
 	width: '100%',
@@ -76,7 +76,7 @@ export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.E
 			<StyledTokenContainer>
 				<Grid container alignItems="center" spacing={1}>
 					<Grid item>
-						<TokenIcon Icon={token.icon} size="large" />
+						<TokenIcon icon={token.icon} size="large" />
 					</Grid>
 					<Grid item xs>
 						<StyledTokenSymbol>
