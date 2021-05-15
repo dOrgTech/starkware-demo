@@ -1,89 +1,113 @@
 import React from 'react';
 import {
-	Box,
-	createStyles,
-	Dialog,
 	DialogProps,
+	Theme,
+	styled,
+	makeStyles,
+	Dialog,
+	ListItemAvatar,
+	ListItemText,
+	DialogTitle,
+	DialogContent,
 	List,
 	ListItem,
-	ListItemAvatar,
-	ListItemSecondaryAction,
-	ListItemText,
-	makeStyles,
-	styled,
 	Typography,
 } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+
+import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
 import { Token } from 'models/token';
 import { TokenIcon } from './common/TokenIcon';
 
-const useStyles = makeStyles((theme) =>
-	createStyles({
-		root: {
-			width: '100%',
-			maxWidth: 252,
-			backgroundColor: theme.palette.background.paper,
-			boxShadow: '0px 5px 15px 0.4px rgba(0, 0, 0, 0.1)',
-			borderRadius: '6px',
-		},
-	}),
-);
-
-const StyledModalContainer = styled(Box)(({ theme }) => ({
-	position: 'fixed',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	maxWidth: '100%',
-	maxHeight: '100%',
-	width: 252,
-	height: 241,
-	overflowY: 'auto',
-	background: theme.palette.background.paper,
-	border: '1.5px solid rgba(83, 83, 135, 0.3)',
-	boxSizing: 'border-box',
-	boxShadow: '0px 8px 15px 3px rgba(7, 7, 7, 0.1)',
-	borderRadius: '8px',
+const useStyles = makeStyles((theme: Theme) => ({
+	root: {
+		width: '100%',
+		padding: 0,
+	},
+	dialog: {
+		position: 'absolute',
+		top: 100,
+		borderRadius: theme.spacing(1),
+	},
+	scrollPaper: {
+		alignItems: 'baseline',
+	},
+	gutters: {
+		paddingRight: 33,
+		paddingLeft: 33,
+	},
+	dialogTitle: {
+		padding: '30px 33px 0px 33px',
+	},
+	dialogContent: {
+		padding: '14px 0px 25px 0px',
+	},
 }));
 
 const StyledListItemText = styled(ListItemText)(({ theme }) => ({
 	color: theme.palette.text.primary,
 }));
 
-const StyledDivider = styled('hr')({
-	opacity: '0.2',
-	border: '0.5px solid #C1C1FF',
+const StyledDialogTitle = styled(Typography)({
+	fontWeight: 600,
+	fontSize: 20,
 });
+
+const StyledCloseButton = styled(IconButton)(({ theme }) => ({
+	position: 'absolute',
+	right: theme.spacing(3),
+	top: theme.spacing(4),
+	color: theme.palette.grey[500],
+	padding: theme.spacing(1),
+}));
 
 interface Props extends DialogProps {
 	tokens: Token[];
 	handleSelect: (token: Token) => void;
+	onClose: () => void;
 }
 
-export const TokenSelectModal: React.FC<Props> = ({ tokens, handleSelect, ...props }) => {
+export const TokenSelectModal = ({ tokens, onClose, handleSelect, ...props }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
-		<Dialog {...props}>
-			<StyledModalContainer>
+		<Dialog
+			{...props}
+			classes={{
+				paper: classes.dialog,
+				scrollPaper: classes.scrollPaper,
+			}}
+			fullWidth
+			maxWidth="xs"
+		>
+			<DialogTitle disableTypography className={classes.dialogTitle}>
+				<StyledDialogTitle variant="h6">Select a token</StyledDialogTitle>
+				<StyledCloseButton aria-label="close" onClick={onClose}>
+					<CloseIcon />
+				</StyledCloseButton>
+			</DialogTitle>
+			<DialogContent className={classes.dialogContent}>
 				<List className={classes.root}>
-					{tokens.map((token, i) => (
+					{tokens.map((token, index) => (
 						<>
-							<ListItem key={`token-${i}`} button onClick={() => handleSelect(token)}>
+							<ListItem
+								key={`token-${index}`}
+								button
+								onClick={() => handleSelect(token)}
+								classes={{ gutters: classes.gutters }}
+							>
 								<ListItemAvatar>
 									<TokenIcon Icon={token.icon} size="default" />
 								</ListItemAvatar>
 								<StyledListItemText primary={token.symbol} />
-								<ListItemSecondaryAction>
-									<Typography color="textPrimary" variant="body1">
-										{token.price}
-									</Typography>
-								</ListItemSecondaryAction>
+								<Typography color="textPrimary" variant="body1">
+									{token.price}
+								</Typography>
 							</ListItem>
-							{i === tokens.length - 1 ? null : <StyledDivider />}
 						</>
 					))}
 				</List>
-			</StyledModalContainer>
+			</DialogContent>
 		</Dialog>
 	);
 };
