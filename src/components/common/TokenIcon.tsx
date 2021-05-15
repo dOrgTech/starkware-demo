@@ -9,9 +9,9 @@ export interface TokenIconProps extends AvatarProps {
 	size?: LogoSize;
 }
 
-const TokenLogoContainer = styled(Avatar)((props: { widthAndHeight: number }) => ({
-	width: props.widthAndHeight,
-	height: props.widthAndHeight,
+const TokenLogoContainer = styled(Avatar)((props: { dimension: number }) => ({
+	width: props.dimension,
+	height: props.dimension,
 	borderRadius: '100%',
 	'& > *': {
 		width: '100%',
@@ -30,7 +30,7 @@ export const TokenIcon: React.FC<TokenIconProps> = ({ Icon, size = 'default', ..
 	}, [size]);
 
 	return (
-		<TokenLogoContainer widthAndHeight={iconSize} {...props}>
+		<TokenLogoContainer dimension={iconSize} {...props}>
 			<Icon />
 		</TokenLogoContainer>
 	);

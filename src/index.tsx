@@ -7,12 +7,15 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { theme } from 'theme/theme';
 import reportWebVitals from './reportWebVitals';
 import './assets/css/body.css';
+import { ModalsProvider } from 'context/Modals';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
 			<Router>
-				<App />
+				<ModalsProvider>
+					<App />
+				</ModalsProvider>
 			</Router>
 		</ThemeProvider>
 	</React.StrictMode>,
