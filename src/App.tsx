@@ -17,7 +17,7 @@ function App() {
 				<Navbar />
 			</Grid>
 			<Grid item xs>
-				<Home/>
+				<Home />
 			</Grid>
 		</MainContainer>
 	);

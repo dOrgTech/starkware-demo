@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 const CardContainer = styled(Box)({
 	margin: 'auto',
-	width: "100%",
+	width: '100%',
 	maxWidth: '440px',
 	padding: '26px 33px 31px 33px',
 	marginTop: 110,
@@ -76,9 +76,9 @@ const TABS = [
 export const Home = (): JSX.Element => {
 	const tabsStyles = useTabsStyles();
 	const tabStyles = useTabStyles();
-	const location = useLocation()
-	const initialTab = useMemo(() => location.pathname.split("/").slice(-1)[0], [location])
-	
+	const location = useLocation();
+	const initialTab = useMemo(() => location.pathname.split('/').slice(-1)[0], [location]);
+
 	const [selectedTab, setSelectedTab] = useState(initialTab);
 	const history = useHistory();
 

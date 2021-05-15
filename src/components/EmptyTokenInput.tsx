@@ -16,14 +16,14 @@ const useButtonStyles = makeStyles(() =>
 		},
 		label: {
 			fontSize: 12,
-      maxWidth: 95,
-      height: 16,
+			maxWidth: 95,
+			height: 16,
 		},
 	}),
 );
 
 export const EmptyTokenInput: React.FC = () => {
-  const buttonStyles = useButtonStyles()
+	const buttonStyles = useButtonStyles();
 
 	return (
 		<DarkBox>

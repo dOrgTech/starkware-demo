@@ -13,7 +13,7 @@ export interface NumericInputProps {
 const useStyles = makeStyles((theme) => ({
 	input: {
 		color: theme.palette.text.primary,
-		fontWeight: 'normal'
+		fontWeight: 'normal',
 	},
 }));
 

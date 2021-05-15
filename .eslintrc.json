@@ -37,10 +37,7 @@
 	},
 	"overrides": [
 		{
-			"files": [
-				" ,**/*.test.tsx",
-				" ,**/*.spec.tsx"
-			],
+			"files": [" ,**/*.test.tsx", " ,**/*.spec.tsx"],
 			"env": {
 				"jest": true
 			}

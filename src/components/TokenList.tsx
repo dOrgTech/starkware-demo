@@ -4,7 +4,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
-import { createStyles, ListItemSecondaryAction, makeStyles, styled, Theme, Typography } from '@material-ui/core';
+import {
+	createStyles,
+	ListItemSecondaryAction,
+	makeStyles,
+	styled,
+	Theme,
+	Typography,
+} from '@material-ui/core';
 import { TokenIcon, TokenIconProps } from './common/TokenIcon';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,7 +52,7 @@ export const TokenList: React.FC<Props> = ({ tokens }) => {
 				<>
 					<ListItem key={`token-${i}`}>
 						<ListItemAvatar>
-							<TokenIcon {...icon}/>
+							<TokenIcon {...icon} />
 						</ListItemAvatar>
 						<StyledListItemText primary={symbol} />
 						<ListItemSecondaryAction>
