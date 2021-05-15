@@ -14,7 +14,7 @@ interface CallResult {
 export const useCall = (args: CallArgs) => {
 	return useQuery<CallResult, Error>(['call', args], async () => {
 		//TODO
-		const httpClient = HTTPClient.create({ baseURL: '', timeout: 500, headers: {} });
+		const httpClient = HTTPClient.create('', { timeout: 500, headers: {} });
 		const { data } = await httpClient.get('');
 
 		return data;

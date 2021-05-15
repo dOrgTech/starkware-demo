@@ -14,7 +14,7 @@ interface TransactionResult {
 export const useSendTransaction = () => {
 	return useMutation<TransactionResult, Error, TransactionArgs>(async (args) => {
 		//TODO
-		const httpClient = HTTPClient.create({ baseURL: '', timeout: 500, headers: {} });
+		const httpClient = HTTPClient.create('', { timeout: 500, headers: {} });
 		return httpClient.post('', args);
 	});
 };
