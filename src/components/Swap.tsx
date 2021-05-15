@@ -85,6 +85,16 @@ export const Swap = (): JSX.Element => {
 		setToToken(fromToken);
 	}, [fromToken, fromValue, toToken, toValue]);
 
+	const handleFromTokenSelected = (token: Token) => {
+		if (toToken && token.symbol === toToken.symbol) {
+			setToToken(undefined);
+		}
+
+		setFromToken(token);
+	};
+
+	const options = fromToken ? TOKENS.filter((token) => token.symbol !== fromToken.symbol) : TOKENS;
+
 	return (
 		<Grid container>
 			<Grid item xs={12}>
@@ -92,11 +102,7 @@ export const Swap = (): JSX.Element => {
 				<DarkBox>
 					<Grid container alignItems="center">
 						<Grid item xs>
-							<TokenSelector
-								value={fromToken}
-								options={TOKENS}
-								onChange={(token) => setFromToken(token)}
-							/>
+							<TokenSelector value={fromToken} options={options} onChange={handleFromTokenSelected} />
 						</Grid>
 						{fromToken && (
 							<StyledInputContainer item xs>
@@ -129,7 +135,7 @@ export const Swap = (): JSX.Element => {
 				<DarkBox>
 					<Grid container alignItems="center">
 						<Grid item xs>
-							<TokenSelector value={toToken} onChange={(token) => setToToken(token)} options={TOKENS} />
+							<TokenSelector value={toToken} options={options} onChange={(token) => setToToken(token)} />
 						</Grid>
 						{toToken && (
 							<StyledInputContainer item xs>
