@@ -1,0 +1,61 @@
+import React from 'react';
+import '@testing-library/jest-dom';
+
+import { customRender, screen, fireEvent } from './utils';
+import { ReactComponent as TokenSVG } from '../assets/tokens/token.svg';
+import { ReactComponent as Token2SVG } from '../assets/tokens/token2.svg';
+import { TokenSelectModal } from '../components/TokenSelectModal';
+
+const options = [
+	{
+		id: '1',
+		name: 'Token 1',
+		symbol: 'TK1',
+		icon: TokenSVG,
+		price: '2',
+	},
+	{
+		id: '2',
+		name: 'Token 2',
+		symbol: 'TK2',
+		icon: Token2SVG,
+		price: '1',
+	},
+];
+
+describe('TokenSelectorModal', () => {
+	it('displays list of tokens', () => {
+		const { baseElement } = customRender(
+			<TokenSelectModal open={true} tokens={options} handleSelect={jest.fn} onClose={jest.fn()} />,
+		);
+		expect(baseElement).toMatchSnapshot();
+	});
+
+	it('triggers close handler', () => {
+		const closeHandlerMock = jest.fn();
+		customRender(
+			<TokenSelectModal
+				open={true}
+				tokens={options}
+				handleSelect={jest.fn}
+				onClose={closeHandlerMock}
+			/>,
+		);
+		fireEvent.click(screen.getByLabelText('close'));
+		expect(closeHandlerMock).toHaveBeenCalledTimes(1);
+	});
+
+	it('triggers select handler', () => {
+		const selectHandlerMock = jest.fn();
+		customRender(
+			<TokenSelectModal
+				open={true}
+				tokens={options}
+				handleSelect={selectHandlerMock}
+				onClose={jest.fn()}
+			/>,
+		);
+		fireEvent.click(screen.getByText(options[0].symbol));
+		expect(selectHandlerMock).toHaveBeenNthCalledWith(1, options[0]);
+	});
+});

@@ -94,9 +94,8 @@ export const TokenSelectModal = ({
 			<DialogContent className={classes.dialogContent}>
 				<List className={classes.root}>
 					{tokens.map((token, index) => (
-						<>
+						<React.Fragment key={`token-${token.symbol}-${index}`}>
 							<ListItem
-								key={`token-${index}`}
 								button
 								onClick={() => handleSelect(token)}
 								classes={{ gutters: classes.gutters }}
@@ -109,7 +108,7 @@ export const TokenSelectModal = ({
 									{token.price}
 								</Typography>
 							</ListItem>
-						</>
+						</React.Fragment>
 					))}
 				</List>
 			</DialogContent>

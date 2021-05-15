@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TokenSelector displays placeholder selector 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-align-items-xs-center-12"
+  >
+    <div
+      class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-spacing-xs-1-26 MuiGrid-align-items-xs-center-12"
+    >
+      <div
+        class="MuiGrid-root-3 MuiGrid-item-5"
+      >
+        <svg>
+          placeholder.svg
+        </svg>
+      </div>
+      <div
+        class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-true-37"
+      >
+        <button
+          class="MuiButtonBase-root-135 MuiButton-root-106 makeStyles-root-1 MuiButton-outlined-111 MuiButton-outlinedSecondary-113"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label-107 makeStyles-label-2"
+          >
+            Select a Token
+          </span>
+          <span
+            class="MuiTouchRipple-root-159"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TokenSelector displays selected token information 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-align-items-xs-center-12"
+  >
+    <div
+      class="MuiGrid-root-3 MuiGrid-item-5"
+    >
+      <div
+        class="MuiBox-root-107 MuiBox-root-108 Styled(MuiBox)-root-106"
+      >
+        <div
+          class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-spacing-xs-1-26 MuiGrid-align-items-xs-center-12"
+        >
+          <div
+            class="MuiGrid-root-3 MuiGrid-item-5"
+          >
+            <div
+              class="MuiAvatar-root-111 MuiAvatar-circle-113 WithStyles(ForwardRef(Avatar))-root-109 WithStyles(ForwardRef(Avatar))-root-110 MuiAvatar-colorDefault-112"
+              dimension="48"
+            >
+              <svg>
+                token.svg
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-true-37"
+          >
+            <div
+              class="MuiBox-root-107 MuiBox-root-120 Styled(MuiBox)-root-119"
+            >
+              <p
+                class="MuiTypography-root-122 WithStyles(ForwardRef(Typography))-root-121 MuiTypography-body1-124 MuiTypography-colorTextPrimary-147"
+              >
+                TK1
+              </p>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-3 MuiGrid-item-5"
+          >
+            <button
+              aria-label="change token"
+              class="MuiButtonBase-root-161 MuiIconButton-root-152"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label-160"
+              >
+                <svg>
+                  dropdown-arrow.svg
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root-185"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

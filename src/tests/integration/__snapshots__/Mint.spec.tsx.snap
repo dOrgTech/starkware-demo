@@ -1,0 +1,249 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mint can change mint amount 1`] = `
+<div>
+  <div
+    class="MuiBox-root-2 MuiBox-root-3 Styled(MuiBox)-root-1"
+  >
+    <div
+      class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+    >
+      <div
+        class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+      >
+        <div
+          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+        >
+          <div
+            class="MuiGrid-root-4 MuiGrid-item-6"
+          >
+            <div
+              class="MuiBox-root-2 MuiBox-root-322 Styled(MuiBox)-root-294"
+            >
+              <div
+                class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-spacing-xs-1-27 MuiGrid-align-items-xs-center-13"
+              >
+                <div
+                  class="MuiGrid-root-4 MuiGrid-item-6"
+                >
+                  <div
+                    class="MuiAvatar-root-276 MuiAvatar-circle-278 WithStyles(ForwardRef(Avatar))-root-274 WithStyles(ForwardRef(Avatar))-root-323 MuiAvatar-colorDefault-277"
+                    dimension="48"
+                  >
+                    <svg>
+                      token.svg
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+                >
+                  <div
+                    class="MuiBox-root-2 MuiBox-root-324 Styled(MuiBox)-root-297"
+                  >
+                    <p
+                      class="MuiTypography-root-214 WithStyles(ForwardRef(Typography))-root-299 MuiTypography-body1-216 MuiTypography-colorTextPrimary-239"
+                    >
+                      TK1
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root-4 MuiGrid-item-6"
+                >
+                  <button
+                    aria-label="change token"
+                    class="MuiButtonBase-root-138 MuiIconButton-root-246"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiIconButton-label-254"
+                    >
+                      <svg>
+                        dropdown-arrow.svg
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-325"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-4 WithStyles(ForwardRef(Grid))-root-302 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+      >
+        <div
+          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13 MuiGrid-justify-xs-flex-end-23"
+        >
+          <div
+            class="MuiInputBase-root-304  makeStyles-input-303 MuiInputBase-fullWidth-314"
+          >
+            <input
+              aria-label="mint amount"
+              class="MuiInputBase-input-315"
+              pattern="^[0-9]*[.,]?[0-9]*$"
+              placeholder="0.00"
+              type="tel"
+              value="128"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Mint can select mint token 1`] = `
+<div>
+  <div
+    class="MuiBox-root-2 MuiBox-root-3 Styled(MuiBox)-root-1"
+  >
+    <div
+      class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+    >
+      <div
+        class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+      >
+        <div
+          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+        >
+          <div
+            class="MuiGrid-root-4 MuiGrid-item-6"
+          >
+            <div
+              class="MuiBox-root-2 MuiBox-root-295 Styled(MuiBox)-root-294"
+            >
+              <div
+                class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-spacing-xs-1-27 MuiGrid-align-items-xs-center-13"
+              >
+                <div
+                  class="MuiGrid-root-4 MuiGrid-item-6"
+                >
+                  <div
+                    class="MuiAvatar-root-276 MuiAvatar-circle-278 WithStyles(ForwardRef(Avatar))-root-274 WithStyles(ForwardRef(Avatar))-root-296 MuiAvatar-colorDefault-277"
+                    dimension="48"
+                  >
+                    <svg>
+                      token.svg
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+                >
+                  <div
+                    class="MuiBox-root-2 MuiBox-root-298 Styled(MuiBox)-root-297"
+                  >
+                    <p
+                      class="MuiTypography-root-214 WithStyles(ForwardRef(Typography))-root-299 MuiTypography-body1-216 MuiTypography-colorTextPrimary-239"
+                    >
+                      TK1
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root-4 MuiGrid-item-6"
+                >
+                  <button
+                    aria-label="change token"
+                    class="MuiButtonBase-root-138 MuiIconButton-root-246"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiIconButton-label-254"
+                    >
+                      <svg>
+                        dropdown-arrow.svg
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-172"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-4 WithStyles(ForwardRef(Grid))-root-302 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+      >
+        <div
+          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13 MuiGrid-justify-xs-flex-end-23"
+        >
+          <div
+            class="MuiInputBase-root-304  makeStyles-input-303 MuiInputBase-fullWidth-314"
+          >
+            <input
+              aria-label="mint amount"
+              class="MuiInputBase-input-315"
+              pattern="^[0-9]*[.,]?[0-9]*$"
+              placeholder="0.00"
+              type="tel"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Mint displays empty token selector initially 1`] = `
+<div>
+  <div
+    class="MuiBox-root-2 MuiBox-root-3 Styled(MuiBox)-root-1"
+  >
+    <div
+      class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+    >
+      <div
+        class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+      >
+        <div
+          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+        >
+          <div
+            class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-spacing-xs-1-27 MuiGrid-align-items-xs-center-13"
+          >
+            <div
+              class="MuiGrid-root-4 MuiGrid-item-6"
+            >
+              <svg>
+                placeholder.svg
+              </svg>
+            </div>
+            <div
+              class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+            >
+              <button
+                class="MuiButtonBase-root-138 MuiButton-root-109 makeStyles-root-107 MuiButton-outlined-114 MuiButton-outlinedSecondary-116"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label-110 makeStyles-label-108"
+                >
+                  Select a Token
+                </span>
+                <span
+                  class="MuiTouchRipple-root-162"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

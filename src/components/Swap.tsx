@@ -1,11 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { Box, Button, Grid, styled, Typography } from '@material-ui/core';
+import { Box, Button, Grid, IconButton, styled, Typography } from '@material-ui/core';
 
 import { Token } from 'models/token';
 import { ReactComponent as TokenSVG } from 'assets/tokens/token.svg';
 import { ReactComponent as Token2SVG } from 'assets/tokens/token2.svg';
-import { ReactComponent as ArrowUpSVG } from 'assets/icons/arrow-up.svg';
-import { ReactComponent as ArrowDownSVG } from 'assets/icons/arrow-down.svg';
+import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg';
 import { TokenSelector } from './TokenSelector';
 import { DarkBox } from './common/DarkBox';
 import { NumericInput } from './NumericInput';
@@ -18,11 +17,6 @@ const StyledArrowsContainer = styled(Grid)({
 	width: '100%',
 	margin: '0 auto -23px auto',
 	height: 65,
-});
-
-const StyledArrowsButton = styled(Button)({
-	padding: 0,
-	minWidth: 'unset',
 });
 
 const StyledSwapButton = styled(Button)(({ theme }) => ({
@@ -103,7 +97,7 @@ export const Swap = (): JSX.Element => {
 				<Label text="From" />
 				<DarkBox>
 					<Grid container alignItems="center">
-						<Grid item xs>
+						<Grid item xs aria-label="token to swap">
 							<TokenSelector
 								value={fromToken}
 								options={options}
@@ -113,7 +107,13 @@ export const Swap = (): JSX.Element => {
 						{fromToken && (
 							<StyledInputContainer item xs>
 								<Grid container justify="flex-end" alignItems="center">
-									<NumericInput value={fromAmount} onChange={(change) => setFromAmount(change)} />
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to swap',
+										}}
+										value={fromAmount}
+										onChange={(change) => setFromAmount(change)}
+									/>
 								</Grid>
 							</StyledInputContainer>
 						)}
@@ -123,16 +123,9 @@ export const Swap = (): JSX.Element => {
 			<Grid item xs={12}>
 				<StyledArrowsContainer container justify="center" alignItems="center">
 					<Grid item>
-						<StyledArrowsButton variant="text" onClick={handleSwitch}>
-							<Grid container>
-								<Grid item>
-									<ArrowDownSVG />
-								</Grid>
-								<Grid item>
-									<ArrowUpSVG />
-								</Grid>
-							</Grid>
-						</StyledArrowsButton>
+						<IconButton aria-label="invert tokens swap direction" onClick={handleSwitch}>
+							<SwapDirection />
+						</IconButton>
 					</Grid>
 				</StyledArrowsContainer>
 			</Grid>
@@ -140,7 +133,7 @@ export const Swap = (): JSX.Element => {
 				<Label text="To" />
 				<DarkBox>
 					<Grid container alignItems="center">
-						<Grid item xs>
+						<Grid item xs aria-label="token to be swapped">
 							<TokenSelector
 								value={toToken}
 								options={options}
@@ -150,7 +143,13 @@ export const Swap = (): JSX.Element => {
 						{toToken && (
 							<StyledInputContainer item xs>
 								<Grid container justify="flex-end" alignItems="center">
-									<NumericInput value={toAmount} onChange={(change) => setToAmount(change)} />
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to be swapped',
+										}}
+										value={toAmount}
+										onChange={(change) => setToAmount(change)}
+									/>
 								</Grid>
 							</StyledInputContainer>
 						)}
