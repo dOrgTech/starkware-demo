@@ -1,14 +1,5 @@
 import React, { useCallback } from 'react';
-import {
-	Box,
-	Button,
-	createStyles,
-	Grid,
-	IconButton,
-	makeStyles,
-	styled,
-	Typography,
-} from '@material-ui/core';
+import { Box, Grid, IconButton, styled, Typography } from '@material-ui/core';
 
 import { TokenIcon } from './common/TokenIcon';
 import { ReactComponent as DropdownArrow } from 'assets/icons/dropdown-arrow.svg';
@@ -16,6 +7,7 @@ import { ReactComponent as PlaceholderToken } from 'assets/tokens/placeholder.sv
 import { TokenSelectModal } from './TokenSelectModal';
 import { useState } from 'react';
 import { Token } from 'services/API/token/types';
+import { RoundedButton } from './common/RoundedButton';
 
 const StyledTokenContainer = styled(Box)({
 	width: '100%',
@@ -31,19 +23,6 @@ const StyledTypography = styled(Typography)({
 	fontWeight: 600,
 });
 
-const useButtonStyles = makeStyles(() =>
-	createStyles({
-		root: {
-			borderRadius: 50,
-		},
-		label: {
-			fontSize: 12,
-			maxWidth: 95,
-			height: 16,
-		},
-	}),
-);
-
 interface Props {
 	value?: Token;
 	options: Token[];
@@ -51,7 +30,6 @@ interface Props {
 }
 
 export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.Element => {
-	const buttonStyles = useButtonStyles();
 	const [open, setOpen] = useState(false);
 
 	const handleClick = useCallback(() => {
@@ -64,9 +42,7 @@ export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.E
 				<PlaceholderToken />
 			</Grid>
 			<Grid item xs>
-				<Button color="secondary" variant="outlined" classes={buttonStyles} onClick={handleClick}>
-					Select a Token
-				</Button>
+				<RoundedButton onClick={handleClick}>Select a Token</RoundedButton>
 			</Grid>
 		</Grid>
 	);

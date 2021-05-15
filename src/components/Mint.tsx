@@ -33,7 +33,7 @@ export const Mint = (): JSX.Element => {
 									'aria-label': 'mint amount',
 								}}
 								value={mintAmount}
-								onChange={(change) => setMintAmount(change)}
+								handleChange={(change) => setMintAmount(change)}
 							/>
 						</Grid>
 					</StyledInputContainer>

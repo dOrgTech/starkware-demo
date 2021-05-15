@@ -1,13 +1,13 @@
 import React from 'react';
-import { InputBase, InputBaseComponentProps, makeStyles } from '@material-ui/core';
+import { InputBase, InputBaseComponentProps, InputBaseProps, makeStyles } from '@material-ui/core';
 
-export interface NumericInputProps {
+export interface NumericInputProps extends InputBaseProps {
 	value?: string;
 	placeholder?: string;
 	disabled?: boolean;
 	className?: string;
 	inputProps?: InputBaseComponentProps;
-	onChange: (amount: string) => void;
+	handleChange: (amount: string) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +32,8 @@ export const NumericInput = ({
 	disabled = false,
 	className = '',
 	inputProps = {},
-	onChange,
+	handleChange,
+	...props
 }: NumericInputProps): JSX.Element => {
 	const classes = useStyles();
 
@@ -41,7 +42,7 @@ export const NumericInput = ({
 		const input = (event.target.value as string).replace(/,/g, '.');
 
 		if (input === '' || isValidChange(input)) {
-			onChange(input);
+			handleChange(input);
 		}
 	};
 
@@ -55,6 +56,7 @@ export const NumericInput = ({
 			inputProps={{ ...inputProps, pattern: '^[0-9]*[.,]?[0-9]*$' }}
 			className={`${className} ${classes.input}`}
 			onChange={handleAmountChange}
+			{...props}
 		/>
 	);
 };
