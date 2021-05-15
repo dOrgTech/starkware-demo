@@ -32,11 +32,13 @@ export const Mint = (): JSX.Element => {
 	const [token, setToken] = useState<Token>();
 	const [mintAmount, setMintAmount] = useState<string>();
 
+	const options = token ? TOKENS.filter((option) => token.symbol !== option.symbol) : TOKENS;
+
 	return (
 		<DarkBox>
 			<Grid container alignItems="center">
 				<Grid item xs>
-					<TokenSelector value={token} options={TOKENS} onChange={(token) => setToken(token)} />
+					<TokenSelector value={token} options={options} onChange={(token) => setToken(token)} />
 				</Grid>
 				{token && (
 					<StyledInputContainer item xs>
