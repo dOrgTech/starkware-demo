@@ -78,6 +78,8 @@ export const Swap = (): JSX.Element => {
 	const [toAmount, setToAmount] = useState<string>();
 
 	const handleSwitch = useCallback(() => {
+		if (!fromToken || !toToken) return;
+
 		setFromValue(toValue);
 		setToValue(fromValue);
 
