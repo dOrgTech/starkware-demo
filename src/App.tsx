@@ -1,7 +1,12 @@
 import React from 'react';
 import { Grid, styled } from '@material-ui/core';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
 import { Home } from 'pages/Home';
 import { Navbar } from 'components/Navbar';
+
+const queryClient = new QueryClient();
 
 const MainContainer = styled(Grid)({
 	background:
@@ -12,14 +17,17 @@ const MainContainer = styled(Grid)({
 
 function App() {
 	return (
-		<MainContainer container direction="column">
-			<Grid item>
-				<Navbar />
-			</Grid>
-			<Grid item xs>
-				<Home />
-			</Grid>
-		</MainContainer>
+		<QueryClientProvider client={queryClient}>
+			<ReactQueryDevtools initialIsOpen={false} />
+			<MainContainer container direction="column">
+				<Grid item>
+					<Navbar />
+				</Grid>
+				<Grid item xs>
+					<Home />
+				</Grid>
+			</MainContainer>
+		</QueryClientProvider>
 	);
 }
 
