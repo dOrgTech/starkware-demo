@@ -15,16 +15,35 @@
 		}
 	},
 	"extends": [
+		"eslint:recommended",
 		"plugin:react/recommended",
+		"plugin:prettier/recommended",
 		"plugin:@typescript-eslint/recommended",
-		"plugin:react-hooks/recommended",
-		"prettier"
+		"plugin:react-hooks/recommended"
 	],
+	"plugins": ["react", "@typescript-eslint"],
 	"rules": {
 		"@typescript-eslint/no-explicit-any": 2,
 		"react/prop-types": "off",
 		"@typescript-eslint/no-var-requires": 2,
 		"@typescript-eslint/explicit-function-return-type": "off",
-		"@typescript-eslint/explicit-module-boundary-types": "off"
-	}
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"react-hooks/exhaustive-deps": "error",
+		"no-var": "error",
+		"brace-style": "error",
+		"prefer-template": "error",
+		"space-before-blocks": "error",
+		"import/prefer-default-export": "off"
+	},
+	"overrides": [
+		{
+			"files": [
+				" ,**/*.test.tsx",
+				" ,**/*.spec.tsx"
+			],
+			"env": {
+				"jest": true
+			}
+		}
+	]
 }
