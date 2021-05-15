@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 	input: {
 		color: theme.palette.text.primary,
 		fontWeight: 'normal',
-		fontSize: 22
+		fontSize: 22,
 	},
 }));
 

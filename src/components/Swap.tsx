@@ -104,7 +104,11 @@ export const Swap = (): JSX.Element => {
 				<DarkBox>
 					<Grid container alignItems="center">
 						<Grid item xs>
-							<TokenSelector value={fromToken} options={options} onChange={handleFromTokenSelected} />
+							<TokenSelector
+								value={fromToken}
+								options={options}
+								onChange={handleFromTokenSelected}
+							/>
 						</Grid>
 						{fromToken && (
 							<StyledInputContainer item xs>
@@ -137,7 +141,11 @@ export const Swap = (): JSX.Element => {
 				<DarkBox>
 					<Grid container alignItems="center">
 						<Grid item xs>
-							<TokenSelector value={toToken} options={options} onChange={(token) => setToToken(token)} />
+							<TokenSelector
+								value={toToken}
+								options={options}
+								onChange={(token) => setToToken(token)}
+							/>
 						</Grid>
 						{toToken && (
 							<StyledInputContainer item xs>

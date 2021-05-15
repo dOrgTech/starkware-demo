@@ -67,7 +67,12 @@ interface Props extends DialogProps {
 	onClose: () => void;
 }
 
-export const TokenSelectModal = ({ tokens, onClose, handleSelect, ...props }: Props): JSX.Element => {
+export const TokenSelectModal = ({
+	tokens,
+	onClose,
+	handleSelect,
+	...props
+}: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
