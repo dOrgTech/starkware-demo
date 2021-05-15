@@ -1,5 +1,15 @@
-import { Box, Button, createStyles, Grid, makeStyles, styled, Typography } from '@material-ui/core';
 import React, { useCallback } from 'react';
+import {
+	Box,
+	Button,
+	createStyles,
+	Grid,
+	IconButton,
+	makeStyles,
+	styled,
+	Typography,
+} from '@material-ui/core';
+
 import { Token } from 'models/token';
 import { TokenIcon } from './common/TokenIcon';
 import { ReactComponent as DropdownArrow } from 'assets/icons/dropdown-arrow.svg';
@@ -10,7 +20,6 @@ import { useState } from 'react';
 const StyledTokenContainer = styled(Box)({
 	width: '100%',
 	height: '100%',
-	cursor: 'pointer',
 });
 
 const StyledTokenSymbol = styled(Box)({
@@ -64,7 +73,7 @@ export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.E
 
 	const SelectedToken = ({ token }: { token: Token }) => (
 		<Grid item>
-			<StyledTokenContainer onClick={handleClick}>
+			<StyledTokenContainer>
 				<Grid container alignItems="center" spacing={1}>
 					<Grid item>
 						<TokenIcon Icon={token.icon} size="large" />
@@ -75,7 +84,9 @@ export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.E
 						</StyledTokenSymbol>
 					</Grid>
 					<Grid item>
-						<DropdownArrow />
+						<IconButton aria-label="change token" onClick={handleClick}>
+							<DropdownArrow />
+						</IconButton>
 					</Grid>
 				</Grid>
 			</StyledTokenContainer>

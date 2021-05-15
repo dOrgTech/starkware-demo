@@ -43,7 +43,13 @@ export const Mint = (): JSX.Element => {
 				{token && (
 					<StyledInputContainer item xs>
 						<Grid container justify="flex-end" alignItems="center">
-							<NumericInput value={mintAmount} onChange={(change) => setMintAmount(change)} />
+							<NumericInput
+								inputProps={{
+									'aria-label': 'mint amount',
+								}}
+								value={mintAmount}
+								onChange={(change) => setMintAmount(change)}
+							/>
 						</Grid>
 					</StyledInputContainer>
 				)}
