@@ -68,8 +68,7 @@
 	"lint-staged": {
 		"*.{js,ts,tsx}": [
 			"yarn format",
-			"yarn lint:fix",
-			"git add -A . "
+			"yarn lint:fix"
 		]
 	}
 }
