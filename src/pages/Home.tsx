@@ -77,7 +77,7 @@ export const Home = (): JSX.Element => {
 	const tabsStyles = useTabsStyles();
 	const tabStyles = useTabStyles();
 	const location = useLocation();
-	const initialTab = useMemo(() => location.pathname.split('/').slice(-1)[0], [location]);
+	const initialTab = useMemo(() => location.pathname.split('/').slice(-1)[0] || 'swap', [location]);
 
 	const [selectedTab, setSelectedTab] = useState(initialTab);
 	const history = useHistory();

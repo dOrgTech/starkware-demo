@@ -1,6 +1,7 @@
-import { AppBar, IconButton, Button, styled, Grid } from '@material-ui/core';
+import { AppBar, IconButton, styled, Grid } from '@material-ui/core';
 import { ReactComponent as StarkwareLogo } from '../assets/starknet.svg';
 import React from 'react';
+import { TokenBalances } from './TokenBalances';
 
 const StyledAppBar = styled(AppBar)({
 	boxShadow: 'unset',
@@ -17,9 +18,7 @@ export const Navbar: React.FC = () => {
 					</IconButton>
 				</Grid>
 				<Grid item>
-					<Button color="secondary" variant="outlined">
-						Token Balance
-					</Button>
+					<TokenBalances />
 				</Grid>
 			</Grid>
 		</StyledAppBar>
