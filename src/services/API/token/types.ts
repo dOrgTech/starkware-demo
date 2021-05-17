@@ -4,10 +4,10 @@ export interface Token {
 	symbol: string;
 	icon: string;
 	price: string;
-  color: string;
+	color: string;
 }
 
 export interface TokenBalance {
-  token: Token;
-  amount: string;
+	token: Token;
+	amount: string;
 }

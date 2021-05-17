@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar, AvatarProps, styled } from '@material-ui/core';
 import { useMemo } from 'react';
 
-export type LogoSize = 'default' | 'large';
+export type LogoSize = 'default' | 'medium' | 'large';
 
 export interface TokenIconProps extends AvatarProps {
 	icon: string;
@@ -24,8 +24,10 @@ export const TokenIcon: React.FC<TokenIconProps> = ({ icon, size = 'default', ..
 		switch (size) {
 			case 'default':
 				return 26;
-			case 'large':
+			case 'medium':
 				return 48;
+			case 'large':
+				return 66;
 		}
 	}, [size]);
 
