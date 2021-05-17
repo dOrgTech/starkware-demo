@@ -5,7 +5,7 @@ import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg
 import { TokenSelector } from './TokenSelector';
 import { DarkBox } from './common/DarkBox';
 import { NumericInput } from './NumericInput';
-import { Token } from 'services/API/token/types';
+import { Token, TokenBalance } from 'services/API/token/types';
 import { useTokens } from 'services/API/token/hooks/useTokens';
 import { useTokenOptions } from 'services/API/token/hooks/useTokenOptions';
 import { useTokenBalances } from 'services/API/token/hooks/useTokenBalances';
@@ -86,21 +86,19 @@ export const Swap = (): JSX.Element => {
 		};
 	}, [fromToken, toToken]);
 
-	const fromBalance = useMemo(() => {
-		if (!fromToken || !tokenBalances) {
-			return undefined;
-		}
+	let fromBalance: TokenBalance | undefined;
 
-		return tokenBalances.find((tokenBalance) => tokenBalance.token.symbol === fromToken.symbol);
-	}, [tokenBalances, fromToken]);
+	if (fromToken && tokenBalances) {
+		fromBalance = tokenBalances.find(
+			(tokenBalance) => tokenBalance.token.symbol === fromToken.symbol,
+		);
+	}
 
-	const toBalance = useMemo(() => {
-		if (!toToken || !tokenBalances) {
-			return undefined;
-		}
+	let toBalance: TokenBalance | undefined;
 
-		return tokenBalances.find((tokenBalance) => tokenBalance.token.symbol === toToken.symbol);
-	}, [tokenBalances, toToken]);
+	if (toToken && tokenBalances) {
+		toBalance = tokenBalances.find((tokenBalance) => tokenBalance.token.symbol === toToken.symbol);
+	}
 
 	const handleSwitch = useCallback(() => {
 		setFromValue(toValue);
@@ -122,27 +120,21 @@ export const Swap = (): JSX.Element => {
 		setFromToken(token);
 	};
 
-	const handleFromAmountChange = useCallback(
-		(amount: string) => {
-			setFromAmount(amount);
+	const handleFromAmountChange = (amount: string) => {
+		setFromAmount(amount);
 
-			if (conversionRates) {
-				setToAmount(BigNumber.from(amount).mul(BigNumber.from(conversionRates.to)).toString());
-			}
-		},
-		[conversionRates],
-	);
+		if (conversionRates) {
+			setToAmount(BigNumber.from(amount).mul(BigNumber.from(conversionRates.to)).toString());
+		}
+	};
 
-	const handleToAmountChange = useCallback(
-		(amount: string) => {
-			setToAmount(amount);
+	const handleToAmountChange = (amount: string) => {
+		setToAmount(amount);
 
-			if (conversionRates) {
-				setFromAmount(BigNumber.from(amount).mul(BigNumber.from(conversionRates.from)).toString());
-			}
-		},
-		[conversionRates],
-	);
+		if (conversionRates) {
+			setFromAmount(BigNumber.from(amount).mul(BigNumber.from(conversionRates.from)).toString());
+		}
+	};
 
 	const options = useTokenOptions(fromToken, tokensData);
 
@@ -173,7 +165,9 @@ export const Swap = (): JSX.Element => {
 									</Grid>
 									{fromBalance && (
 										<Grid item xs={6}>
-											<RoundedButton onClick={() => handleFromAmountChange(fromBalance.amount)}>
+											<RoundedButton
+												onClick={() => handleFromAmountChange((fromBalance as TokenBalance).amount)}
+											>
 												Max
 											</RoundedButton>
 										</Grid>
