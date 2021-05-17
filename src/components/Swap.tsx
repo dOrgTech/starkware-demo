@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Button, Grid, IconButton, styled, Typography } from '@material-ui/core';
-
+import { BigNumber } from '@ethersproject/bignumber';
 import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg';
 import { TokenSelector } from './TokenSelector';
 import { DarkBox } from './common/DarkBox';
@@ -75,8 +75,8 @@ export const Swap = (): JSX.Element => {
 	const conversionRates = useMemo(() => {
 		if (fromToken && toToken) {
 			return {
-				from: Number(toToken.price) / Number(fromToken.price),
-				to: Number(fromToken.price) / Number(toToken.price),
+				from: BigNumber.from(toToken.price).div(BigNumber.from(fromToken.price)),
+				to: BigNumber.from(fromToken.price).div(BigNumber.from(toToken.price)),
 			};
 		}
 
@@ -127,7 +127,7 @@ export const Swap = (): JSX.Element => {
 			setFromAmount(amount);
 
 			if (conversionRates) {
-				setToAmount((Number(amount) * conversionRates.to).toString());
+				setToAmount(BigNumber.from(amount).mul(BigNumber.from(conversionRates.to)).toString());
 			}
 		},
 		[conversionRates],
@@ -138,7 +138,7 @@ export const Swap = (): JSX.Element => {
 			setToAmount(amount);
 
 			if (conversionRates) {
-				setFromAmount((Number(amount) * conversionRates.from).toString());
+				setFromAmount(BigNumber.from(amount).mul(BigNumber.from(conversionRates.from)).toString());
 			}
 		},
 		[conversionRates],
