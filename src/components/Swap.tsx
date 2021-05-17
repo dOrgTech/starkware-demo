@@ -66,12 +66,25 @@ export const Swap = (): JSX.Element => {
 	const [fromValue, setFromValue] = useState('');
 	const [toValue, setToValue] = useState('');
 	const { data: tokensData } = useTokens();
-
 	const [fromToken, setFromToken] = useState<Token | undefined>();
 	const [fromAmount, setFromAmount] = useState<string>();
 	const [toToken, setToToken] = useState<Token>();
 	const [toAmount, setToAmount] = useState<string>();
 	const { data: tokenBalances } = useTokenBalances();
+
+	const conversionRates = useMemo(() => {
+		if (fromToken && toToken) {
+			return {
+				from: Number(toToken.price) / Number(fromToken.price),
+				to: Number(fromToken.price) / Number(toToken.price),
+			};
+		}
+
+		return {
+			from: 1,
+			to: 1,
+		};
+	}, [fromToken, toToken]);
 
 	const fromBalance = useMemo(() => {
 		if (!fromToken || !tokenBalances) {
@@ -95,7 +108,10 @@ export const Swap = (): JSX.Element => {
 
 		setFromToken(toToken);
 		setToToken(fromToken);
-	}, [fromToken, fromValue, toToken, toValue]);
+
+		setFromAmount(toAmount);
+		setToAmount(fromAmount);
+	}, [fromAmount, fromToken, fromValue, toAmount, toToken, toValue]);
 
 	const handleFromTokenSelected = (token: Token) => {
 		if (toToken && token.symbol === toToken.symbol) {
@@ -105,6 +121,28 @@ export const Swap = (): JSX.Element => {
 		setFromAmount('0');
 		setFromToken(token);
 	};
+
+	const handleFromAmountChange = useCallback(
+		(amount: string) => {
+			setFromAmount(amount);
+
+			if (conversionRates) {
+				setToAmount((Number(amount) * conversionRates.to).toString());
+			}
+		},
+		[conversionRates],
+	);
+
+	const handleToAmountChange = useCallback(
+		(amount: string) => {
+			setToAmount(amount);
+
+			if (conversionRates) {
+				setFromAmount((Number(amount) * conversionRates.from).toString());
+			}
+		},
+		[conversionRates],
+	);
 
 	const options = useTokenOptions(fromToken, tokensData);
 
@@ -130,12 +168,12 @@ export const Swap = (): JSX.Element => {
 												'aria-label': 'amount of token to swap',
 											}}
 											value={fromAmount}
-											handleChange={(change) => setFromAmount(change)}
+											handleChange={(change) => handleFromAmountChange(change)}
 										/>
 									</Grid>
 									{fromBalance && (
 										<Grid item xs={6}>
-											<RoundedButton onClick={() => setFromAmount(fromBalance.amount)}>
+											<RoundedButton onClick={() => handleFromAmountChange(fromBalance.amount)}>
 												Max
 											</RoundedButton>
 										</Grid>
@@ -156,7 +194,7 @@ export const Swap = (): JSX.Element => {
 				</StyledArrowsContainer>
 			</Grid>
 			<Grid item xs={12}>
-				<Labels leftText="From" rightText={toBalance ? `Balance: ${toBalance.amount}` : ''} />
+				<Labels leftText="To" rightText={toBalance ? `Balance: ${toBalance.amount}` : ''} />
 				<DarkBox>
 					<Grid container alignItems="center">
 						<Grid item xs aria-label="token to be swapped">
@@ -174,7 +212,7 @@ export const Swap = (): JSX.Element => {
 											'aria-label': 'amount of token to be swapped',
 										}}
 										value={toAmount}
-										handleChange={(change) => setToAmount(change)}
+										handleChange={(change) => handleToAmountChange(change)}
 									/>
 								</Grid>
 							</StyledInputContainer>
