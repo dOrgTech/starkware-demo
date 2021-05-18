@@ -5,7 +5,9 @@ import { NumericInput } from '../components/NumericInput';
 
 describe('NumericInput', () => {
 	it('displays placeholder', () => {
-		const { container } = customRender(<NumericInput placeholder={'0.123'} handleChange={jest.fn()} />);
+		const { container } = customRender(
+			<NumericInput placeholder={'0.123'} handleChange={jest.fn()} />,
+		);
 		expect(container).toMatchSnapshot();
 	});
 
