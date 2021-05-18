@@ -52,7 +52,7 @@ export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.E
 			<StyledTokenContainer>
 				<Grid container alignItems="center" spacing={1}>
 					<Grid item>
-						<TokenIcon icon={token.icon} size="large" />
+						<TokenIcon icon={token.icon} size="medium" />
 					</Grid>
 					<Grid item xs>
 						<StyledTokenSymbol>

@@ -21,7 +21,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({ tokenProps, inputProps }
 		<DarkBox>
 			<Grid container alignItems="center">
 				<Grid item>
-					<TokenIcon icon={tokenProps.icon} size="large" />
+					<TokenIcon icon={tokenProps.icon} size="medium" />
 				</Grid>
 				<InputsContainer item xs>
 					<Grid container justify="space-between" alignItems="center">

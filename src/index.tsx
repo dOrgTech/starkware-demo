@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { theme } from 'theme/theme';
 import reportWebVitals from './reportWebVitals';
 import './assets/css/body.css';
-import { ModalsProvider } from 'context/Modals';
+import { NotificationsProvider } from 'context/notifications';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();
@@ -17,9 +17,9 @@ ReactDOM.render(
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<Router>
-					<ModalsProvider>
+					<NotificationsProvider>
 						<App />
-					</ModalsProvider>
+					</NotificationsProvider>
 				</Router>
 			</ThemeProvider>
 		</QueryClientProvider>

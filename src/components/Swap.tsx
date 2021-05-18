@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useContext } from 'react';
 import { Button, Grid, IconButton, styled, Typography } from '@material-ui/core';
 import { BigNumber } from '@ethersproject/bignumber';
 import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg';
@@ -10,6 +10,7 @@ import { useTokens } from 'services/API/token/hooks/useTokens';
 import { useTokenOptions } from 'services/API/token/hooks/useTokenOptions';
 import { useTokenBalances } from 'services/API/token/hooks/useTokenBalances';
 import { RoundedButton } from './common/RoundedButton';
+import { ActionTypes, NotificationsContext } from 'context/notifications';
 
 const StyledInputContainer = styled(Grid)({
 	padding: '0 0 0 12px',
@@ -71,6 +72,7 @@ export const Swap = (): JSX.Element => {
 	const [toToken, setToToken] = useState<Token>();
 	const [toAmount, setToAmount] = useState<string>();
 	const { data: tokenBalances } = useTokenBalances();
+	const { dispatch } = useContext(NotificationsContext);
 
 	const conversionRates = useMemo(() => {
 		if (fromToken && toToken) {
@@ -215,7 +217,24 @@ export const Swap = (): JSX.Element => {
 				</DarkBox>
 			</Grid>
 			<Grid item xs={12}>
-				<StyledSwapButton fullWidth variant="contained">
+				<StyledSwapButton
+					fullWidth
+					variant="contained"
+					onClick={() => {
+						if (toToken) {
+							dispatch({
+								type: ActionTypes.OPEN_SUCCESS,
+								payload: {
+									title: `Success!`,
+									icon: toToken?.icon,
+									text: `Received ${toAmount} ${toToken?.symbol}`,
+									link: '0xb7d91c4........fa84fc5e6f',
+									buttonText: 'Go Back',
+								},
+							});
+						}
+					}}
+				>
 					Swap
 				</StyledSwapButton>
 			</Grid>

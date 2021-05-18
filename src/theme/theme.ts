@@ -8,6 +8,7 @@ export const theme = createMuiTheme({
 		},
 		secondary: {
 			main: '#FB514F',
+			dark: '#FE4A49',
 		},
 		background: {
 			paper: '#28286E',
@@ -37,6 +38,28 @@ export const theme = createMuiTheme({
 			fontSize: '22px',
 			lineHeight: '29px',
 		},
+		h4: {
+			fontWeight: 600,
+			fontSize: 24,
+		},
 	},
-	overrides: {},
+	overrides: {
+		MuiButton: {
+			root: {
+				textTransform: 'unset',
+			},
+			outlinedSecondary: {
+				fontSize: 12,
+			},
+			containedSecondary: {
+				minHeight: 66,
+				fontSize: 18,
+				backgroundColor: hexToRgba('#FE4A49', 0.2),
+				color: '#FB514F',
+				'&:hover': {
+					backgroundColor: hexToRgba('#FE4A49', 0.1),
+				},
+			},
+		},
+	},
 });
