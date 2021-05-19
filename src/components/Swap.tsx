@@ -77,7 +77,8 @@ export const Swap = (): JSX.Element => {
 	const options = useTokenOptions(fromToken, tokensData);
 	const fromError = useConversionError(fromToken, fromAmount, fromBalance?.amount);
 	const toError = useConversionError(toToken, toAmount);
-	const error = fromError || toError;
+	const maxAmountError = Number(fromAmount) > 1000 ? 'Max swap limit is 1000' : undefined;
+	const error = maxAmountError || fromError || toError;
 
 	const handleSwitch = () => {
 		if (!fromToken || !toToken) return;
@@ -219,7 +220,7 @@ export const Swap = (): JSX.Element => {
 						color="secondary"
 						fullWidth
 						disableElevation
-						disabled={!fromToken || !fromAmount || !toToken || !toAmount || !!error}
+						disabled={!!error}
 						onClick={() => setShowConfirm(true)}
 					>
 						{error ? error : 'Swap'}
