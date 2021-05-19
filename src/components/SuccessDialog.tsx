@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react';
-import { Box, Button, Dialog, Grid, Link, styled, Typography } from '@material-ui/core';
+import { Box, Button, Dialog, Grid, Link, makeStyles, styled, Typography } from '@material-ui/core';
 import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { TokenIcon } from './common/TokenIcon';
 
@@ -40,11 +40,21 @@ const StyledLink = styled(Link)({
 	display: 'block',
 });
 
+const useStyles = makeStyles({
+	dialog: {
+		top: 100,
+	},
+	scrollPaper: {
+		alignItems: 'baseline',
+	},
+});
+
 export const SuccessDialog: React.FC = () => {
 	const {
 		state: { success },
 		dispatch,
 	} = useContext(NotificationsContext);
+	const classes = useStyles();
 
 	const handleClose = useCallback(() => {
 		dispatch({
@@ -53,7 +63,14 @@ export const SuccessDialog: React.FC = () => {
 	}, [dispatch]);
 
 	return (
-		<Dialog open={success.open} onClose={handleClose}>
+		<Dialog
+			open={success.open}
+			onClose={handleClose}
+			classes={{
+				paper: classes.dialog,
+				scrollPaper: classes.scrollPaper,
+			}}
+		>
 			<StyledContainer>
 				<Grid container justify="space-between" direction="column">
 					<Grid item>
