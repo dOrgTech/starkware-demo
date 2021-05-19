@@ -11,3 +11,8 @@ export interface TokenBalance {
 	token: Token;
 	amount: string;
 }
+
+export interface ConversionRate {
+	from: number;
+	to: number;
+}
