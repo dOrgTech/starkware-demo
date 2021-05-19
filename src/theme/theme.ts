@@ -64,9 +64,6 @@ export const theme = createMuiTheme({
 					backgroundColor: hexToRgba('#FE4A49', 0.1),
 				},
 			},
-			disabled: {
-				color: 'green',
-			},
 		},
 	},
 });
