@@ -1,16 +1,16 @@
-import React, { useState, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Grid, IconButton, styled, Typography } from '@material-ui/core';
-import { BigNumber } from '@ethersproject/bignumber';
 import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg';
 import { TokenSelector } from './TokenSelector';
 import { DarkBox } from './common/DarkBox';
 import { NumericInput } from './NumericInput';
-import { Token, TokenBalance } from 'services/API/token/types';
+import { Token, TokenBalance } from 'models/Token';
 import { useTokens } from 'services/API/token/hooks/useTokens';
 import { useTokenOptions } from 'services/API/token/hooks/useTokenOptions';
-import { useTokenBalances } from 'services/API/token/hooks/useTokenBalances';
 import { RoundedButton } from './common/RoundedButton';
 import { ActionTypes, NotificationsContext } from 'context/notifications';
+import { ConfirmSwapDialog } from './ConfirmSwapDialog';
+import { useBalance, useConversionError, useConversionRates } from '../hooks/amounts';
 
 const StyledInputContainer = styled(Grid)({
 	padding: '0 0 0 12px',
@@ -22,19 +22,9 @@ const StyledArrowsContainer = styled(Grid)({
 	height: 65,
 });
 
-const StyledSwapButton = styled(Button)(({ theme }) => ({
-	marginTop: 32,
-	height: 66,
-	background: 'rgba(145, 145, 183, 0.15);',
-	color: theme.palette.text.primary,
-	borderColor: 'rgba(145, 145, 183, 0.15);',
-	borderRadius: 6,
-	boxShadow: 'unset',
-	'&:hover': {
-		backgroundColor: 'rgba(145, 145, 183, 0.1);',
-		boxShadow: 'unset',
-	},
-}));
+const StyledSwapButton = styled(Button)({
+	marginTop: 20,
+});
 
 const StyledLeftLabelText = styled(Typography)({
 	fontWeight: 600,
@@ -44,12 +34,20 @@ const StyledRightLabelText = styled(Typography)({
 	fontWeight: 400,
 });
 
-const LabelsContainer = styled(Grid)({
+const StyledLabelsContainer = styled(Grid)({
 	paddingBottom: '5px',
 });
 
+const StyledConversionContainer = styled(Grid)({
+	marginTop: 16,
+});
+
+const StyledEndText = styled(StyledRightLabelText)({
+	textAlign: 'end',
+});
+
 const Labels = ({ leftText, rightText }: { leftText: string; rightText: string }): JSX.Element => (
-	<LabelsContainer container justify="space-between">
+	<StyledLabelsContainer container justify="space-between">
 		<Grid item>
 			<StyledLeftLabelText variant="subtitle1" color="textPrimary">
 				{leftText}
@@ -60,184 +58,188 @@ const Labels = ({ leftText, rightText }: { leftText: string; rightText: string }
 				{rightText}
 			</StyledRightLabelText>
 		</Grid>
-	</LabelsContainer>
+	</StyledLabelsContainer>
 );
 
 export const Swap = (): JSX.Element => {
-	const [fromValue, setFromValue] = useState('');
-	const [toValue, setToValue] = useState('');
-	const { data: tokensData } = useTokens();
+	const { dispatch } = useContext(NotificationsContext);
+	const [showConfirm, setShowConfirm] = useState(false);
 	const [fromToken, setFromToken] = useState<Token | undefined>();
 	const [fromAmount, setFromAmount] = useState<string>();
 	const [toToken, setToToken] = useState<Token>();
 	const [toAmount, setToAmount] = useState<string>();
-	const { data: tokenBalances } = useTokenBalances();
-	const { dispatch } = useContext(NotificationsContext);
 
-	const conversionRates = useMemo(() => {
-		if (fromToken && toToken) {
-			return {
-				from: BigNumber.from(toToken.price).div(BigNumber.from(fromToken.price)),
-				to: BigNumber.from(fromToken.price).div(BigNumber.from(toToken.price)),
-			};
-		}
+	const { data: tokensData } = useTokens();
+	const fromBalance = useBalance(fromToken);
+	const toBalance = useBalance(toToken);
+	const conversionRates = useConversionRates(fromToken, toToken);
+	const options = useTokenOptions(fromToken, tokensData);
+	const fromError = useConversionError(fromToken, fromAmount, fromBalance?.amount);
+	const toError = useConversionError(toToken, toAmount);
+	const error = fromError || toError;
 
-		return {
-			from: 1,
-			to: 1,
-		};
-	}, [fromToken, toToken]);
+	console.log({ toAmount });
 
-	let fromBalance: TokenBalance | undefined;
-
-	if (fromToken && tokenBalances) {
-		fromBalance = tokenBalances.find(
-			(tokenBalance) => tokenBalance.token.symbol === fromToken.symbol,
-		);
-	}
-
-	let toBalance: TokenBalance | undefined;
-
-	if (toToken && tokenBalances) {
-		toBalance = tokenBalances.find((tokenBalance) => tokenBalance.token.symbol === toToken.symbol);
-	}
-
-	const handleSwitch = useCallback(() => {
-		setFromValue(toValue);
-		setToValue(fromValue);
+	const handleSwitch = () => {
+		if (!fromToken || !toToken) return;
 
 		setFromToken(toToken);
-		setToToken(fromToken);
-
-		setFromAmount(toAmount);
 		setToAmount(fromAmount);
-	}, [fromAmount, fromToken, fromValue, toAmount, toToken, toValue]);
+		setFromAmount(toAmount);
+		setToToken(fromToken);
+	};
 
 	const handleFromTokenSelected = (token: Token) => {
 		if (toToken && token.symbol === toToken.symbol) {
 			setToToken(undefined);
 		}
 
-		setFromAmount('0');
+		setFromAmount(undefined);
 		setFromToken(token);
 	};
 
 	const handleFromAmountChange = (amount: string) => {
 		setFromAmount(amount);
 
-		if (conversionRates) {
-			setToAmount(BigNumber.from(amount).mul(BigNumber.from(conversionRates.to)).toString());
+		if (!amount) {
+			setToAmount(undefined);
+			return;
 		}
+
+		setToAmount(String(Number(amount) * conversionRates.from));
 	};
 
 	const handleToAmountChange = (amount: string) => {
 		setToAmount(amount);
 
-		if (conversionRates) {
-			setFromAmount(BigNumber.from(amount).mul(BigNumber.from(conversionRates.from)).toString());
+		if (!amount) {
+			setFromAmount(undefined);
+			return;
 		}
+
+		setFromAmount(String(Number(amount) * conversionRates.to));
 	};
 
-	const options = useTokenOptions(fromToken, tokensData);
-
 	return (
-		<Grid container>
-			<Grid item xs={12}>
-				<Labels leftText="From" rightText={fromBalance ? `Balance: ${fromBalance.amount}` : ''} />
-				<DarkBox>
-					<Grid container alignItems="center">
-						<Grid item xs aria-label="token to swap">
-							<TokenSelector
-								value={fromToken}
-								options={options}
-								onChange={handleFromTokenSelected}
-							/>
+		<>
+			<Grid container>
+				<Grid item xs={12}>
+					<Labels leftText="From" rightText={fromBalance ? `Balance: ${fromBalance.amount}` : ''} />
+					<DarkBox>
+						<Grid container alignItems="center">
+							<Grid item xs aria-label="token to swap">
+								<TokenSelector
+									value={fromToken}
+									options={options}
+									onChange={handleFromTokenSelected}
+								/>
+							</Grid>
+							{fromToken && (
+								<StyledInputContainer item xs>
+									<Grid container justify="flex-end" alignItems="center">
+										<Grid item xs={6}>
+											<NumericInput
+												inputProps={{
+													'aria-label': 'amount of token to swap',
+												}}
+												value={fromAmount}
+												handleChange={(change) => handleFromAmountChange(change)}
+											/>
+										</Grid>
+										{fromBalance && (
+											<Grid item xs={6}>
+												<RoundedButton
+													onClick={() =>
+														handleFromAmountChange((fromBalance as TokenBalance).amount)
+													}
+												>
+													Max
+												</RoundedButton>
+											</Grid>
+										)}
+									</Grid>
+								</StyledInputContainer>
+							)}
 						</Grid>
-						{fromToken && (
-							<StyledInputContainer item xs>
-								<Grid container justify="flex-end" alignItems="center">
-									<Grid item xs={6}>
+					</DarkBox>
+				</Grid>
+				<Grid item xs={12}>
+					<StyledArrowsContainer container justify="center" alignItems="center">
+						<Grid item>
+							<IconButton aria-label="invert tokens swap direction" onClick={handleSwitch}>
+								<SwapDirection />
+							</IconButton>
+						</Grid>
+					</StyledArrowsContainer>
+				</Grid>
+				<Grid item xs={12}>
+					<Labels leftText="To" rightText={toBalance ? `Balance: ${toBalance.amount}` : ''} />
+					<DarkBox>
+						<Grid container alignItems="center">
+							<Grid item xs aria-label="token to be swapped">
+								<TokenSelector
+									value={toToken}
+									options={options}
+									onChange={(token) => setToToken(token)}
+								/>
+							</Grid>
+							{toToken && (
+								<StyledInputContainer item xs>
+									<Grid container justify="flex-end" alignItems="center">
 										<NumericInput
 											inputProps={{
-												'aria-label': 'amount of token to swap',
+												'aria-label': 'amount of token to be swapped',
 											}}
-											value={fromAmount}
-											handleChange={(change) => handleFromAmountChange(change)}
+											value={toAmount}
+											handleChange={(change) => handleToAmountChange(change)}
 										/>
 									</Grid>
-									{fromBalance && (
-										<Grid item xs={6}>
-											<RoundedButton
-												onClick={() => handleFromAmountChange((fromBalance as TokenBalance).amount)}
-											>
-												Max
-											</RoundedButton>
-										</Grid>
-									)}
-								</Grid>
-							</StyledInputContainer>
-						)}
-					</Grid>
-				</DarkBox>
-			</Grid>
-			<Grid item xs={12}>
-				<StyledArrowsContainer container justify="center" alignItems="center">
-					<Grid item>
-						<IconButton aria-label="invert tokens swap direction" onClick={handleSwitch}>
-							<SwapDirection />
-						</IconButton>
-					</Grid>
-				</StyledArrowsContainer>
-			</Grid>
-			<Grid item xs={12}>
-				<Labels leftText="To" rightText={toBalance ? `Balance: ${toBalance.amount}` : ''} />
-				<DarkBox>
-					<Grid container alignItems="center">
-						<Grid item xs aria-label="token to be swapped">
-							<TokenSelector
-								value={toToken}
-								options={options}
-								onChange={(token) => setToToken(token)}
-							/>
+								</StyledInputContainer>
+							)}
 						</Grid>
-						{toToken && (
-							<StyledInputContainer item xs>
-								<Grid container justify="flex-end" alignItems="center">
-									<NumericInput
-										inputProps={{
-											'aria-label': 'amount of token to be swapped',
-										}}
-										value={toAmount}
-										handleChange={(change) => handleToAmountChange(change)}
-									/>
-								</Grid>
-							</StyledInputContainer>
-						)}
-					</Grid>
-				</DarkBox>
+					</DarkBox>
+				</Grid>
+				{fromToken && toToken && (
+					<StyledConversionContainer item xs={12}>
+						<StyledEndText
+							variant="subtitle1"
+							color="textSecondary"
+						>{`1 ${fromToken.symbol} = ${conversionRates.to} ${toToken.symbol}`}</StyledEndText>
+					</StyledConversionContainer>
+				)}
+				<Grid item xs={12}>
+					<StyledSwapButton
+						variant="contained"
+						color="secondary"
+						fullWidth
+						disableElevation
+						disabled={!fromToken || !fromAmount || !toToken || !toAmount || !!error}
+						onClick={() => setShowConfirm(true)}
+					>
+						{error ? error : 'Swap'}
+					</StyledSwapButton>
+				</Grid>
 			</Grid>
-			<Grid item xs={12}>
-				<StyledSwapButton
-					fullWidth
-					variant="contained"
-					onClick={() => {
-						if (toToken) {
-							dispatch({
-								type: ActionTypes.OPEN_SUCCESS,
-								payload: {
-									title: `Success!`,
-									icon: toToken?.icon,
-									text: `Received ${toAmount} ${toToken?.symbol}`,
-									link: '0xb7d91c4........fa84fc5e6f',
-									buttonText: 'Go Back',
-								},
-							});
-						}
-					}}
-				>
-					Swap
-				</StyledSwapButton>
-			</Grid>
-		</Grid>
+			<ConfirmSwapDialog
+				open={showConfirm && !!fromAmount && !!toAmount}
+				conversionRate={conversionRates}
+				from={fromToken && fromAmount ? { ...fromToken, amount: fromAmount } : undefined}
+				to={toToken && toAmount ? { ...toToken, amount: toAmount } : undefined}
+				onClose={() => setShowConfirm(false)}
+				onSwap={(receipt) => {
+					setShowConfirm(false);
+					dispatch({
+						type: ActionTypes.OPEN_SUCCESS,
+						payload: {
+							title: `Success!`,
+							icon: receipt.token.icon,
+							text: `Received ${receipt.amount} ${receipt.token.symbol}`,
+							link: '0xb7d91c4........fa84fc5e6f',
+							buttonText: 'Go Back',
+						},
+					});
+				}}
+			/>
+		</>
 	);
 };
