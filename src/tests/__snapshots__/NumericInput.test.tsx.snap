@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NumericInput displays placeholder 1`] = `
+<div>
+  <div
+    class="MuiInputBase-root-2  makeStyles-input-1 MuiInputBase-fullWidth-12"
+  >
+    <input
+      class="MuiInputBase-input-13"
+      pattern="^[0-9]*[.,]?[0-9]*$"
+      placeholder="0.123"
+      type="tel"
+      value=""
+    />
+  </div>
+</div>
+`;

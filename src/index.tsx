@@ -1,14 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { ThemeProvider } from '@material-ui/core';
+
+import App from 'App';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { theme } from 'theme/theme';
 import reportWebVitals from './reportWebVitals';
+import './assets/css/body.css';
+import { NotificationsProvider } from 'context/notifications';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider theme={theme}>
+				<Router>
+					<NotificationsProvider>
+						<App />
+					</NotificationsProvider>
+				</Router>
+			</ThemeProvider>
+		</QueryClientProvider>
+	</React.StrictMode>,
+	document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
