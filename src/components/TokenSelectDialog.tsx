@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
 import { TokenIcon } from './common/TokenIcon';
-import { Token } from 'services/API/token/types';
+import { Token } from 'models/Token';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -67,7 +67,7 @@ interface Props extends DialogProps {
 	onClose: () => void;
 }
 
-export const TokenSelectModal = ({
+export const TokenSelectDialog = ({
 	tokens,
 	onClose,
 	handleSelect,
