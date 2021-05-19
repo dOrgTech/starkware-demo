@@ -11,6 +11,7 @@ import { RoundedButton } from './common/RoundedButton';
 import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { ConfirmSwapDialog } from './ConfirmSwapDialog';
 import { useBalance, useConversionError, useConversionRates } from '../hooks/amounts';
+import { getConversionRate } from '../utils/rates';
 
 const StyledInputContainer = styled(Grid)({
 	padding: '0 0 0 12px',
@@ -78,8 +79,6 @@ export const Swap = (): JSX.Element => {
 	const toError = useConversionError(toToken, toAmount);
 	const error = fromError || toError;
 
-	console.log({ toAmount });
-
 	const handleSwitch = () => {
 		if (!fromToken || !toToken) return;
 
@@ -98,8 +97,19 @@ export const Swap = (): JSX.Element => {
 		setFromToken(token);
 	};
 
+	const handleToTokenSelected = (token: Token) => {
+		setToToken(token);
+
+		if (fromToken && fromAmount) {
+			const conversionRate = getConversionRate(fromToken.price, token.price);
+			setToAmount(String(Number(fromAmount) * conversionRate.from));
+		}
+	};
+
 	const handleFromAmountChange = (amount: string) => {
 		setFromAmount(amount);
+
+		if (!toToken) return;
 
 		if (!amount) {
 			setToAmount(undefined);
@@ -177,11 +187,7 @@ export const Swap = (): JSX.Element => {
 					<DarkBox>
 						<Grid container alignItems="center">
 							<Grid item xs aria-label="token to be swapped">
-								<TokenSelector
-									value={toToken}
-									options={options}
-									onChange={(token) => setToToken(token)}
-								/>
+								<TokenSelector value={toToken} options={options} onChange={handleToTokenSelected} />
 							</Grid>
 							{toToken && (
 								<StyledInputContainer item xs>
@@ -204,7 +210,7 @@ export const Swap = (): JSX.Element => {
 						<StyledEndText
 							variant="subtitle1"
 							color="textSecondary"
-						>{`1 ${fromToken.symbol} = ${conversionRates.to} ${toToken.symbol}`}</StyledEndText>
+						>{`1 ${fromToken.symbol} = ${conversionRates.from} ${toToken.symbol}`}</StyledEndText>
 					</StyledConversionContainer>
 				)}
 				<Grid item xs={12}>
