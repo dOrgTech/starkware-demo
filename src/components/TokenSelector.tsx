@@ -29,6 +29,24 @@ interface Props {
 	onChange: (token: Token) => void;
 }
 
+export const SelectedToken: React.FC<{ token: Token }> = ({ token, children }) => (
+	<Grid item>
+		<StyledTokenContainer>
+			<Grid container alignItems="center" spacing={1}>
+				<Grid item>
+					<TokenIcon icon={token.icon} size="medium" />
+				</Grid>
+				<Grid item xs>
+					<StyledTokenSymbol>
+						<StyledTypography color="textPrimary">{token.symbol}</StyledTypography>
+					</StyledTokenSymbol>
+				</Grid>
+				<Grid item>{children}</Grid>
+			</Grid>
+		</StyledTokenContainer>
+	</Grid>
+);
+
 export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.Element => {
 	const [open, setOpen] = useState(false);
 
@@ -47,32 +65,18 @@ export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.E
 		</Grid>
 	);
 
-	const SelectedToken = ({ token }: { token: Token }) => (
-		<Grid item>
-			<StyledTokenContainer>
-				<Grid container alignItems="center" spacing={1}>
-					<Grid item>
-						<TokenIcon icon={token.icon} size="medium" />
-					</Grid>
-					<Grid item xs>
-						<StyledTokenSymbol>
-							<StyledTypography color="textPrimary">{token.symbol}</StyledTypography>
-						</StyledTokenSymbol>
-					</Grid>
-					<Grid item>
-						<IconButton aria-label="change token" onClick={handleClick}>
-							<DropdownArrow />
-						</IconButton>
-					</Grid>
-				</Grid>
-			</StyledTokenContainer>
-		</Grid>
-	);
-
 	return (
 		<>
 			<Grid container alignItems="center">
-				{token ? <SelectedToken token={token} /> : <Selector />}
+				{token ? (
+					<SelectedToken token={token}>
+						<IconButton aria-label="change token" onClick={handleClick}>
+							<DropdownArrow />
+						</IconButton>
+					</SelectedToken>
+				) : (
+					<Selector />
+				)}
 			</Grid>
 			<TokenSelectDialog
 				open={open}
