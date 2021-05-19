@@ -8,6 +8,7 @@ import { theme } from 'theme/theme';
 import reportWebVitals from './reportWebVitals';
 import './assets/css/body.css';
 import { NotificationsProvider } from 'context/notifications';
+import { UserProvider } from 'context/user';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();
@@ -17,9 +18,11 @@ ReactDOM.render(
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<Router>
-					<NotificationsProvider>
-						<App />
-					</NotificationsProvider>
+					<UserProvider>
+						<NotificationsProvider>
+							<App />
+						</NotificationsProvider>
+					</UserProvider>
 				</Router>
 			</ThemeProvider>
 		</QueryClientProvider>
