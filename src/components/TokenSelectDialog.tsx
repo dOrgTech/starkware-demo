@@ -18,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
 import { TokenIcon } from './common/TokenIcon';
 import { Token } from 'models/Token';
+import { useTokenBalances } from '../services/API/token/hooks/useTokenBalances';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -73,6 +74,7 @@ export const TokenSelectDialog = ({
 	handleSelect,
 	...props
 }: Props): JSX.Element => {
+	const { data: tokenBalances } = useTokenBalances();
 	const classes = useStyles();
 
 	return (
@@ -105,7 +107,9 @@ export const TokenSelectDialog = ({
 								</ListItemAvatar>
 								<StyledListItemText primary={token.symbol} />
 								<Typography color="textPrimary" variant="body1">
-									{token.price}
+									{tokenBalances?.find(
+										(tokenBalance) => tokenBalance.token.symbol === token?.symbol,
+									)?.amount || '0.0'}
 								</Typography>
 							</ListItem>
 						</React.Fragment>
