@@ -1,5 +1,6 @@
 import { ConversionRate, Token, TokenBalance } from 'models/Token';
 import { useTokenBalances } from '../services/API/token/hooks/useTokenBalances';
+import { getConversionRate } from '../utils/rates';
 
 export const useConversionError = (
 	token?: Token,
@@ -28,8 +29,5 @@ export const useConversionRates = (fromToken?: Token, toToken?: Token): Conversi
 	}
 
 	// TODO: implement big number once we have the API
-	return {
-		from: Number(toToken.price) / Number(fromToken.price),
-		to: Number(fromToken.price) / Number(toToken.price),
-	};
+	return getConversionRate(fromToken.price, toToken.price);
 };
