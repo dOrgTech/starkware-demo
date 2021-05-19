@@ -17,6 +17,10 @@ export const theme = createMuiTheme({
 			primary: '#FAFAF5',
 			secondary: hexToRgba('#FAFAF5', 0.6),
 		},
+		action: {
+			disabled: 'rgba(250, 250, 245, 0.25)',
+			disabledBackground: 'rgba(145, 145, 183, 0.15)',
+		},
 	},
 	typography: {
 		fontFamily: 'IBM Plex Sans',

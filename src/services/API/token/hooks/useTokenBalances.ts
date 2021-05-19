@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import { TokenBalance } from '../types';
 import TokenSVG from 'assets/tokens/token.svg';
 import Token2SVG from 'assets/tokens/token2.svg';
+import { TokenBalance } from 'models/Token';
 
 const useWallet = () => ({ address: '0x0' });
 

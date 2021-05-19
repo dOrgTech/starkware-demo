@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query';
 import TokenSVG from 'assets/tokens/token.svg';
 import Token2SVG from 'assets/tokens/token2.svg';
-import { Token } from '../types';
+import { Token } from 'models/Token';
 
 export const useTokens = () => {
 	return useQuery<Token[], Error>('tokens', () => {
-		const tokens = [
+		return [
 			{
 				id: '1',
 				name: 'Token 1',
@@ -23,7 +23,5 @@ export const useTokens = () => {
 				color: '#48C8FF',
 			},
 		];
-
-		return tokens;
 	});
 };

@@ -23,7 +23,7 @@ export const TokenIcon: React.FC<TokenIconProps> = ({ icon, size = 'default', ..
 	const iconSize: number = useMemo(() => {
 		switch (size) {
 			case 'default':
-				return 26;
+				return 32;
 			case 'medium':
 				return 48;
 			case 'large':
@@ -33,7 +33,7 @@ export const TokenIcon: React.FC<TokenIconProps> = ({ icon, size = 'default', ..
 
 	return (
 		<TokenLogoContainer dimension={iconSize} {...props}>
-			<img src={icon} />
+			<img src={icon} alt="token icon" />
 		</TokenLogoContainer>
 	);
 };

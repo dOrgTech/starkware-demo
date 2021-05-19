@@ -4,9 +4,9 @@ import { Box, Grid, IconButton, styled, Typography } from '@material-ui/core';
 import { TokenIcon } from './common/TokenIcon';
 import { ReactComponent as DropdownArrow } from 'assets/icons/dropdown-arrow.svg';
 import { ReactComponent as PlaceholderToken } from 'assets/tokens/placeholder.svg';
-import { TokenSelectModal } from './TokenSelectModal';
+import { TokenSelectDialog } from './TokenSelectDialog';
 import { useState } from 'react';
-import { Token } from 'services/API/token/types';
+import { Token } from 'models/Token';
 import { RoundedButton } from './common/RoundedButton';
 
 const StyledTokenContainer = styled(Box)({
@@ -74,7 +74,7 @@ export const TokenSelector = ({ value: token, onChange, options }: Props): JSX.E
 			<Grid container alignItems="center">
 				{token ? <SelectedToken token={token} /> : <Selector />}
 			</Grid>
-			<TokenSelectModal
+			<TokenSelectDialog
 				open={open}
 				onClose={() => setOpen(false)}
 				tokens={options}

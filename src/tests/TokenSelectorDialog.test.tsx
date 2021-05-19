@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { customRender, screen, fireEvent } from './utils';
 import TokenSVG from '../assets/tokens/token.svg';
 import Token2SVG from '../assets/tokens/token2.svg';
-import { TokenSelectModal } from '../components/TokenSelectModal';
+import { TokenSelectDialog } from '../components/TokenSelectDialog';
 
 const options = [
 	{
@@ -25,10 +25,10 @@ const options = [
 	},
 ];
 
-describe('TokenSelectorModal', () => {
+describe('TokenSelectorDialog', () => {
 	it('displays list of tokens', () => {
 		const { baseElement } = customRender(
-			<TokenSelectModal open={true} tokens={options} handleSelect={jest.fn} onClose={jest.fn()} />,
+			<TokenSelectDialog open={true} tokens={options} handleSelect={jest.fn} onClose={jest.fn()} />,
 		);
 		expect(baseElement).toMatchSnapshot();
 	});
@@ -36,7 +36,7 @@ describe('TokenSelectorModal', () => {
 	it('triggers close handler', () => {
 		const closeHandlerMock = jest.fn();
 		customRender(
-			<TokenSelectModal
+			<TokenSelectDialog
 				open={true}
 				tokens={options}
 				handleSelect={jest.fn}
@@ -50,7 +50,7 @@ describe('TokenSelectorModal', () => {
 	it('triggers select handler', () => {
 		const selectHandlerMock = jest.fn();
 		customRender(
-			<TokenSelectModal
+			<TokenSelectDialog
 				open={true}
 				tokens={options}
 				handleSelect={selectHandlerMock}

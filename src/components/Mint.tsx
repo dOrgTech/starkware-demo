@@ -5,7 +5,7 @@ import { TokenSelector } from './TokenSelector';
 import { Grid, styled } from '@material-ui/core';
 import { NumericInput } from './NumericInput';
 import { useTokens } from 'services/API/token/hooks/useTokens';
-import { Token } from 'services/API/token/types';
+import { Token } from 'models/Token';
 import { useTokenOptions } from 'services/API/token/hooks/useTokenOptions';
 
 const StyledInputContainer = styled(Grid)({

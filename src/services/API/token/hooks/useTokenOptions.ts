@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Token } from 'services/API/token/types';
+import { Token } from 'models/Token';
 
 export const useTokenOptions = (tokenToFilter?: Token, tokens?: Token[]) => {
 	return useMemo(() => {
