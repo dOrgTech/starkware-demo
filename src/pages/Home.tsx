@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { styled, Container, Box, Tabs, createStyles, makeStyles, Tab } from '@material-ui/core';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import { useCallback } from 'react';
 import { Mint } from 'components/Mint';
 import { Swap } from 'components/Swap';
-import { useMemo } from 'react';
+import { Activity } from 'components/Activity';
 
 const CardContainer = styled(Box)({
 	margin: 'auto',
@@ -71,6 +70,10 @@ const TABS = [
 		label: 'Swap',
 		value: 'swap',
 	},
+	{
+		label: 'Activity',
+		value: 'activity',
+	},
 ];
 
 export const Home = (): JSX.Element => {
@@ -110,6 +113,9 @@ export const Home = (): JSX.Element => {
 						</Route>
 						<Route path="/swap">
 							<Swap />
+						</Route>
+						<Route path="/activity">
+							<Activity />
 						</Route>
 						<Redirect to="/swap" />
 					</Switch>
