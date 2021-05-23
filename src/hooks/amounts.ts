@@ -35,6 +35,9 @@ export const useConversionRates = (fromToken?: Token, toToken?: Token): Conversi
 export const useMintError = (token?: Token, amount?: string): string | undefined => {
 	if (!token) return 'Select a token';
 	if (!amount) return 'Enter an amount';
+	if (Number(amount) > 1000) {
+		return `You can mint up to 1000 ${token.symbol}`;
+	}
 
 	return undefined;
 };
