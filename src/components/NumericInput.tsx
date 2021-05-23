@@ -49,7 +49,11 @@ export const NumericInput = ({
 	return (
 		<InputBase
 			fullWidth
-			type="tel"
+			inputMode="decimal"
+			autoComplete="off"
+			autoCorrect="off"
+			spellCheck="false"
+			type="text"
 			value={value}
 			placeholder={placeholder}
 			disabled={disabled}
