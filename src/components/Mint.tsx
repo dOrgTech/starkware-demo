@@ -1,11 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { DarkBox } from './common/DarkBox';
-import { SelectedToken } from './TokenSelector';
-
 import { Button, Grid, styled } from '@material-ui/core';
+
+import { ActionTypes, NotificationsContext } from 'context/notifications';
+import { Token } from '../models/Token';
+import { DarkBox } from './common/DarkBox';
+import { SelectedToken, TokenSelector } from './TokenSelector';
 import { NumericInput } from './NumericInput';
 import { useTokens } from 'services/API/token/hooks/useTokens';
-import { ActionTypes, NotificationsContext } from 'context/notifications';
+import { useTokenOptions } from '../services/API/token/hooks/useTokenOptions';
+import { useMintError } from '../hooks/amounts';
 
 const StyledInputContainer = styled(Grid)({
 	padding: '0 0 0 12px',
@@ -13,76 +16,124 @@ const StyledInputContainer = styled(Grid)({
 
 const StyledContainer = styled(Grid)({
 	'& > *': {
-		marginBottom: '30px',
+		marginBottom: '25.5px',
 	},
 });
 
-const getMintFormError = (amount1?: string, amount2?: string): string | undefined => {
-	if (Number(amount1) > 1000 || Number(amount2) > 1000) {
-		return 'Cannot mint more than 1000';
-	}
-};
+const StyledAddButtonContainer = styled(Grid)({
+	'& > *': {
+		marginBottom: '10px',
+	},
+	textAlign: 'center',
+});
+
+const StyledAddTokenButton = styled(Button)(({ theme }) => ({
+	fontSize: theme.spacing(2),
+}));
 
 export const Mint = (): JSX.Element => {
+	const { dispatch } = useContext(NotificationsContext);
+	const [mintToken1, setMintToken1] = useState<Token>();
+	const [mintToken2, setMintToken2] = useState<Token>();
 	const [mintAmount1, setMintAmount1] = useState<string>('1');
 	const [mintAmount2, setMintAmount2] = useState<string>('1000');
-	const { dispatch } = useContext(NotificationsContext);
-	const { data } = useTokens();
 
-	const error = getMintFormError(mintAmount1, mintAmount2);
+	const { data: tokenOptions } = useTokens();
+	const options = useTokenOptions(mintToken1, tokenOptions);
+	const mint1Error = useMintError(mintToken1, mintAmount1);
+	const mint2Error = useMintError(mintToken1, mintAmount1);
+	const error = mint1Error || mint2Error;
+
+	const handleAddToken = () => {
+		if (!options) return;
+		setMintToken2(options[0]);
+	};
+
+	const handleMint = () => {
+		if (!mintToken1) return;
+		dispatch({
+			type: ActionTypes.OPEN_SUCCESS,
+			payload: {
+				title: `Success!`,
+				icon: mintToken1.icon,
+				text: `Received ${mintAmount1} ${mintToken1.symbol}`,
+				link: '0xb7d91c4........fa84fc5e6f',
+				buttonText: 'Go Back',
+			},
+		});
+	};
+
+	const MintToken1 = () => {
+		if (mintToken1 && mintToken2) {
+			return <SelectedToken token={mintToken1} />;
+		}
+
+		return (
+			<TokenSelector
+				value={mintToken1}
+				options={options}
+				onChange={(token) => setMintToken1(token)}
+			/>
+		);
+	};
 
 	return (
 		<Grid container>
-			<Grid item>
-				<StyledContainer container direction="column" justify="space-between">
-					{data && (
-						<>
-							<Grid item>
-								<DarkBox>
-									<Grid container alignItems="center">
-										<Grid item xs>
-											<SelectedToken token={data[0]} />
-										</Grid>
-										<StyledInputContainer item xs>
-											<Grid container justify="flex-end" alignItems="center">
-												<NumericInput
-													inputProps={{
-														'aria-label': 'mint amount 1',
-													}}
-													value={mintAmount1}
-													handleChange={(change) => setMintAmount1(change)}
-												/>
-											</Grid>
-										</StyledInputContainer>
+			<StyledContainer item xs={12}>
+				<DarkBox>
+					<Grid container alignItems="center">
+						<Grid item xs aria-label="token to swap">
+							<MintToken1 />
+						</Grid>
+						{mintToken1 && (
+							<StyledInputContainer item xs>
+								<Grid container justify="flex-end" alignItems="center">
+									<Grid item xs={6}>
+										<NumericInput
+											inputProps={{
+												'aria-label': 'amount of token to swap',
+											}}
+											value={mintAmount1}
+											handleChange={(change) => setMintAmount1(change)}
+										/>
 									</Grid>
-								</DarkBox>
+								</Grid>
+							</StyledInputContainer>
+						)}
+					</Grid>
+				</DarkBox>
+			</StyledContainer>
+			{mintToken2 && (
+				<StyledContainer item xs={12}>
+					<DarkBox>
+						<Grid container alignItems="center">
+							<Grid item xs aria-label="token to swap">
+								<SelectedToken token={mintToken2} />
 							</Grid>
-							<Grid item>
-								<DarkBox>
-									<Grid container alignItems="center">
-										<Grid item xs>
-											<SelectedToken token={data[1]} />
-										</Grid>
-										<StyledInputContainer item xs>
-											<Grid container justify="flex-end" alignItems="center">
-												<NumericInput
-													inputProps={{
-														'aria-label': 'mint amount 2',
-													}}
-													value={mintAmount2}
-													handleChange={(change) => {
-														setMintAmount2(change);
-													}}
-												/>
-											</Grid>
-										</StyledInputContainer>
+							<StyledInputContainer item xs>
+								<Grid container justify="flex-end" alignItems="center">
+									<Grid item xs={6}>
+										<NumericInput
+											inputProps={{
+												'aria-label': 'amount of token to swap',
+											}}
+											value={mintAmount2}
+											handleChange={(change) => setMintAmount2(change)}
+										/>
 									</Grid>
-								</DarkBox>
-							</Grid>
-						</>
-					)}
+								</Grid>
+							</StyledInputContainer>
+						</Grid>
+					</DarkBox>
 				</StyledContainer>
-			</Grid>
+			)}
+			{mintToken1 && !mintToken2 && (
+				<StyledAddButtonContainer item xs={12}>
+					<StyledAddTokenButton color="secondary" onClick={handleAddToken}>
+						+ Add Token
+					</StyledAddTokenButton>
+				</StyledAddButtonContainer>
+			)}
 			<Grid item xs={12}>
 				<Button
 					variant="contained"
@@ -90,18 +141,7 @@ export const Mint = (): JSX.Element => {
 					fullWidth
 					disableElevation
 					disabled={(!mintAmount1 && !mintAmount2) || !!error}
-					onClick={() => {
-						dispatch({
-							type: ActionTypes.OPEN_SUCCESS,
-							payload: {
-								title: `Success!`,
-								icon: data?.[0].icon || '',
-								text: `Received ${mintAmount1} ${data?.[0].symbol}`,
-								link: '0xb7d91c4........fa84fc5e6f',
-								buttonText: 'Go Back',
-							},
-						});
-					}}
+					onClick={handleMint}
 				>
 					{error ? error : 'Mint'}
 				</Button>
