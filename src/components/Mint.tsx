@@ -42,7 +42,7 @@ export const Mint = (): JSX.Element => {
 	const options = useTokenOptions(mintToken1, tokenOptions);
 	const mint1Error = useMintError(mintToken1, mintAmount1);
 	const mint2Error = useMintError(mintToken2, mintAmount2);
-	const error = mint1Error || mint2Error;
+	const error = mint1Error || (mintToken2 && mint2Error);
 
 	const handleAddToken = () => {
 		if (!options) return;
