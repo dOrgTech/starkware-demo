@@ -9,6 +9,7 @@ export const useConversionError = (
 ): string | undefined => {
 	if (!token) return 'Select a token';
 	if (!amount) return 'Enter an amount';
+	if (Number(amount) === 0) return 'Enter an amount';
 
 	// TODO: implement big number once we have the API
 	if (limit && Number(amount) > Number(limit)) {
@@ -30,4 +31,15 @@ export const useConversionRates = (fromToken?: Token, toToken?: Token): Conversi
 
 	// TODO: implement big number once we have the API
 	return getConversionRate(fromToken.price, toToken.price);
+};
+
+export const useMintError = (token?: Token, amount?: string): string | undefined => {
+	if (!token) return 'Select a token';
+	if (!amount) return 'Enter an amount';
+	if (Number(amount) === 0) return 'Enter an amount';
+	if (Number(amount) > 1000) {
+		return `You can mint up to 1000 ${token.symbol}`;
+	}
+
+	return undefined;
 };
