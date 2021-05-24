@@ -90,7 +90,7 @@ export type UserContextState = {
 };
 
 const INITIAL_STATE: UserContextState = {
-	userId: '',
+	userId: getUserId(),
 	wallet: {
 		assets: [],
 	},
