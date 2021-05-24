@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, styled } from '@material-ui/core';
 import { Home } from 'pages/Home';
 import { Navbar } from 'components/Navbar';
+import { Sidemenu } from 'components/Sidemenu';
 
 const MainContainer = styled(Grid)({
 	background:
@@ -12,12 +13,19 @@ const MainContainer = styled(Grid)({
 
 function App() {
 	return (
-		<MainContainer container direction="column">
+		<MainContainer container>
 			<Grid item>
-				<Navbar />
+				<Sidemenu />
 			</Grid>
 			<Grid item xs>
-				<Home />
+				<Grid container direction="column">
+					<Grid item>
+						<Navbar />
+					</Grid>
+					<Grid>
+						<Home />
+					</Grid>
+				</Grid>
 			</Grid>
 		</MainContainer>
 	);

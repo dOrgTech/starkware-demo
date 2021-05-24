@@ -46,6 +46,9 @@ export const theme = createMuiTheme({
 			fontWeight: 600,
 			fontSize: 24,
 		},
+		h5: {
+			fontSize: '18px',
+		},
 	},
 	overrides: {
 		MuiButton: {
