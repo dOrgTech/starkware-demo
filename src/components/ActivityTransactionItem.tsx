@@ -4,7 +4,7 @@ import { Transaction, TransactionType } from 'context/user';
 import mintIcon from 'assets/icons/mint-icon.svg';
 import swapIcon from 'assets/icons/swap-icon.svg';
 
-const ActivityListItem = styled('div')(({ theme }) => ({
+const ActivityListItem = styled('div')({
 	height: '81px',
 	width: '100%',
 	display: 'flex',
@@ -15,17 +15,17 @@ const ActivityListItem = styled('div')(({ theme }) => ({
 		fontFamily: 'IBM Plex Sans',
 		fontStyle: 'normal',
 	},
-}));
-const ActivityDescription = styled('div')(({ theme }) => ({
+});
+const ActivityDescription = styled('div')({
 	height: '80px',
 	width: 'fit-content',
 	justifyContent: 'flex-start',
 	display: 'flex',
 	flexDirection: 'row',
-}));
-const ActivityValue = styled('div')(({ theme }) => ({
+});
+const ActivityValue = styled('div')({
 	width: 'fit-content',
-}));
+});
 const ActivityIcon = styled('img')({
 	height: '32px',
 	width: '32px',

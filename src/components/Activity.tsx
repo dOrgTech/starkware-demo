@@ -4,12 +4,12 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { ActionTypes, UserContext, Transaction } from 'context/user';
 import { ActivityTransactionItem } from 'components/ActivityTransactionItem';
 
-const ActivityListWrapper = styled('div')(({ theme }) => ({
+const ActivityListWrapper = styled('div')({
 	maxHeight: '431px',
 	height: 'fit-content',
 	width: '100%',
 	overflowY: 'auto',
-}));
+});
 
 export const Activity = (): JSX.Element => {
 	const { state: userState, dispatch } = useContext(UserContext);

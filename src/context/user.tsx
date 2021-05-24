@@ -1,5 +1,24 @@
 import React, { createContext, Dispatch, useReducer } from 'react';
 import { produce } from 'immer';
+import { v4 as uuidv4 } from 'uuid';
+
+function getUUID() {
+	return uuidv4();
+}
+
+function setUserId(uuid: string) {
+	localStorage.setItem('userId', uuid);
+}
+
+function getUserId() {
+	const currentUserId = localStorage.getItem('userId');
+	if (!currentUserId) {
+		const uuid = getUUID();
+		setUserId(uuid);
+		return uuid;
+	}
+	return currentUserId;
+}
 
 type Token = {
 	symbol: string;
