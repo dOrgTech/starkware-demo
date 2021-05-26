@@ -58,7 +58,7 @@ export const SuccessDialog: React.FC = () => {
 
 	const handleClose = useCallback(() => {
 		dispatch({
-			type: ActionTypes.CLOSE,
+			type: ActionTypes.CLOSE_SUCCESS,
 		});
 	}, [dispatch]);
 

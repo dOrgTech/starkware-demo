@@ -4,7 +4,7 @@ import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg
 import { TokenSelector } from './TokenSelector';
 import { DarkBox } from './common/DarkBox';
 import { NumericInput } from './NumericInput';
-import { Token, TokenBalance } from 'models/Token';
+import { Token, TokenBalance } from 'models/token';
 import { useTokens } from 'services/API/token/hooks/useTokens';
 import { useTokenOptions } from 'services/API/token/hooks/useTokenOptions';
 import { RoundedButton } from './common/RoundedButton';
@@ -12,6 +12,8 @@ import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { ConfirmSwapDialog } from './ConfirmSwapDialog';
 import { useBalance, useConversionError, useConversionRates } from '../hooks/amounts';
 import { getConversionRate } from '../utils/rates';
+import { BouncingDots } from './common/BouncingDots';
+import { SwapReceipt } from '../models/swap';
 
 const StyledInputContainer = styled(Grid)({
 	padding: '0 0 0 12px',
@@ -47,6 +49,15 @@ const StyledEndText = styled(StyledRightLabelText)({
 	textAlign: 'end',
 });
 
+const StyledLoadingContainer = styled(Grid)({
+	height: 380,
+	textAlign: 'center',
+});
+
+const StyledBouncingDots = styled(BouncingDots)({
+	marginBottom: 40,
+});
+
 const Labels = ({ leftText, rightText }: { leftText: string; rightText: string }): JSX.Element => (
 	<StyledLabelsContainer container justify="space-between">
 		<Grid item>
@@ -64,6 +75,7 @@ const Labels = ({ leftText, rightText }: { leftText: string; rightText: string }
 
 export const Swap = (): JSX.Element => {
 	const { dispatch } = useContext(NotificationsContext);
+	const [loading, setLoading] = useState(false);
 	const [showConfirm, setShowConfirm] = useState(false);
 	const [fromToken, setFromToken] = useState<Token | undefined>();
 	const [fromAmount, setFromAmount] = useState<string>();
@@ -130,6 +142,35 @@ export const Swap = (): JSX.Element => {
 
 		setFromAmount(String(Number(amount) * conversionRates.to));
 	};
+
+	const handleSwap = (receipt: SwapReceipt) => {
+		setShowConfirm(false);
+		setLoading(true);
+		setTimeout(() => {
+			dispatch({
+				type: ActionTypes.OPEN_SUCCESS,
+				payload: {
+					title: `Success!`,
+					icon: receipt.token.icon,
+					text: `Received ${receipt.amount} ${receipt.token.symbol}`,
+					link: '0xb7d91c4........fa84fc5e6f',
+					buttonText: 'Go Back',
+				},
+			});
+			setLoading(false);
+		}, 3000);
+	};
+
+	if (loading) {
+		return (
+			<StyledLoadingContainer container alignItems="center" justify="center">
+				<Grid item>
+					<StyledBouncingDots />
+					<Typography color="textPrimary">Loading, Please wait</Typography>
+				</Grid>
+			</StyledLoadingContainer>
+		);
+	}
 
 	return (
 		<>
@@ -233,19 +274,7 @@ export const Swap = (): JSX.Element => {
 				from={fromToken && fromAmount ? { ...fromToken, amount: fromAmount } : undefined}
 				to={toToken && toAmount ? { ...toToken, amount: toAmount } : undefined}
 				onClose={() => setShowConfirm(false)}
-				onSwap={(receipt) => {
-					setShowConfirm(false);
-					dispatch({
-						type: ActionTypes.OPEN_SUCCESS,
-						payload: {
-							title: `Success!`,
-							icon: receipt.token.icon,
-							text: `Received ${receipt.amount} ${receipt.token.symbol}`,
-							link: '0xb7d91c4........fa84fc5e6f',
-							buttonText: 'Go Back',
-						},
-					});
-				}}
+				onSwap={handleSwap}
 			/>
 		</>
 	);

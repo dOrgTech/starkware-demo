@@ -1,7 +1,6 @@
 import React from 'react';
 import {
 	Button,
-	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogProps,
@@ -14,11 +13,12 @@ import {
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
-import { ConversionRate, Token } from 'models/Token';
+import { ConversionRate, Token } from 'models/token';
 import { ReactComponent as CloseIcon } from '../assets/icons/close.svg';
 import { ReactComponent as ArrowDownIcon } from '../assets/icons/arrow-down.svg';
 import { ReactComponent as SwapIcon } from '../assets/icons/swap.svg';
 import { TokenIcon } from './common/TokenIcon';
+import { SwapReceipt } from '../models/swap';
 
 const StyledCloseButton = styled(IconButton)(({ theme }) => ({
 	position: 'absolute',
@@ -93,12 +93,6 @@ type SwapCandidate = Pick<Token, 'symbol' | 'icon'> & {
 	amount: string;
 };
 
-type SwapReceipt = {
-	id: string;
-	token: Pick<Token, 'symbol' | 'icon'>;
-	amount: string;
-};
-
 interface Props extends DialogProps {
 	from?: SwapCandidate;
 	to?: SwapCandidate;
@@ -108,14 +102,7 @@ interface Props extends DialogProps {
 }
 
 export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) => {
-	const [loading, setLoading] = React.useState(false);
 	const classes = useStyles();
-
-	const handleClose = () => {
-		if (loading) return;
-		setLoading(false);
-		onClose();
-	};
 
 	return (
 		<Dialog
@@ -126,12 +113,10 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 			fullWidth
 			maxWidth="xs"
 			open={open}
-			disableBackdropClick
-			disableEscapeKeyDown
 		>
 			<DialogTitle disableTypography className={classes.dialogTitle}>
 				<StyledDialogTitle variant="h6">Confirm Swap</StyledDialogTitle>
-				<StyledCloseButton aria-label="close" onClick={handleClose}>
+				<StyledCloseButton aria-label="close" onClick={onClose}>
 					<CloseIcon />
 				</StyledCloseButton>
 			</DialogTitle>
@@ -206,19 +191,13 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								color="secondary"
 								fullWidth
 								disableElevation
-								disabled={loading}
 								onClick={() => {
 									if (!to) return;
-									setLoading(true);
-									// this is only for mocking the API request timeout
-									setTimeout(() => {
-										const { amount, ...token } = to;
-										onSwap({ id: '123', token, amount });
-										setLoading(false);
-									}, 3000);
+									const { amount, ...token } = to;
+									onSwap({ id: '123', token, amount });
 								}}
 							>
-								{loading ? <CircularProgress size={32} /> : 'Confirm Swap'}
+								Confirm Swap
 							</Button>
 						</Grid>
 					</Grid>
