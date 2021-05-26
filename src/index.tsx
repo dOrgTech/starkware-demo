@@ -10,6 +10,7 @@ import './assets/css/body.css';
 import { NotificationsProvider } from 'context/notifications';
 import { UserProvider } from 'context/user';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { SnackbarProvider } from 'notistack';
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,9 @@ ReactDOM.render(
 				<Router>
 					<UserProvider>
 						<NotificationsProvider>
-							<App />
+							<SnackbarProvider maxSnack={3}>
+								<App />
+							</SnackbarProvider>
 						</NotificationsProvider>
 					</UserProvider>
 				</Router>
