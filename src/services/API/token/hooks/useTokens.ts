@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import TokenSVG from 'assets/tokens/token.svg';
 import Token2SVG from 'assets/tokens/token2.svg';
-import { Token } from 'models/Token';
+import { Token } from 'models/token';
 
 export const useTokens = () => {
 	return useQuery<Token[], Error>('tokens', () => {

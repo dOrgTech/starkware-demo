@@ -1,4 +1,4 @@
-import { ConversionRate, Token, TokenBalance } from 'models/Token';
+import { ConversionRate, Token, TokenBalance } from 'models/token';
 import { useTokenBalances } from '../services/API/token/hooks/useTokenBalances';
 import { getConversionRate } from '../utils/rates';
 

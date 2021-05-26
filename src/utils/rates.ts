@@ -1,4 +1,4 @@
-import { ConversionRate } from 'models/Token';
+import { ConversionRate } from 'models/token';
 
 export const getConversionRate = (from: string, to: string): ConversionRate => ({
 	from: Number(to) / Number(from),

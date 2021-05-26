@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Button, Grid, styled } from '@material-ui/core';
 
 import { ActionTypes, NotificationsContext } from 'context/notifications';
-import { Token } from '../models/Token';
+import { Token } from '../models/token';
 import { DarkBox } from './common/DarkBox';
 import { SelectedToken, TokenSelector } from './TokenSelector';
 import { NumericInput } from './NumericInput';

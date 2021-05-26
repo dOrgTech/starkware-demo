@@ -6,7 +6,7 @@ import { ReactComponent as DropdownArrow } from 'assets/icons/dropdown-arrow.svg
 import { ReactComponent as PlaceholderToken } from 'assets/tokens/placeholder.svg';
 import { TokenSelectDialog } from './TokenSelectDialog';
 import { useState } from 'react';
-import { Token } from 'models/Token';
+import { Token } from 'models/token';
 import { RoundedButton } from './common/RoundedButton';
 
 const StyledTokenContainer = styled(Box)({

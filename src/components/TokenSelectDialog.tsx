@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
 import { TokenIcon } from './common/TokenIcon';
-import { Token } from 'models/Token';
+import { Token } from 'models/token';
 import { useTokenBalances } from '../services/API/token/hooks/useTokenBalances';
 
 const useStyles = makeStyles((theme: Theme) => ({
