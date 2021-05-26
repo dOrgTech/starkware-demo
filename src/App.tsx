@@ -1,8 +1,9 @@
 import React from 'react';
-import { Grid, styled } from '@material-ui/core';
+import { Grid, styled, useTheme } from '@material-ui/core';
 import { Home } from 'pages/Home';
 import { Navbar } from 'components/Navbar';
 import { Sidemenu } from 'components/Sidemenu';
+import { useMediaQuery } from '@material-ui/core';
 
 const MainContainer = styled(Grid)({
 	background:
@@ -12,11 +13,16 @@ const MainContainer = styled(Grid)({
 });
 
 function App() {
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
 	return (
 		<MainContainer container>
-			<Grid item>
-				<Sidemenu />
-			</Grid>
+			{!isMobile && (
+				<Grid item>
+					<Sidemenu />
+				</Grid>
+			)}
 			<Grid item xs>
 				<Grid container direction="column">
 					<Grid item>
