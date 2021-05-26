@@ -11,9 +11,11 @@ import { useTokenOptions } from '../services/API/token/hooks/useTokenOptions';
 import { useMintError } from '../hooks/amounts';
 import { BouncingDots } from './common/BouncingDots';
 
-const StyledInputContainer = styled(Grid)({
-	padding: '0 0 0 12px',
-});
+const StyledInputContainer = styled(Grid)(({ theme }) => ({
+	[theme.breakpoints.up('sm')]: {
+		paddingLeft: 12,
+	},
+}));
 
 const StyledContainer = styled(Grid)({
 	'& > *': {
@@ -112,17 +114,15 @@ export const Mint = (): JSX.Element => {
 							<MintToken1 />
 						</Grid>
 						{mintToken1 && (
-							<StyledInputContainer item xs>
-								<Grid container justify="flex-end" alignItems="center">
-									<Grid item xs={6}>
-										<NumericInput
-											inputProps={{
-												'aria-label': 'amount of token to swap',
-											}}
-											value={mintAmount1}
-											handleChange={(change) => setMintAmount1(change)}
-										/>
-									</Grid>
+							<StyledInputContainer item xs={4} sm={6} alignItems="center">
+								<Grid item xs>
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to swap',
+										}}
+										value={mintAmount1}
+										handleChange={(change) => setMintAmount1(change)}
+									/>
 								</Grid>
 							</StyledInputContainer>
 						)}
@@ -136,17 +136,15 @@ export const Mint = (): JSX.Element => {
 							<Grid item xs aria-label="token to swap">
 								<SelectedToken token={mintToken2} />
 							</Grid>
-							<StyledInputContainer item xs>
-								<Grid container justify="flex-end" alignItems="center">
-									<Grid item xs={6}>
-										<NumericInput
-											inputProps={{
-												'aria-label': 'amount of token to swap',
-											}}
-											value={mintAmount2}
-											handleChange={(change) => setMintAmount2(change)}
-										/>
-									</Grid>
+							<StyledInputContainer item xs={4} sm={6} alignItems="center">
+								<Grid item>
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to swap',
+										}}
+										value={mintAmount2}
+										handleChange={(change) => setMintAmount2(change)}
+									/>
 								</Grid>
 							</StyledInputContainer>
 						</Grid>

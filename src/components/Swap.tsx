@@ -15,10 +15,6 @@ import { getConversionRate } from '../utils/rates';
 import { BouncingDots } from './common/BouncingDots';
 import { SwapReceipt } from '../models/swap';
 
-const StyledInputContainer = styled(Grid)({
-	padding: '0 0 0 12px',
-});
-
 const StyledArrowsContainer = styled(Grid)({
 	width: '100%',
 	margin: '0 auto -23px auto',
@@ -187,30 +183,34 @@ export const Swap = (): JSX.Element => {
 								/>
 							</Grid>
 							{fromToken && (
-								<StyledInputContainer item xs>
-									<Grid container justify="flex-end" alignItems="center">
-										<Grid item xs={6}>
-											<NumericInput
-												inputProps={{
-													'aria-label': 'amount of token to swap',
-												}}
-												value={fromAmount}
-												handleChange={(change) => handleFromAmountChange(change)}
-											/>
-										</Grid>
-										{fromBalance && (
-											<Grid item xs={6}>
-												<RoundedButton
-													onClick={() =>
-														handleFromAmountChange((fromBalance as TokenBalance).amount)
-													}
-												>
-													Max
-												</RoundedButton>
-											</Grid>
-										)}
+								<Grid
+									item
+									container
+									xs={4}
+									sm={6}
+									spacing={1}
+									justify="flex-end"
+									alignItems="center"
+								>
+									<Grid item xs={12} sm={6}>
+										<NumericInput
+											inputProps={{
+												'aria-label': 'amount of token to swap',
+											}}
+											value={fromAmount}
+											handleChange={(change) => handleFromAmountChange(change)}
+										/>
 									</Grid>
-								</StyledInputContainer>
+									{fromBalance && (
+										<Grid item xs={12} sm={6}>
+											<RoundedButton
+												onClick={() => handleFromAmountChange((fromBalance as TokenBalance).amount)}
+											>
+												Max
+											</RoundedButton>
+										</Grid>
+									)}
+								</Grid>
 							)}
 						</Grid>
 					</DarkBox>
@@ -232,17 +232,15 @@ export const Swap = (): JSX.Element => {
 								<TokenSelector value={toToken} options={options} onChange={handleToTokenSelected} />
 							</Grid>
 							{toToken && (
-								<StyledInputContainer item xs>
-									<Grid container justify="flex-end" alignItems="center">
-										<NumericInput
-											inputProps={{
-												'aria-label': 'amount of token to be swapped',
-											}}
-											value={toAmount}
-											handleChange={(change) => handleToAmountChange(change)}
-										/>
-									</Grid>
-								</StyledInputContainer>
+								<Grid item xs={4} sm={6} container alignItems="center">
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to be swapped',
+										}}
+										value={toAmount}
+										handleChange={(change) => handleToAmountChange(change)}
+									/>
+								</Grid>
 							)}
 						</Grid>
 					</DarkBox>
