@@ -10,7 +10,7 @@ const CardContainer = styled(Box)({
 	width: '100%',
 	maxWidth: '440px',
 	padding: '26px 33px 31px 33px',
-	marginTop: 110,
+	marginTop: 76,
 	background: '#28286E',
 	border: '1.5px solid rgba(83, 83, 135, 0.3)',
 	boxSizing: 'border-box',

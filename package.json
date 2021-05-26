@@ -5,6 +5,7 @@
 	"dependencies": {
 		"@ethersproject/bignumber": "^5.1.1",
 		"@material-ui/core": "^4.11.4",
+		"@material-ui/icons": "^4.11.2",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.2.7",
 		"@types/jest": "^26.0.15",
