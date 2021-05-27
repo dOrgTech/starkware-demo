@@ -1,7 +1,10 @@
 import React from 'react';
-import { Grid, styled } from '@material-ui/core';
+import { Grid, styled, useTheme } from '@material-ui/core';
 import { Home } from 'pages/Home';
 import { Navbar } from 'components/Navbar';
+import { ActionTypes, NotificationsContext } from './context/notifications';
+import { Sidemenu } from 'components/Sidemenu';
+import { useMediaQuery } from '@material-ui/core';
 
 const MainContainer = styled(Grid)({
 	background:
@@ -11,13 +14,33 @@ const MainContainer = styled(Grid)({
 });
 
 function App() {
+	const { dispatch } = React.useContext(NotificationsContext);
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+	React.useEffect(() => {
+		dispatch({ type: ActionTypes.SHOW_LOADING });
+		setTimeout(() => {
+			dispatch({ type: ActionTypes.HIDE_LOADING });
+		}, 2000);
+	}, [dispatch]);
+
 	return (
-		<MainContainer container direction="column">
-			<Grid item>
-				<Navbar />
-			</Grid>
+		<MainContainer container>
+			{!isMobile && (
+				<Grid item>
+					<Sidemenu />
+				</Grid>
+			)}
 			<Grid item xs>
-				<Home />
+				<Grid container direction="column">
+					<Grid item>
+						<Navbar />
+					</Grid>
+					<Grid>
+						<Home />
+					</Grid>
+				</Grid>
 			</Grid>
 		</MainContainer>
 	);

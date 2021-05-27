@@ -6,7 +6,7 @@ import { ReactComponent as DropdownArrow } from 'assets/icons/dropdown-arrow.svg
 import { ReactComponent as PlaceholderToken } from 'assets/tokens/placeholder.svg';
 import { TokenSelectDialog } from './TokenSelectDialog';
 import { useState } from 'react';
-import { Token } from 'models/Token';
+import { Token } from 'models/token';
 import { RoundedButton } from './common/RoundedButton';
 
 const StyledTokenContainer = styled(Box)({
@@ -14,10 +14,12 @@ const StyledTokenContainer = styled(Box)({
 	height: '100%',
 });
 
-const StyledTokenSymbol = styled(Box)({
+const StyledTokenSymbol = styled(Box)(({ theme }) => ({
 	boxSizing: 'border-box',
-	paddingLeft: 12,
-});
+	[theme.breakpoints.up('md')]: {
+		paddingLeft: 12,
+	},
+}));
 
 const StyledTypography = styled(Typography)({
 	fontWeight: 600,

@@ -1,18 +1,21 @@
 import React, { useContext, useState } from 'react';
-import { Button, Grid, styled } from '@material-ui/core';
+import { Button, Grid, styled, Typography } from '@material-ui/core';
 
 import { ActionTypes, NotificationsContext } from 'context/notifications';
-import { Token } from '../models/Token';
+import { Token } from '../models/token';
 import { DarkBox } from './common/DarkBox';
 import { SelectedToken, TokenSelector } from './TokenSelector';
 import { NumericInput } from './NumericInput';
 import { useTokens } from 'services/API/token/hooks/useTokens';
 import { useTokenOptions } from '../services/API/token/hooks/useTokenOptions';
 import { useMintError } from '../hooks/amounts';
+import { BouncingDots } from './common/BouncingDots';
 
-const StyledInputContainer = styled(Grid)({
-	padding: '0 0 0 12px',
-});
+const StyledInputContainer = styled(Grid)(({ theme }) => ({
+	[theme.breakpoints.up('sm')]: {
+		paddingLeft: 12,
+	},
+}));
 
 const StyledContainer = styled(Grid)({
 	'& > *': {
@@ -31,8 +34,18 @@ const StyledAddTokenButton = styled(Button)(({ theme }) => ({
 	fontSize: theme.spacing(2),
 }));
 
+const StyledLoadingContainer = styled(Grid)({
+	height: 236,
+	textAlign: 'center',
+});
+
+const StyledBouncingDots = styled(BouncingDots)({
+	marginBottom: 40,
+});
+
 export const Mint = (): JSX.Element => {
 	const { dispatch } = useContext(NotificationsContext);
+	const [loading, setLoading] = useState(false);
 	const [mintToken1, setMintToken1] = useState<Token>();
 	const [mintToken2, setMintToken2] = useState<Token>();
 	const [mintAmount1, setMintAmount1] = useState<string>('1');
@@ -51,16 +64,20 @@ export const Mint = (): JSX.Element => {
 
 	const handleMint = () => {
 		if (!mintToken1) return;
-		dispatch({
-			type: ActionTypes.OPEN_SUCCESS,
-			payload: {
-				title: `Success!`,
-				icon: mintToken1.icon,
-				text: `Received ${mintAmount1} ${mintToken1.symbol}`,
-				link: '0xb7d91c4........fa84fc5e6f',
-				buttonText: 'Go Back',
-			},
-		});
+		setLoading(true);
+		setTimeout(() => {
+			dispatch({
+				type: ActionTypes.OPEN_SUCCESS,
+				payload: {
+					title: `Success!`,
+					icon: mintToken1.icon,
+					text: `Received ${mintAmount1} ${mintToken1.symbol}`,
+					link: '0xb7d91c4........fa84fc5e6f',
+					buttonText: 'Go Back',
+				},
+			});
+			setLoading(false);
+		}, 3000);
 	};
 
 	const MintToken1 = () => {
@@ -77,6 +94,17 @@ export const Mint = (): JSX.Element => {
 		);
 	};
 
+	if (loading) {
+		return (
+			<StyledLoadingContainer container alignItems="center" justify="center">
+				<Grid item>
+					<StyledBouncingDots />
+					<Typography color="textPrimary">Loading, Please wait</Typography>
+				</Grid>
+			</StyledLoadingContainer>
+		);
+	}
+
 	return (
 		<Grid container>
 			<StyledContainer item xs={12}>
@@ -86,17 +114,15 @@ export const Mint = (): JSX.Element => {
 							<MintToken1 />
 						</Grid>
 						{mintToken1 && (
-							<StyledInputContainer item xs>
-								<Grid container justify="flex-end" alignItems="center">
-									<Grid item xs={6}>
-										<NumericInput
-											inputProps={{
-												'aria-label': 'amount of token to swap',
-											}}
-											value={mintAmount1}
-											handleChange={(change) => setMintAmount1(change)}
-										/>
-									</Grid>
+							<StyledInputContainer item xs={4} sm={6} alignItems="center">
+								<Grid item xs>
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to swap',
+										}}
+										value={mintAmount1}
+										handleChange={(change) => setMintAmount1(change)}
+									/>
 								</Grid>
 							</StyledInputContainer>
 						)}
@@ -110,17 +136,15 @@ export const Mint = (): JSX.Element => {
 							<Grid item xs aria-label="token to swap">
 								<SelectedToken token={mintToken2} />
 							</Grid>
-							<StyledInputContainer item xs>
-								<Grid container justify="flex-end" alignItems="center">
-									<Grid item xs={6}>
-										<NumericInput
-											inputProps={{
-												'aria-label': 'amount of token to swap',
-											}}
-											value={mintAmount2}
-											handleChange={(change) => setMintAmount2(change)}
-										/>
-									</Grid>
+							<StyledInputContainer item xs={4} sm={6} alignItems="center">
+								<Grid item>
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to swap',
+										}}
+										value={mintAmount2}
+										handleChange={(change) => setMintAmount2(change)}
+									/>
 								</Grid>
 							</StyledInputContainer>
 						</Grid>
