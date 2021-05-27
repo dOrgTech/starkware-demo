@@ -16,6 +16,7 @@ import Starknet from 'assets/starknet.svg';
 const StyledAppBar = styled(AppBar)({
 	boxShadow: 'unset',
 	padding: '32px 50px 0 44px',
+	alignItems: 'center',
 });
 
 const StarkNetLogo = styled('img')({
@@ -27,6 +28,7 @@ const StarkNetLogo = styled('img')({
 const MenuBar = styled(Grid)({
 	width: 'calc(100% + 40px)',
 	margin: '-10px -10px 0 -10px',
+	alignItems: 'center',
 });
 
 export const Navbar: React.FC = () => {
@@ -57,7 +59,7 @@ export const Navbar: React.FC = () => {
 						</Grid>
 					</MenuBar>
 				)}
-				<Grid justify={isMobile ? 'space-between' : 'flex-end'} container alignItems="center">
+				<Grid justify={isMobile ? 'center' : 'flex-end'} container alignItems="center">
 					<Grid item>
 						<TokenBalances />
 					</Grid>
