@@ -34,10 +34,10 @@ const StyledText = styled(Typography)({
 	padding: 22,
 });
 
-const StyledLink = styled(ExternalLink)({
+const StyledLinkContainer = styled(Grid)({
 	margin: 'auto',
 	textAlign: 'center',
-	paddingBottom: 35,
+	marginBottom: 35,
 	display: 'block',
 });
 
@@ -50,22 +50,22 @@ const useStyles = makeStyles({
 	},
 });
 
-export const SuccessDialog: React.FC = () => {
+export const MultiTokenSuccessDialog: React.FC = () => {
 	const {
-		state: { success },
+		state: { multiTokenSuccess },
 		dispatch,
 	} = useContext(NotificationsContext);
 	const classes = useStyles();
 
 	const handleClose = useCallback(() => {
 		dispatch({
-			type: ActionTypes.CLOSE_SUCCESS,
+			type: ActionTypes.CLOSE_MULTI_TOKEN_SUCCESS,
 		});
 	}, [dispatch]);
 
 	return (
 		<Dialog
-			open={success.open}
+			open={multiTokenSuccess.open}
 			onClose={handleClose}
 			classes={{
 				paper: classes.dialog,
@@ -76,23 +76,38 @@ export const SuccessDialog: React.FC = () => {
 				<Grid container justify="space-between" direction="column">
 					<Grid item>
 						<StyledTitle variant="h4" color="textPrimary">
-							{success.title}
+							{multiTokenSuccess.title}
 						</StyledTitle>
-						<StyledIconContainer>
-							<TokenIcon icon={success.icon} size="large" />
-						</StyledIconContainer>
+						<Grid container justify="center" spacing={1}>
+							{multiTokenSuccess.icons.map((icon, i) => (
+								<Grid item key={`icon-${i}`}>
+									<StyledIconContainer>
+										<TokenIcon icon={icon} size="large" />
+									</StyledIconContainer>
+								</Grid>
+							))}
+						</Grid>
+
 						<StyledText variant="body2" color="textPrimary">
-							{success.text}
+							{multiTokenSuccess.text}
 						</StyledText>
-						<StyledLink
-							variant="subtitle1"
-							color="secondary"
-							href="https://etherscan.io/"
-							target="_blank"
-							rel="noreferrer"
-						>
-							{success.link}
-						</StyledLink>
+						<StyledLinkContainer container direction="column" alignItems="center" spacing={1}>
+							{multiTokenSuccess.links.map((link, i) => (
+								<Grid item key={`link-${i}`} container justify="center">
+									<Grid item>
+										<ExternalLink
+											variant="subtitle1"
+											color="secondary"
+											href="https://etherscan.io/"
+											target="_blank"
+											rel="noreferrer"
+										>
+											{link}
+										</ExternalLink>
+									</Grid>
+								</Grid>
+							))}
+						</StyledLinkContainer>
 					</Grid>
 					<Grid item>
 						<Button
@@ -102,7 +117,7 @@ export const SuccessDialog: React.FC = () => {
 							disableElevation
 							onClick={handleClose}
 						>
-							{success.buttonText}
+							{multiTokenSuccess.buttonText}
 						</Button>
 					</Grid>
 				</Grid>

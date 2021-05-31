@@ -66,16 +66,30 @@ export const Mint = (): JSX.Element => {
 		if (!mintToken1) return;
 		setLoading(true);
 		setTimeout(() => {
-			dispatch({
-				type: ActionTypes.OPEN_SUCCESS,
-				payload: {
-					title: `Success!`,
-					icon: mintToken1.icon,
-					text: `Received ${mintAmount1} ${mintToken1.symbol}`,
-					link: '0xb7d91c4........fa84fc5e6f',
-					buttonText: 'Go Back',
-				},
-			});
+			if (!mintToken2) {
+				dispatch({
+					type: ActionTypes.OPEN_SUCCESS,
+					payload: {
+						title: `Success!`,
+						icon: mintToken1.icon,
+						text: `Received ${mintAmount1} ${mintToken1.symbol}`,
+						link: '0xb7d91c4........fa84fc5e6f',
+						buttonText: 'Go Back',
+					},
+				});
+			} else {
+				dispatch({
+					type: ActionTypes.OPEN_MULTI_TOKEN_SUCCESS,
+					payload: {
+						title: `Success!`,
+						icons: [mintToken1.icon, mintToken2.icon],
+						text: `Minted ${mintAmount1} ${mintToken1.symbol} & ${mintAmount2} ${mintToken2.symbol}`,
+						links: ['0xb7d91c4........fa84fc5e6f', '0xb7d91c4........fa84fc5e6f'],
+						buttonText: 'Go Back',
+					},
+				});
+			}
+
 			setLoading(false);
 		}, 3000);
 	};
