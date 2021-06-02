@@ -1,6 +1,6 @@
 import React, { createContext, Dispatch, useReducer } from 'react';
 import { produce } from 'immer';
-import { randomInteger } from '../utils/random';
+import { randomUserId } from '../utils/random';
 
 const getUserId = (): string => {
 	const storedUserId = localStorage.getItem('userId');
@@ -9,7 +9,7 @@ const getUserId = (): string => {
 		return storedUserId;
 	}
 
-	const userId = String(randomInteger());
+	const userId = randomUserId();
 	localStorage.setItem('userId', userId);
 	return userId;
 };

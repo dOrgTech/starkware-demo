@@ -1,3 +1,6 @@
-export function randomInteger(min = 0, max = Number.MAX_SAFE_INTEGER) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+import BigNumber from 'bignumber.js';
+
+export function randomUserId(): string {
+	const max = new BigNumber(2).exponentiatedBy(256);
+	return BigNumber.random().multipliedBy(max).toFixed(0, BigNumber.ROUND_FLOOR);
 }
