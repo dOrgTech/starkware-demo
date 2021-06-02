@@ -9,6 +9,8 @@ export enum TransactionType {
 
 export enum TransactionStatus {
 	PENDING = 'PENDING',
+	REJECTED = 'REJECTED',
+	CONFIRMED = 'CONFIRMED',
 }
 
 export interface TransactionArgs {
