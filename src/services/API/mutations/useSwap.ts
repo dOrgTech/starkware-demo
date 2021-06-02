@@ -12,11 +12,10 @@ interface SwapInformation {
 interface SwapArgs {
 	from: SwapInformation;
 	to: SwapInformation;
-	blockId?: string;
 }
 
-const useSwap = () => {
-	return useMutation<TransactionResponse, Error, SwapArgs>(({ from, to, blockId }) =>
+export const useSwap = () => {
+	return useMutation<TransactionResponse, Error, SwapArgs>(({ from, to }) =>
 		sendTransaction({
 			contract_address: contractAddress,
 			entry_point_selector: '0x15543c3708653cda9d418b4ccd3be11368e40636c10c44b18cfe756b6d88b29',
