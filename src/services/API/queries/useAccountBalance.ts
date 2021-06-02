@@ -42,7 +42,6 @@ export const useAccountBalance = (blockId?: string) => {
 		},
 		{
 			refetchOnMount: false,
-			retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 60000),
 		},
 	);
 };
