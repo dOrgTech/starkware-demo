@@ -5,6 +5,7 @@ import { Navbar } from 'components/Navbar';
 import { ActionTypes, NotificationsContext } from './context/notifications';
 import { Sidemenu } from 'components/Sidemenu';
 import { useMediaQuery } from '@material-ui/core';
+import { useAccountBalance } from './services/API/queries/useAccountBalance';
 
 const MainContainer = styled(Grid)({
 	background:
@@ -15,15 +16,17 @@ const MainContainer = styled(Grid)({
 
 function App() {
 	const { dispatch } = React.useContext(NotificationsContext);
+	const { isLoading } = useAccountBalance();
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 	React.useEffect(() => {
-		dispatch({ type: ActionTypes.SHOW_LOADING });
-		setTimeout(() => {
+		if (isLoading) {
+			dispatch({ type: ActionTypes.SHOW_LOADING });
+		} else {
 			dispatch({ type: ActionTypes.HIDE_LOADING });
-		}, 2000);
-	}, [dispatch]);
+		}
+	}, [dispatch, isLoading]);
 
 	return (
 		<MainContainer container>
