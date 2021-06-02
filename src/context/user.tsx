@@ -1,5 +1,18 @@
 import React, { createContext, Dispatch, useReducer } from 'react';
 import { produce } from 'immer';
+import { randomInteger } from '../utils/random';
+
+const getUserId = (): string => {
+	const storedUserId = localStorage.getItem('userId');
+
+	if (storedUserId) {
+		return storedUserId;
+	}
+
+	const userId = String(randomInteger());
+	localStorage.setItem('userId', userId);
+	return userId;
+};
 
 type Token = {
 	symbol: string;
@@ -71,7 +84,7 @@ export type UserContextState = {
 };
 
 const INITIAL_STATE: UserContextState = {
-	userId: '',
+	userId: getUserId(),
 	wallet: {
 		assets: [],
 	},
