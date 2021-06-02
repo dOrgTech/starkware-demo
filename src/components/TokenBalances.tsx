@@ -56,8 +56,6 @@ const TokenBalance = ({ symbol, color, amount, ...props }: Props): JSX.Element =
 export const TokenBalances = (): JSX.Element => {
 	const { data: balances } = useAccountBalance();
 
-	console.log('balances =>', balances);
-
 	return (
 		<Grid container>
 			{tokens.map(({ id, symbol, color }, index) => {
