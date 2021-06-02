@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import App from 'App';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -21,13 +22,20 @@ ReactDOM.render(
 				<Router>
 					<UserProvider>
 						<NotificationsProvider>
-							<SnackbarProvider maxSnack={3}>
+							<SnackbarProvider
+								maxSnack={3}
+								anchorOrigin={{
+									vertical: 'bottom',
+									horizontal: 'right',
+								}}
+							>
 								<App />
 							</SnackbarProvider>
 						</NotificationsProvider>
 					</UserProvider>
 				</Router>
 			</ThemeProvider>
+			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	</React.StrictMode>,
 	document.getElementById('root'),
