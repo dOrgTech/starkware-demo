@@ -1,5 +1,4 @@
-import { ConversionRate, Token, TokenBalance } from 'models/token';
-import { useTokenBalances } from '../services/API/token/hooks/useTokenBalances';
+import { ConversionRate, Token } from 'models/token';
 import { getConversionRate } from '../utils/rates';
 
 export const useConversionError = (
@@ -17,11 +16,6 @@ export const useConversionError = (
 	}
 
 	return undefined;
-};
-
-export const useBalance = (token?: Token): TokenBalance | undefined => {
-	const { data: tokenBalances } = useTokenBalances();
-	return tokenBalances?.find((tokenBalance) => tokenBalance.token.symbol === token?.symbol);
 };
 
 export const useConversionRates = (fromToken?: Token, toToken?: Token): ConversionRate => {

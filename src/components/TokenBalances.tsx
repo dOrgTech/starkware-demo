@@ -1,7 +1,9 @@
+import React from 'react';
 import { Grid, GridProps, styled, Theme, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import hexToRgba from 'hex-to-rgba';
-import React, { useMemo } from 'react';
-import { useTokenBalances } from 'services/API/token/hooks/useTokenBalances';
+import { useAccountBalance } from '../services/API/queries/useAccountBalance';
+import { tokens } from '../constants';
 
 const BalanceBox = styled(Grid)(({ tokenColor }: { theme: Theme; tokenColor: string }) => ({
 	height: 42,
@@ -21,46 +23,50 @@ const BalanceText = styled(Typography)(({ tokenColor }: { theme: Theme; tokenCol
 	display: 'inline-block',
 }));
 
+const BalanceLoader = styled(Skeleton)(({ theme }) => ({
+	width: theme.spacing(4),
+	fontSize: 18,
+}));
+
+const AmountContainer = styled(Grid)({
+	marginRight: 6,
+});
+
 interface Props extends GridProps {
 	symbol: string;
 	color: string;
-	amount: string;
+	amount?: string;
 }
 
-const TokenBalance: React.FC<Props> = ({ symbol, color, amount, ...props }) => {
+const TokenBalance = ({ symbol, color, amount, ...props }: Props): JSX.Element => {
 	return (
 		<BalanceBox item tokenColor={color} {...props}>
 			<Grid container justify="center" alignItems="center">
+				<AmountContainer item>
+					{amount ? <BalanceText tokenColor={color}>{amount}</BalanceText> : <BalanceLoader />}
+				</AmountContainer>
 				<Grid item>
-					<BalanceText tokenColor={color}>
-						{amount} {symbol}
-					</BalanceText>
+					<BalanceText tokenColor={color}>{symbol}</BalanceText>
 				</Grid>
 			</Grid>
 		</BalanceBox>
 	);
 };
 
-export const TokenBalances: React.FC = () => {
-	const { data } = useTokenBalances();
+export const TokenBalances = (): JSX.Element => {
+	const { data: balances } = useAccountBalance();
 
-	const balances = useMemo(() => {
-		if (!data) {
-			return [];
-		}
-
-		return data;
-	}, [data]);
+	console.log('balances =>', balances);
 
 	return (
 		<Grid container>
-			{balances.map((balance, i) => {
+			{tokens.map(({ id, symbol, color }, index) => {
 				return (
 					<TokenBalance
-						key={`balance-${i}`}
-						symbol={balance.token.symbol}
-						color={balance.token.color}
-						amount={balance.amount}
+						key={`balance-${symbol}-${index}`}
+						symbol={symbol}
+						color={color}
+						amount={balances?.get(id)}
 						xs={12}
 						sm={3}
 					/>

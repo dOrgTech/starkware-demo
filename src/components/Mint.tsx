@@ -6,10 +6,9 @@ import { Token } from '../models/token';
 import { DarkBox } from './common/DarkBox';
 import { SelectedToken, TokenSelector } from './TokenSelector';
 import { NumericInput } from './NumericInput';
-import { useTokens } from 'services/API/token/hooks/useTokens';
-import { useTokenOptions } from '../services/API/token/hooks/useTokenOptions';
 import { useMintError } from '../hooks/amounts';
 import { BouncingDots } from './common/BouncingDots';
+import { useFilteredTokens } from '../hooks/tokens';
 
 const StyledInputContainer = styled(Grid)(({ theme }) => ({
 	[theme.breakpoints.up('sm')]: {
@@ -51,8 +50,7 @@ export const Mint = (): JSX.Element => {
 	const [mintAmount1, setMintAmount1] = useState<string>('1');
 	const [mintAmount2, setMintAmount2] = useState<string>('1000');
 
-	const { data: tokenOptions } = useTokens();
-	const options = useTokenOptions(mintToken1, tokenOptions);
+	const options = useFilteredTokens(mintToken1);
 	const mint1Error = useMintError(mintToken1, mintAmount1);
 	const mint2Error = useMintError(mintToken2, mintAmount2);
 	const error = mint1Error || (mintToken2 && mint2Error);

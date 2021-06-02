@@ -4,16 +4,15 @@ import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg
 import { TokenSelector } from './TokenSelector';
 import { DarkBox } from './common/DarkBox';
 import { NumericInput } from './NumericInput';
-import { Token, TokenBalance } from 'models/token';
-import { useTokens } from 'services/API/token/hooks/useTokens';
-import { useTokenOptions } from 'services/API/token/hooks/useTokenOptions';
+import { Token } from 'models/token';
 import { RoundedButton } from './common/RoundedButton';
 import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { ConfirmSwapDialog } from './ConfirmSwapDialog';
-import { useBalance, useConversionError, useConversionRates } from '../hooks/amounts';
+import { useConversionError, useConversionRates } from '../hooks/amounts';
 import { getConversionRate } from '../utils/rates';
 import { BouncingDots } from './common/BouncingDots';
 import { SwapReceipt } from '../models/swap';
+import { useFilteredTokens, useTokenBalance } from '../hooks/tokens';
 
 const StyledArrowsContainer = styled(Grid)({
 	width: '100%',
@@ -71,6 +70,7 @@ const Labels = ({ leftText, rightText }: { leftText: string; rightText: string }
 
 export const Swap = (): JSX.Element => {
 	const { dispatch } = useContext(NotificationsContext);
+
 	const [loading, setLoading] = useState(false);
 	const [showConfirm, setShowConfirm] = useState(false);
 	const [fromToken, setFromToken] = useState<Token | undefined>();
@@ -78,12 +78,11 @@ export const Swap = (): JSX.Element => {
 	const [toToken, setToToken] = useState<Token>();
 	const [toAmount, setToAmount] = useState<string>();
 
-	const { data: tokensData } = useTokens();
-	const fromBalance = useBalance(fromToken);
-	const toBalance = useBalance(toToken);
+	const fromBalance = useTokenBalance(fromToken);
+	const toBalance = useTokenBalance(toToken);
 	const conversionRates = useConversionRates(fromToken, toToken);
-	const options = useTokenOptions(fromToken, tokensData);
-	const fromError = useConversionError(fromToken, fromAmount, fromBalance?.amount);
+	const options = useFilteredTokens(fromToken);
+	const fromError = useConversionError(fromToken, fromAmount, fromBalance);
 	const toError = useConversionError(toToken, toAmount);
 	const maxAmountError = Number(fromAmount) > 1000 ? 'Max swap limit is 1000' : undefined;
 	const error = maxAmountError || fromError || toError;
@@ -172,7 +171,7 @@ export const Swap = (): JSX.Element => {
 		<>
 			<Grid container>
 				<Grid item xs={12}>
-					<Labels leftText="From" rightText={fromBalance ? `Balance: ${fromBalance.amount}` : ''} />
+					<Labels leftText="From" rightText={fromBalance ? `Balance: ${fromBalance}` : ''} />
 					<DarkBox>
 						<Grid container alignItems="center">
 							<Grid item xs aria-label="token to swap">
@@ -204,7 +203,10 @@ export const Swap = (): JSX.Element => {
 									{fromBalance && (
 										<Grid item xs={12} sm={6}>
 											<RoundedButton
-												onClick={() => handleFromAmountChange((fromBalance as TokenBalance).amount)}
+												onClick={() => {
+													if (!fromBalance) return;
+													handleFromAmountChange(fromBalance);
+												}}
 											>
 												Max
 											</RoundedButton>
@@ -225,7 +227,7 @@ export const Swap = (): JSX.Element => {
 					</StyledArrowsContainer>
 				</Grid>
 				<Grid item xs={12}>
-					<Labels leftText="To" rightText={toBalance ? `Balance: ${toBalance.amount}` : ''} />
+					<Labels leftText="To" rightText={toBalance ? `Balance: ${toBalance}` : ''} />
 					<DarkBox>
 						<Grid container alignItems="center">
 							<Grid item xs aria-label="token to be swapped">
