@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Grid, styled, Typography } from '@material-ui/core';
 
-import { NotificationsContext } from 'context/notifications';
 import { Token } from '../models/token';
 import { DarkBox } from './common/DarkBox';
 import { SelectedToken, TokenSelector } from './TokenSelector';
@@ -10,7 +9,6 @@ import { useMintError } from '../hooks/amounts';
 import { BouncingDots } from './common/BouncingDots';
 import { useFilteredTokens } from '../hooks/tokens';
 import { useMint } from 'services/API/mutations/useMint';
-import { useTxStatus } from 'services/API/queries/useTxStatus';
 
 const StyledInputContainer = styled(Grid)(({ theme }) => ({
 	[theme.breakpoints.up('sm')]: {
@@ -45,9 +43,7 @@ const StyledBouncingDots = styled(BouncingDots)({
 });
 
 export const Mint = (): JSX.Element => {
-	const { dispatch } = useContext(NotificationsContext);
-	const { mutate, data: mintData, isLoading: mintLoading } = useMint();
-	const { data, error: txError, isLoading, isFetching, isStopped } = useTxStatus(mintData?.tx_id);
+	const { mutate, mintLoading } = useMint();
 	const [mintToken1, setMintToken1] = useState<Token>();
 	const [mintToken2, setMintToken2] = useState<Token>();
 	const [mintAmount1, setMintAmount1] = useState<string>('1');
