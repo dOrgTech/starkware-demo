@@ -1,20 +1,14 @@
 import BigNumber from 'bignumber.js';
 import { ConversionRate, Token } from 'models/token';
 import { getConversionRate } from '../utils/rates';
-import { useContext } from 'react';
-import { UserContext } from '../context/user';
 
 export const useConversionError = (
 	token?: Token,
 	amount?: string,
 	limit?: string,
 ): string | undefined => {
-	const {
-		state: { activeTransaction },
-	} = useContext(UserContext);
 	const inputAmount = new BigNumber(amount || '');
 
-	if (activeTransaction) return 'There is a pending transaction';
 	if (!token) return 'Select a token';
 	if (inputAmount.isNaN()) return 'Enter an amount';
 	if (inputAmount.isZero()) return 'Enter an amount';
@@ -35,12 +29,8 @@ export const useConversionRates = (fromToken?: Token, toToken?: Token): Conversi
 };
 
 export const useMintError = (token?: Token, amount?: string): string | undefined => {
-	const {
-		state: { activeTransaction },
-	} = useContext(UserContext);
 	const inputAmount = new BigNumber(amount || '');
 
-	if (activeTransaction) return 'There is a pending transaction';
 	if (!token) return 'Select a token';
 	if (inputAmount.isNaN()) return 'Enter an amount';
 	if (inputAmount.isZero()) return 'Enter an amount';
