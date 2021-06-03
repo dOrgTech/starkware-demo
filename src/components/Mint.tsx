@@ -46,7 +46,7 @@ export const Mint = (): JSX.Element => {
 	const { mutate, mintLoading } = useMint();
 	const [mintToken1, setMintToken1] = useState<Token>();
 	const [mintToken2, setMintToken2] = useState<Token>();
-	const [mintAmount1, setMintAmount1] = useState<string>('1');
+	const [mintAmount1, setMintAmount1] = useState<string>('1000');
 	const [mintAmount2, setMintAmount2] = useState<string>('1000');
 
 	const options = useFilteredTokens(mintToken1);
@@ -62,24 +62,17 @@ export const Mint = (): JSX.Element => {
 	const handleMint = () => {
 		if (!mintToken1) return;
 		mutate({
-			accountId: '123',
-			token1Amount: '10',
-			token2Amount: '256',
+			mint1: {
+				token: mintToken1,
+				amount: mintAmount1,
+			},
+			mint2: mintToken2
+				? {
+						token: mintToken2,
+						amount: mintAmount2,
+				  }
+				: undefined,
 		});
-		// setLoading(true);
-		// setTimeout(() => {
-		// 	dispatch({
-		// 		type: ActionTypes.OPEN_SUCCESS,
-		// 		payload: {
-		// 			title: `Success!`,
-		// 			icon: mintToken1.icon,
-		// 			text: `Received ${mintAmount1} ${mintToken1.symbol}`,
-		// 			link: '0xb7d91c4........fa84fc5e6f',
-		// 			buttonText: 'Go Back',
-		// 		},
-		// 	});
-		// 	setLoading(false);
-		// }, 3000);
 	};
 
 	const MintToken1 = () => {
@@ -116,7 +109,7 @@ export const Mint = (): JSX.Element => {
 							<MintToken1 />
 						</Grid>
 						{mintToken1 && (
-							<StyledInputContainer item xs={4} sm={6} alignItems="center">
+							<StyledInputContainer container item xs={4} sm={6} alignItems="center">
 								<Grid item xs>
 									<NumericInput
 										inputProps={{
@@ -138,7 +131,7 @@ export const Mint = (): JSX.Element => {
 							<Grid item xs aria-label="token to swap">
 								<SelectedToken token={mintToken2} />
 							</Grid>
-							<StyledInputContainer item xs={4} sm={6} alignItems="center">
+							<StyledInputContainer container item xs={4} sm={6} alignItems="center">
 								<Grid item>
 									<NumericInput
 										inputProps={{
