@@ -11,7 +11,6 @@ import './assets/css/body.css';
 import { NotificationsProvider } from 'context/notifications';
 import { UserProvider } from 'context/user';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { PendingTransaction } from './components/PendingTransaction';
 import { SnackbarProvider } from './components/SnackbarProvider';
 
 const queryClient = new QueryClient();
@@ -27,7 +26,6 @@ ReactDOM.render(
 								<App />
 							</SnackbarProvider>
 						</NotificationsProvider>
-						<PendingTransaction />
 					</UserProvider>
 				</Router>
 			</ThemeProvider>
