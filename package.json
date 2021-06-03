@@ -17,7 +17,6 @@
 		"bignumber.js": "^9.0.1",
 		"dayjs": "^1.10.5",
 		"hex-to-rgba": "^2.0.1",
-		"immer": "^9.0.2",
 		"notistack": "^1.0.9",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",

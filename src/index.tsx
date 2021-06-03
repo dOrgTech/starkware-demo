@@ -13,7 +13,7 @@ import './assets/css/body.css';
 import { NotificationsProvider } from 'context/notifications';
 import { UserProvider } from 'context/user';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from './components/SnackbarProvider';
 
 const queryClient = new QueryClient();
 dayjs.extend(LocalizedFormat);
@@ -25,13 +25,7 @@ ReactDOM.render(
 				<Router>
 					<UserProvider>
 						<NotificationsProvider>
-							<SnackbarProvider
-								maxSnack={3}
-								anchorOrigin={{
-									vertical: 'bottom',
-									horizontal: 'right',
-								}}
-							>
+							<SnackbarProvider>
 								<App />
 							</SnackbarProvider>
 						</NotificationsProvider>

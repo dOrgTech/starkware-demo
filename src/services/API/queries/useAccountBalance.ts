@@ -2,14 +2,12 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { callContract } from '../utils/callContract';
 import { UserContext } from 'context/user';
-import { tokens } from '../../../constants';
+import { CONTRACT_ADDRESS, tokens } from '../../../constants';
 import { useSnackbar } from 'notistack';
 
 interface BalancesFetchResult {
 	result: number[];
 }
-
-const contractAddress = '0x0000000000000000000000000000000000000000000000000000000000000005';
 
 export const useAccountBalance = (blockId?: string) => {
 	const {
@@ -26,7 +24,7 @@ export const useAccountBalance = (blockId?: string) => {
 				const balancesInformation = await Promise.all(
 					tokens.map(({ id }) =>
 						callContract<BalancesFetchResult>({
-							contract_address: contractAddress,
+							contract_address: CONTRACT_ADDRESS,
 							blockId: blockId || null,
 							calldata: [userId, id],
 							entry_point_selector:

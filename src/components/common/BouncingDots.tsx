@@ -8,8 +8,8 @@ const useStyles = makeStyles(() => ({
 		alignItems: 'center',
 	},
 	bouncingDot: {
-		width: 37.5,
-		height: 37.5,
+		width: 14,
+		height: 14,
 		borderRadius: '50%',
 		margin: 6,
 		background: '#78B1FC',
@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
 	},
 	'@keyframes bounce': {
 		to: {
-			transform: 'translate(0, -12px)',
+			transform: 'translate(0, -6px)',
 		},
 	},
 }));

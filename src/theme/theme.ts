@@ -23,6 +23,15 @@ export const theme = createMuiTheme({
 			disabled: 'rgba(250, 250, 245, 0.25)',
 			disabledBackground: 'rgba(145, 145, 183, 0.15)',
 		},
+		info: {
+			main: '#74B0FF',
+		},
+		success: {
+			main: '#9E3B5A',
+		},
+		error: {
+			main: '#9E3B5A',
+		},
 	},
 	typography: {
 		fontFamily: 'IBM Plex Sans',
