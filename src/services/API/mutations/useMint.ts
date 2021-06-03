@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { ActionTypes, TransactionType, UserContext } from 'context/user';
 import { useActiveTxStatus } from '../queries/useActiveTxStatus';
 import { MintInformation } from '../../../models/mint';
+import { useTxNotifications } from '../../../hooks/notifications';
 
 export interface MintArgs {
 	mint1: MintInformation;
@@ -17,6 +18,7 @@ export const useMint = () => {
 		dispatch,
 		state: { userId },
 	} = useContext(UserContext);
+	const { showPendingTransaction } = useTxNotifications();
 
 	const {
 		mutate,
@@ -31,6 +33,7 @@ export const useMint = () => {
 			calldata: [userId, mint1.amount, mint2?.amount || '0'],
 		});
 
+		showPendingTransaction();
 		dispatch({
 			type: ActionTypes.SET_ACTIVE_TRANSACTION,
 			payload: {

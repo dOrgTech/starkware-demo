@@ -6,6 +6,7 @@ import { APITransactionType, TransactionResponse } from '../types';
 import { sendTransaction } from '../utils/sendTransaction';
 import { SwapInformation } from '../../../models/swap';
 import { CONTRACT_ADDRESS } from '../../../constants';
+import { useTxNotifications } from '../../../hooks/notifications';
 
 export interface SwapArgs {
 	from: SwapInformation;
@@ -17,6 +18,7 @@ export const useSwap = () => {
 		dispatch,
 		state: { userId },
 	} = useContext(UserContext);
+	const { showPendingTransaction } = useTxNotifications();
 
 	const {
 		mutate,
@@ -31,6 +33,7 @@ export const useSwap = () => {
 			calldata: [userId, from.token.id, from.amount, to.amount],
 		});
 
+		showPendingTransaction();
 		dispatch({
 			type: ActionTypes.SET_ACTIVE_TRANSACTION,
 			payload: {
