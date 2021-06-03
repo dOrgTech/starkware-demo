@@ -1,5 +1,15 @@
 import React, { useCallback, useContext } from 'react';
-import { Box, Button, Dialog, Grid, Link, makeStyles, styled, Typography } from '@material-ui/core';
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogContent,
+	Grid,
+	Link,
+	makeStyles,
+	styled,
+	Typography,
+} from '@material-ui/core';
 import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { TokenIcon } from './common/TokenIcon';
 
@@ -41,9 +51,6 @@ const StyledLink = styled(Link)({
 });
 
 const useStyles = makeStyles({
-	dialog: {
-		top: 100,
-	},
 	scrollPaper: {
 		alignItems: 'baseline',
 	},
@@ -67,45 +74,48 @@ export const SuccessDialog: React.FC = () => {
 			open={success.open}
 			onClose={handleClose}
 			classes={{
-				paper: classes.dialog,
 				scrollPaper: classes.scrollPaper,
 			}}
+			fullWidth
+			maxWidth="xs"
 		>
-			<StyledContainer>
-				<Grid container justify="space-between" direction="column">
-					<Grid item>
-						<StyledTitle variant="h4" color="textPrimary">
-							{success.title}
-						</StyledTitle>
-						<StyledIconContainer>
-							<TokenIcon icon={success.icon} size="large" />
-						</StyledIconContainer>
-						<StyledText variant="body2" color="textPrimary">
-							{success.text}
-						</StyledText>
-						<StyledLink
-							variant="subtitle1"
-							color="secondary"
-							href="https://etherscan.io/"
-							target="_blank"
-							rel="noreferrer"
-						>
-							{success.link}
-						</StyledLink>
+			<DialogContent>
+				<StyledContainer>
+					<Grid container justify="space-between" direction="column">
+						<Grid item>
+							<StyledTitle variant="h4" color="textPrimary">
+								{success.title}
+							</StyledTitle>
+							<StyledIconContainer>
+								<TokenIcon icon={success.icon} size="large" />
+							</StyledIconContainer>
+							<StyledText variant="body2" color="textPrimary">
+								{success.text}
+							</StyledText>
+							<StyledLink
+								variant="subtitle1"
+								color="secondary"
+								href="https://etherscan.io/"
+								target="_blank"
+								rel="noreferrer"
+							>
+								{success.link}
+							</StyledLink>
+						</Grid>
+						<Grid item>
+							<Button
+								variant="contained"
+								color="secondary"
+								fullWidth
+								disableElevation
+								onClick={handleClose}
+							>
+								{success.buttonText}
+							</Button>
+						</Grid>
 					</Grid>
-					<Grid item>
-						<Button
-							variant="contained"
-							color="secondary"
-							fullWidth
-							disableElevation
-							onClick={handleClose}
-						>
-							{success.buttonText}
-						</Button>
-					</Grid>
-				</Grid>
-			</StyledContainer>
+				</StyledContainer>
+			</DialogContent>
 		</Dialog>
 	);
 };

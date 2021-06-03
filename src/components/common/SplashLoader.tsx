@@ -13,6 +13,11 @@ const useStyles = makeStyles((theme: Theme) =>
 		spinningLogo: {
 			height: 128,
 			animation: '$spin 2s linear 0s infinite',
+			position: 'absolute',
+			left: 'calc(50% + 70px)',
+			[theme.breakpoints.down('sm')]: {
+				left: 'unset',
+			},
 		},
 		'@keyframes spin': {
 			from: {
