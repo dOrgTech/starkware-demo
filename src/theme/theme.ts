@@ -1,6 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import hexToRgba from 'hex-to-rgba';
 
+const defaultTheme = createMuiTheme();
+
 export const theme = createMuiTheme({
 	palette: {
 		primary: {
@@ -65,6 +67,17 @@ export const theme = createMuiTheme({
 				color: '#FB514F',
 				'&:hover': {
 					backgroundColor: hexToRgba('#FE4A49', 0.1),
+				},
+			},
+		},
+		MuiDialog: {
+			paper: {
+				position: 'absolute',
+				top: 100,
+				borderRadius: defaultTheme.spacing(1),
+				left: 'calc(50% - 116px)',
+				[defaultTheme.breakpoints.down('sm')]: {
+					left: 'unset',
 				},
 			},
 		},
