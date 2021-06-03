@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Grid, IconButton, styled, Typography } from '@material-ui/core';
 import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg';
 import { TokenSelector } from './TokenSelector';
@@ -6,13 +6,14 @@ import { DarkBox } from './common/DarkBox';
 import { NumericInput } from './NumericInput';
 import { Token } from 'models/token';
 import { RoundedButton } from './common/RoundedButton';
-import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { ConfirmSwapDialog } from './ConfirmSwapDialog';
 import { useConversionError, useConversionRates } from '../hooks/amounts';
 import { getConversionRate } from '../utils/rates';
-import { BouncingDots } from './common/BouncingDots';
 import { SwapReceipt } from '../models/swap';
 import { useFilteredTokens, useTokenBalance } from '../hooks/tokens';
+import { useSwap } from '../services/API/mutations/useSwap';
+import { BouncingDots } from './common/BouncingDots';
+import { UserContext } from '../context/user';
 
 const StyledArrowsContainer = styled(Grid)({
 	width: '100%',
@@ -44,15 +45,6 @@ const StyledEndText = styled(StyledRightLabelText)({
 	textAlign: 'end',
 });
 
-const StyledLoadingContainer = styled(Grid)({
-	height: 380,
-	textAlign: 'center',
-});
-
-const StyledBouncingDots = styled(BouncingDots)({
-	marginBottom: 40,
-});
-
 const Labels = ({ leftText, rightText }: { leftText: string; rightText: string }): JSX.Element => (
 	<StyledLabelsContainer container justify="space-between">
 		<Grid item>
@@ -69,9 +61,11 @@ const Labels = ({ leftText, rightText }: { leftText: string; rightText: string }
 );
 
 export const Swap = (): JSX.Element => {
-	const { dispatch } = useContext(NotificationsContext);
+	const {
+		state: { activeTransaction },
+	} = useContext(UserContext);
+	const { mutate: makeSwap } = useSwap();
 
-	const [loading, setLoading] = useState(false);
 	const [showConfirm, setShowConfirm] = useState(false);
 	const [fromToken, setFromToken] = useState<Token | undefined>();
 	const [fromAmount, setFromAmount] = useState<string>();
@@ -86,6 +80,7 @@ export const Swap = (): JSX.Element => {
 	const toError = useConversionError(toToken, toAmount);
 	const maxAmountError = Number(fromAmount) > 1000 ? 'Max swap limit is 1000' : undefined;
 	const error = maxAmountError || fromError || toError;
+	const actionButtonText = error || 'Swap';
 
 	const handleSwitch = () => {
 		if (!fromToken || !toToken) return;
@@ -110,7 +105,7 @@ export const Swap = (): JSX.Element => {
 
 		if (fromToken && fromAmount) {
 			const conversionRate = getConversionRate(fromToken.price, token.price);
-			setToAmount(String(Number(fromAmount) * conversionRate.from));
+			setToAmount(conversionRate.from.multipliedBy(fromAmount).toString());
 		}
 	};
 
@@ -124,7 +119,7 @@ export const Swap = (): JSX.Element => {
 			return;
 		}
 
-		setToAmount(String(Number(amount) * conversionRates.from));
+		setToAmount(conversionRates.from.multipliedBy(amount).toString());
 	};
 
 	const handleToAmountChange = (amount: string) => {
@@ -135,37 +130,13 @@ export const Swap = (): JSX.Element => {
 			return;
 		}
 
-		setFromAmount(String(Number(amount) * conversionRates.to));
+		setFromAmount(conversionRates.to.multipliedBy(amount).toString());
 	};
 
 	const handleSwap = (receipt: SwapReceipt) => {
 		setShowConfirm(false);
-		setLoading(true);
-		setTimeout(() => {
-			dispatch({
-				type: ActionTypes.OPEN_SUCCESS,
-				payload: {
-					title: `Success!`,
-					icon: receipt.token.icon,
-					text: `Received ${receipt.amount} ${receipt.token.symbol}`,
-					link: '0xb7d91c4........fa84fc5e6f',
-					buttonText: 'Go Back',
-				},
-			});
-			setLoading(false);
-		}, 3000);
+		makeSwap(receipt);
 	};
-
-	if (loading) {
-		return (
-			<StyledLoadingContainer container alignItems="center" justify="center">
-				<Grid item>
-					<StyledBouncingDots />
-					<Typography color="textPrimary">Loading, Please wait</Typography>
-				</Grid>
-			</StyledLoadingContainer>
-		);
-	}
 
 	return (
 		<>
@@ -261,18 +232,18 @@ export const Swap = (): JSX.Element => {
 						color="secondary"
 						fullWidth
 						disableElevation
-						disabled={!!error}
+						disabled={!!error || !!activeTransaction}
 						onClick={() => setShowConfirm(true)}
 					>
-						{error ? error : 'Swap'}
+						{activeTransaction ? <BouncingDots /> : actionButtonText}
 					</StyledSwapButton>
 				</Grid>
 			</Grid>
 			<ConfirmSwapDialog
 				open={showConfirm && !!fromAmount && !!toAmount}
 				conversionRate={conversionRates}
-				from={fromToken && fromAmount ? { ...fromToken, amount: fromAmount } : undefined}
-				to={toToken && toAmount ? { ...toToken, amount: toAmount } : undefined}
+				from={fromToken && fromAmount ? { token: fromToken, amount: fromAmount } : undefined}
+				to={toToken && toAmount ? { token: toToken, amount: toAmount } : undefined}
 				onClose={() => setShowConfirm(false)}
 				onSwap={handleSwap}
 			/>

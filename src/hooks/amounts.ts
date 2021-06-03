@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { ConversionRate, Token } from 'models/token';
 import { getConversionRate } from '../utils/rates';
 
@@ -6,12 +7,13 @@ export const useConversionError = (
 	amount?: string,
 	limit?: string,
 ): string | undefined => {
-	if (!token) return 'Select a token';
-	if (!amount) return 'Enter an amount';
-	if (Number(amount) === 0) return 'Enter an amount';
+	const inputAmount = new BigNumber(amount || '');
 
-	// TODO: implement big number once we have the API
-	if (limit && Number(amount) > Number(limit)) {
+	if (!token) return 'Select a token';
+	if (inputAmount.isNaN()) return 'Enter an amount';
+	if (inputAmount.isZero()) return 'Enter an amount';
+
+	if (limit && inputAmount.gt(limit)) {
 		return `Insufficient ${token.symbol}`;
 	}
 
@@ -20,18 +22,19 @@ export const useConversionError = (
 
 export const useConversionRates = (fromToken?: Token, toToken?: Token): ConversionRate => {
 	if (!fromToken || !toToken) {
-		return { from: 1, to: 1 };
+		return { from: new BigNumber(1), to: new BigNumber(1) };
 	}
 
-	// TODO: implement big number once we have the API
 	return getConversionRate(fromToken.price, toToken.price);
 };
 
 export const useMintError = (token?: Token, amount?: string): string | undefined => {
+	const inputAmount = new BigNumber(amount || '');
+
 	if (!token) return 'Select a token';
-	if (!amount) return 'Enter an amount';
-	if (Number(amount) === 0) return 'Enter an amount';
-	if (Number(amount) > 1000) {
+	if (inputAmount.isNaN()) return 'Enter an amount';
+	if (inputAmount.isZero()) return 'Enter an amount';
+	if (inputAmount.gt(1000)) {
 		return `You can mint up to 1000 ${token.symbol}`;
 	}
 
