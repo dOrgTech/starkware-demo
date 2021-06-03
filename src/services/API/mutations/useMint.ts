@@ -26,27 +26,22 @@ export const useMint = () => {
 		data: mintData,
 		error: mintError,
 		isLoading: mintIsLoading,
-	} = useMutation<TransactionResponse, Error, MintArgs>(async ({ mint1, mint2 }) => {
+	} = useMutation<TransactionResponse, Error, MintArgs>(async (args) => {
 		const result = await sendTransaction({
 			contract_address: CONTRACT_ADDRESS,
 			entry_point_selector: '0x120ae4faee4a97bc466bde8ca3c7db157f3cf16e8a66acf49c2c4d0a068e89c',
 			type: APITransactionType.INVOKE_FUNCTION,
-			calldata: [userId, mint1.amount, mint2?.amount || '0'],
+			calldata: [userId, args.mint1.amount, args.mint2?.amount || '0'],
 		});
 
 		showPendingTransaction();
-			dispatch({
-				type: ActionTypes.SET_ACTIVE_TRANSACTION,
-				payload: {
-					id: result.tx_id.toString(),
-					type: TransactionType.MINT,
-					args: {
-						accountId,
-						token1Amount,
-						token2Amount,
-					},
-					timestamp: dayjs().toString(),
-				},
+		dispatch({
+			type: ActionTypes.SET_ACTIVE_TRANSACTION,
+			payload: {
+				id: result.tx_id.toString(),
+				type: TransactionType.MINT,
+				args,
+				timestamp: dayjs().toString(),
 			},
 		});
 

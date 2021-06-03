@@ -24,26 +24,26 @@ const ActivityDescription = styled('div')({
 	display: 'flex',
 	flexDirection: 'row',
 });
-// const ActivityValue = styled(Typography)({
-// 	fontSize: 18,
-// });
+const ActivityValue = styled(Typography)({
+	fontSize: 18,
+});
 const ActivityIcon = styled('img')({
 	height: '32px',
 	width: '32px',
 });
-// const ActivityType = styled('div')({
-// 	height: 'fit-content',
-// 	marginBottom: '13px',
-//
-// 	fontWeight: 'normal',
-// 	fontSize: '18px',
-// 	color: '#FAFAF5',
-// });
-// const ActivityDate = styled('div')({
-// 	fontSize: '14px',
-// 	color: '#FAFAF5',
-// 	opacity: 0.6,
-// });
+const ActivityType = styled('div')({
+	height: 'fit-content',
+	marginBottom: '13px',
+
+	fontWeight: 'normal',
+	fontSize: '18px',
+	color: '#FAFAF5',
+});
+const ActivityDate = styled('div')({
+	fontSize: '14px',
+	color: '#FAFAF5',
+	opacity: 0.6,
+});
 const Flex = styled('div')({
 	display: 'flex',
 	justifyContent: 'start',

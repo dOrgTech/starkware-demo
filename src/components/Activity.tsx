@@ -18,19 +18,19 @@ export const Activity = (): JSX.Element => {
 		return activity
 			.map((transaction) => {
 				if (transaction.type === TransactionType.MINT) {
-					if (Number(transaction.args.token2Amount) > 0) {
+					if (transaction.args.mint2) {
 						return [
 							{
 								type: transaction.type,
 								timestamp: transaction.timestamp,
-								amount: transaction.args.token1Amount,
-								symbol: 'TK1',
+								amount: transaction.args.mint1.amount,
+								symbol: transaction.args.mint1.token.symbol,
 							},
 							{
 								type: transaction.type,
 								timestamp: transaction.timestamp,
-								amount: transaction.args.token2Amount,
-								symbol: 'TK2',
+								amount: transaction.args.mint2.amount,
+								symbol: transaction.args.mint2.token.symbol,
 							},
 						];
 					}
@@ -38,8 +38,8 @@ export const Activity = (): JSX.Element => {
 					return {
 						type: transaction.type,
 						timestamp: transaction.timestamp,
-						amount: transaction.args.token1Amount,
-						symbol: 'TK2',
+						amount: transaction.args.mint1.amount,
+						symbol: transaction.args.mint1.token.symbol,
 					};
 				}
 
@@ -47,7 +47,7 @@ export const Activity = (): JSX.Element => {
 					type: transaction.type,
 					timestamp: transaction.timestamp,
 					amount: transaction.args.to.amount,
-					symbol: transaction.args.to.tokenId,
+					symbol: transaction.args.to.token.symbol,
 				};
 			})
 			.flat();
