@@ -1,5 +1,7 @@
 import React, { createContext, Dispatch, useReducer } from 'react';
 import { produce } from 'immer';
+import { MintArgs } from 'services/API/mutations/useMint';
+import { SwapArgs } from 'services/API/mutations/useSwap';
 import { randomUserId } from '../utils/random';
 
 const getUserId = (): string => {
@@ -49,7 +51,21 @@ export enum ActionTypes {
 	UPDATE_ASSET = 'UPDATE_ASSET',
 	ADD_ASSET = 'ADD_ASSET',
 	UPDATE_USER_ID = 'UPDATE_USER_ID',
+	SET_ACTIVE_TRANSACTION = 'SET_ACTIVE_TRANSACTION',
+	UNSET_ACTIVE_TRANSACTION = 'UNSET_ACTIVE_TRANSACTION',
 }
+
+type ActiveTransaction =
+	| {
+			id: string;
+			type: TransactionType.MINT;
+			args: MintArgs;
+	  }
+	| {
+			id: string;
+			type: TransactionType.SWAP;
+			args: SwapArgs;
+	  };
 
 export type updateUserIdAction = {
 	type: ActionTypes.UPDATE_USER_ID;
@@ -77,10 +93,20 @@ export type addActivityAction = {
 	};
 };
 
+export type addActiveAction = {
+	type: ActionTypes.SET_ACTIVE_TRANSACTION;
+	payload: ActiveTransaction;
+};
+
+export type removeActiveAction = {
+	type: ActionTypes.UNSET_ACTIVE_TRANSACTION;
+};
+
 export type UserContextState = {
 	userId: string;
 	wallet: Wallet;
 	activity: Transaction[];
+	activeTransaction: ActiveTransaction | null;
 };
 
 const INITIAL_STATE: UserContextState = {
@@ -88,6 +114,7 @@ const INITIAL_STATE: UserContextState = {
 	wallet: {
 		assets: [],
 	},
+	activeTransaction: null,
 	activity: [
 		{
 			id: '1233312123',
@@ -126,7 +153,9 @@ type UserContextAction =
 	| updateUserIdAction
 	| updateAssetAction
 	| addActivityAction
-	| addAssetAction;
+	| addAssetAction
+	| addActiveAction
+	| removeActiveAction;
 
 const reducer = (state: UserContextState, action: UserContextAction): UserContextState => {
 	switch (action.type) {
@@ -153,6 +182,16 @@ const reducer = (state: UserContextState, action: UserContextAction): UserContex
 			return produce(state, (draft) => {
 				draft.activity.push(action.payload.activity);
 			});
+		case ActionTypes.SET_ACTIVE_TRANSACTION:
+			return {
+				...state,
+				activeTransaction: action.payload,
+			};
+		case ActionTypes.UNSET_ACTIVE_TRANSACTION:
+			return {
+				...state,
+				activeTransaction: null,
+			};
 		default:
 			throw new Error(`Unrecognized action in User Context Provider`);
 	}

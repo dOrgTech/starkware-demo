@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Grid, styled, Typography } from '@material-ui/core';
 
-import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { Token } from '../models/token';
 import { DarkBox } from './common/DarkBox';
 import { SelectedToken, TokenSelector } from './TokenSelector';
@@ -9,6 +8,7 @@ import { NumericInput } from './NumericInput';
 import { useMintError } from '../hooks/amounts';
 import { BouncingDots } from './common/BouncingDots';
 import { useFilteredTokens } from '../hooks/tokens';
+import { useMint } from 'services/API/mutations/useMint';
 
 const StyledInputContainer = styled(Grid)(({ theme }) => ({
 	[theme.breakpoints.up('sm')]: {
@@ -43,8 +43,7 @@ const StyledBouncingDots = styled(BouncingDots)({
 });
 
 export const Mint = (): JSX.Element => {
-	const { dispatch } = useContext(NotificationsContext);
-	const [loading, setLoading] = useState(false);
+	const { mutate, mintLoading } = useMint();
 	const [mintToken1, setMintToken1] = useState<Token>();
 	const [mintToken2, setMintToken2] = useState<Token>();
 	const [mintAmount1, setMintAmount1] = useState<string>('1');
@@ -62,20 +61,25 @@ export const Mint = (): JSX.Element => {
 
 	const handleMint = () => {
 		if (!mintToken1) return;
-		setLoading(true);
-		setTimeout(() => {
-			dispatch({
-				type: ActionTypes.OPEN_SUCCESS,
-				payload: {
-					title: `Success!`,
-					icon: mintToken1.icon,
-					text: `Received ${mintAmount1} ${mintToken1.symbol}`,
-					link: '0xb7d91c4........fa84fc5e6f',
-					buttonText: 'Go Back',
-				},
-			});
-			setLoading(false);
-		}, 3000);
+		mutate({
+			accountId: '123',
+			token1Amount: '10',
+			token2Amount: '256',
+		});
+		// setLoading(true);
+		// setTimeout(() => {
+		// 	dispatch({
+		// 		type: ActionTypes.OPEN_SUCCESS,
+		// 		payload: {
+		// 			title: `Success!`,
+		// 			icon: mintToken1.icon,
+		// 			text: `Received ${mintAmount1} ${mintToken1.symbol}`,
+		// 			link: '0xb7d91c4........fa84fc5e6f',
+		// 			buttonText: 'Go Back',
+		// 		},
+		// 	});
+		// 	setLoading(false);
+		// }, 3000);
 	};
 
 	const MintToken1 = () => {
@@ -92,7 +96,7 @@ export const Mint = (): JSX.Element => {
 		);
 	};
 
-	if (loading) {
+	if (mintLoading) {
 		return (
 			<StyledLoadingContainer container alignItems="center" justify="center">
 				<Grid item>
