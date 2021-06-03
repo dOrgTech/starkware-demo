@@ -1,6 +1,7 @@
 import React from 'react';
-import { styled } from '@material-ui/core';
-import { Transaction, TransactionType } from 'context/user';
+import dayjs from 'dayjs';
+import { styled, Typography } from '@material-ui/core';
+import { TransactionType } from 'context/user';
 import mintIcon from 'assets/icons/mint-icon.svg';
 import swapIcon from 'assets/icons/swap-icon.svg';
 
@@ -23,9 +24,9 @@ const ActivityDescription = styled('div')({
 	display: 'flex',
 	flexDirection: 'row',
 });
-// const ActivityValue = styled(Typography)({
-// 	fontSize: 18,
-// });
+const ActivityValue = styled(Typography)({
+	fontSize: 18,
+});
 const ActivityIcon = styled('img')({
 	height: '32px',
 	width: '32px',
@@ -57,22 +58,30 @@ const ColumnFlex = styled('div')({
 });
 
 interface ActivityTransactionProps {
-	transaction: Transaction;
+	type: TransactionType;
+	amount: string;
+	symbol: string;
+	timestamp: string;
 }
-export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({ transaction }) => {
+export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
+	type,
+	amount,
+	symbol,
+	timestamp,
+}) => {
 	return (
 		<ActivityListItem>
 			<ActivityDescription>
 				<Flex>
-					<ActivityIcon src={transaction.type === TransactionType.MINT ? mintIcon : swapIcon} />
+					<ActivityIcon src={type === TransactionType.MINT ? mintIcon : swapIcon} />
 				</Flex>
 				<ColumnFlex>
-					<ActivityType>{transaction.type}</ActivityType>
-					<ActivityDate>{transaction.timestamp}</ActivityDate>
+					<ActivityType>{type}</ActivityType>
+					<ActivityDate>{dayjs(timestamp).format('MMM DD')}</ActivityDate>
 				</ColumnFlex>
 			</ActivityDescription>
 			<ColumnFlex>
-				{/* <ActivityValue color="textPrimary">{`+${transaction.args} ${transaction.incomingToken.name}`}</ActivityValue> */}
+				<ActivityValue color="textPrimary">{`+${amount} ${symbol}`}</ActivityValue>
 			</ColumnFlex>
 		</ActivityListItem>
 	);

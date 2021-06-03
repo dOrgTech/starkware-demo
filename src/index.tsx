@@ -4,6 +4,8 @@ import { ThemeProvider } from '@material-ui/core';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import App from 'App';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import dayjs from 'dayjs';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { theme } from 'theme/theme';
 import reportWebVitals from './reportWebVitals';
@@ -14,6 +16,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { SnackbarProvider } from 'notistack';
 
 const queryClient = new QueryClient();
+dayjs.extend(LocalizedFormat);
 
 ReactDOM.render(
 	<React.StrictMode>
