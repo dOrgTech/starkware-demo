@@ -1,10 +1,5 @@
 import { useContext, useState } from 'react';
-import {
-	ActionTypes as UserActionTypes,
-	Transaction,
-	TransactionType,
-	UserContext,
-} from 'context/user';
+import { ActionTypes as UserActionTypes, TransactionType, UserContext } from 'context/user';
 import {
 	ActionTypes as NotificationsActionTypes,
 	NotificationsContext,
@@ -13,24 +8,25 @@ import { useQuery } from 'react-query';
 import { TransactionStatus } from '../types';
 import { httpClient } from '../utils/http';
 
-// TODO: evaluate if we can make the tx not optional
-export const useTxStatus = (tx?: Transaction) => {
-	const [stop, setStop] = useState(false);
-	const { dispatch: userDispatch } = useContext(UserContext);
+export const useActiveTxStatus = () => {
+	const {
+		state: { activeTransaction },
+		dispatch: userDispatch,
+	} = useContext(UserContext);
 	const { dispatch: notificationDispatch } = useContext(NotificationsContext);
+	const [stop, setStop] = useState(false);
 
 	const queryProps = useQuery(
-		['txStatus', tx],
+		['txStatus', activeTransaction],
 		async () => {
 			setStop(false);
 			const { data } = await httpClient.get<string>(
-				`feeder_gateway/get_transaction_status?transactionId=${tx?.id}`,
+				`feeder_gateway/get_transaction_status?transactionId=${activeTransaction?.id}`,
 			);
 
 			return data;
 		},
 		{
-			// TODO: make this more readable
 			onSuccess: (data) => {
 				if (data === TransactionStatus.REJECTED || data === TransactionStatus.CONFIRMED) {
 					setStop(true);
@@ -38,10 +34,10 @@ export const useTxStatus = (tx?: Transaction) => {
 						type: UserActionTypes.UNSET_ACTIVE_TRANSACTION,
 					});
 
-					if (!tx) return;
+					if (!activeTransaction) return;
 
-					if (tx.type === TransactionType.MINT) {
-						const { mint1 } = tx.args;
+					if (activeTransaction.type === TransactionType.MINT) {
+						const { mint1 } = activeTransaction.args;
 						notificationDispatch({
 							type: NotificationsActionTypes.OPEN_SUCCESS,
 							payload: {
@@ -54,8 +50,8 @@ export const useTxStatus = (tx?: Transaction) => {
 						});
 					}
 
-					if (tx.type === TransactionType.SWAP) {
-						const { to } = tx.args;
+					if (activeTransaction.type === TransactionType.SWAP) {
+						const { to } = activeTransaction.args;
 						notificationDispatch({
 							type: NotificationsActionTypes.OPEN_SUCCESS,
 							payload: {
@@ -70,14 +66,13 @@ export const useTxStatus = (tx?: Transaction) => {
 				}
 			},
 			onError: (error) => {
-				console.error(`Error while querying for Tx ID ${tx?.id}: ${error}`);
+				console.error(`Error while querying for Tx ID ${activeTransaction?.id}: ${error}`);
+				setStop(true);
 				userDispatch({
 					type: UserActionTypes.UNSET_ACTIVE_TRANSACTION,
 				});
-				setStop(true);
 			},
-			// TODO: related to :16
-			enabled: !!tx,
+			enabled: !!activeTransaction,
 			refetchInterval: stop ? false : 10000,
 			refetchIntervalInBackground: true,
 			refetchOnWindowFocus: false,

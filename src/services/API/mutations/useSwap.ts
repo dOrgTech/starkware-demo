@@ -1,7 +1,7 @@
-import { ActionTypes, Transaction, TransactionType, UserContext } from 'context/user';
+import { ActionTypes, TransactionType, UserContext } from 'context/user';
 import { useContext } from 'react';
 import { useMutation } from 'react-query';
-import { useTxStatus } from '../queries/useTxStatus';
+import { useActiveTxStatus } from '../queries/useActiveTxStatus';
 import { APITransactionType, TransactionResponse } from '../types';
 import { sendTransaction } from '../utils/sendTransaction';
 import { SwapInformation } from '../../../models/swap';
@@ -23,7 +23,6 @@ export const useSwap = () => {
 		data: swapData,
 		error: swapError,
 		isLoading: swapIsLoading,
-		variables: swapArgs,
 	} = useMutation<TransactionResponse, Error, SwapArgs>(async ({ from, to }) => {
 		const result = await sendTransaction({
 			contract_address: CONTRACT_ADDRESS,
@@ -47,15 +46,7 @@ export const useSwap = () => {
 		return result;
 	});
 
-	const tx: Transaction | undefined = swapData
-		? {
-				id: swapData.tx_id.toString(),
-				type: TransactionType.SWAP,
-				args: swapArgs as SwapArgs,
-		  }
-		: undefined;
-
-	const { isStopped, data, error } = useTxStatus(tx);
+	const { isStopped, data, error } = useActiveTxStatus();
 
 	return {
 		mutate,

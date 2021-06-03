@@ -3,8 +3,8 @@ import { useMutation } from 'react-query';
 import { APITransactionType, TransactionResponse } from '../types';
 import { sendTransaction } from '../utils/sendTransaction';
 import { useContext } from 'react';
-import { ActionTypes, Transaction, TransactionType, UserContext } from 'context/user';
-import { useTxStatus } from '../queries/useTxStatus';
+import { ActionTypes, TransactionType, UserContext } from 'context/user';
+import { useActiveTxStatus } from '../queries/useActiveTxStatus';
 import { MintInformation } from '../../../models/mint';
 
 export interface MintArgs {
@@ -23,7 +23,6 @@ export const useMint = () => {
 		data: mintData,
 		error: mintError,
 		isLoading: mintIsLoading,
-		variables: mintArgs,
 	} = useMutation<TransactionResponse, Error, MintArgs>(async ({ mint1, mint2 }) => {
 		const result = await sendTransaction({
 			contract_address: CONTRACT_ADDRESS,
@@ -47,15 +46,7 @@ export const useMint = () => {
 		return result;
 	});
 
-	const tx: Transaction | undefined = mintData
-		? {
-				id: mintData.tx_id.toString(),
-				type: TransactionType.MINT,
-				args: mintArgs as MintArgs,
-		  }
-		: undefined;
-
-	const { isStopped, data, error } = useTxStatus(tx);
+	const { isStopped, data, error } = useActiveTxStatus();
 
 	return {
 		mutate,
