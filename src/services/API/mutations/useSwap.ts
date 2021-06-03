@@ -1,16 +1,11 @@
-import { ActionTypes, TransactionType, UserContext } from 'context/user';
+import { ActionTypes, Transaction, TransactionType, UserContext } from 'context/user';
 import { useContext } from 'react';
 import { useMutation } from 'react-query';
 import { useTxStatus } from '../queries/useTxStatus';
 import { APITransactionType, TransactionResponse } from '../types';
 import { sendTransaction } from '../utils/sendTransaction';
-
-const contractAddress = '0x0000000000000000000000000000000000000000000000000000000000000005';
-
-interface SwapInformation {
-	tokenId: string;
-	amount: string;
-}
+import { SwapInformation } from '../../../models/swap';
+import { CONTRACT_ADDRESS } from '../../../constants';
 
 export interface SwapArgs {
 	from: SwapInformation;
@@ -18,19 +13,23 @@ export interface SwapArgs {
 }
 
 export const useSwap = () => {
-	const { dispatch } = useContext(UserContext);
+	const {
+		dispatch,
+		state: { userId },
+	} = useContext(UserContext);
 
 	const {
 		mutate,
 		data: swapData,
 		error: swapError,
 		isLoading: swapIsLoading,
+		variables: swapArgs,
 	} = useMutation<TransactionResponse, Error, SwapArgs>(async ({ from, to }) => {
 		const result = await sendTransaction({
-			contract_address: contractAddress,
+			contract_address: CONTRACT_ADDRESS,
 			entry_point_selector: '0x15543c3708653cda9d418b4ccd3be11368e40636c10c44b18cfe756b6d88b29',
 			type: APITransactionType.INVOKE_FUNCTION,
-			calldata: ['idx', from.tokenId, from.amount, to.amount],
+			calldata: [userId, from.token.id, from.amount, to.amount],
 		});
 
 		dispatch({
@@ -48,7 +47,15 @@ export const useSwap = () => {
 		return result;
 	});
 
-	const { isStopped, data, error } = useTxStatus(swapData?.tx_id);
+	const tx: Transaction | undefined = swapData
+		? {
+				id: swapData.tx_id.toString(),
+				type: TransactionType.SWAP,
+				args: swapArgs as SwapArgs,
+		  }
+		: undefined;
+
+	const { isStopped, data, error } = useTxStatus(tx);
 
 	return {
 		mutate,
