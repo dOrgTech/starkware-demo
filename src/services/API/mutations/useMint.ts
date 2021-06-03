@@ -1,5 +1,6 @@
 import { CONTRACT_ADDRESS } from '../../../constants';
 import { useMutation } from 'react-query';
+import dayjs from 'dayjs';
 import { APITransactionType, TransactionResponse } from '../types';
 import { sendTransaction } from '../utils/sendTransaction';
 import { useContext } from 'react';
@@ -39,6 +40,7 @@ export const useMint = () => {
 						token1Amount,
 						token2Amount,
 					},
+					timestamp: dayjs().toString(),
 				},
 			});
 

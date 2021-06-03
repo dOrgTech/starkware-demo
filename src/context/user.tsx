@@ -1,50 +1,38 @@
 import React, { createContext, Dispatch, useReducer } from 'react';
-import { produce } from 'immer';
 import { MintArgs } from 'services/API/mutations/useMint';
 import { SwapArgs } from 'services/API/mutations/useSwap';
 import { randomUserId } from '../utils/random';
 
-const getUserId = (): string => {
-	const storedUserId = localStorage.getItem('userId');
+const STORAGE_PREFIX = `starkware`;
+const STORAGE_KEY = `${STORAGE_PREFIX}:user`;
 
-	if (storedUserId) {
-		return storedUserId;
+interface UserData {
+	activity: Transaction[];
+	userId: string;
+}
+
+const getUserData = (): UserData => {
+	const userDataString = localStorage.getItem(STORAGE_KEY);
+
+	if (userDataString) {
+		return JSON.parse(userDataString);
 	}
 
 	const userId = randomUserId();
-	localStorage.setItem('userId', userId);
-	return userId;
+	const userData = {
+		userId,
+		activity: [],
+	};
+
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+
+	return userData;
 };
 
-type Token = {
-	symbol: string;
-	name: string;
-	address: string;
-};
-
-type Asset = {
-	id: string;
-	token: Token;
-	value: string;
-};
-
-type Wallet = {
-	assets: Asset[];
-};
 export enum TransactionType {
 	MINT = 'MINT',
 	SWAP = 'SWAP',
 }
-export type Transaction = {
-	id: string;
-	url: '';
-	type: TransactionType;
-	displayName: string;
-	executedOn: string;
-	incomingToken: Token;
-	outgoingToken?: Token;
-	value: string;
-};
 
 export enum ActionTypes {
 	ADD_TRANSACTION = 'ADD_TRANSACTION',
@@ -55,16 +43,18 @@ export enum ActionTypes {
 	UNSET_ACTIVE_TRANSACTION = 'UNSET_ACTIVE_TRANSACTION',
 }
 
-type ActiveTransaction =
+export type Transaction =
 	| {
 			id: string;
 			type: TransactionType.MINT;
 			args: MintArgs;
+			timestamp: string;
 	  }
 	| {
 			id: string;
 			type: TransactionType.SWAP;
 			args: SwapArgs;
+			timestamp: string;
 	  };
 
 export type updateUserIdAction = {
@@ -74,28 +64,9 @@ export type updateUserIdAction = {
 	};
 };
 
-export type updateAssetAction = {
-	type: ActionTypes.UPDATE_ASSET;
-	payload: {
-		asset: Asset;
-	};
-};
-export type addAssetAction = {
-	type: ActionTypes.ADD_ASSET;
-	payload: {
-		asset: Asset;
-	};
-};
-export type addActivityAction = {
-	type: ActionTypes.ADD_TRANSACTION;
-	payload: {
-		activity: Transaction;
-	};
-};
-
 export type addActiveAction = {
 	type: ActionTypes.SET_ACTIVE_TRANSACTION;
-	payload: ActiveTransaction;
+	payload: Transaction;
 };
 
 export type removeActiveAction = {
@@ -104,58 +75,18 @@ export type removeActiveAction = {
 
 export type UserContextState = {
 	userId: string;
-	wallet: Wallet;
 	activity: Transaction[];
-	activeTransaction: ActiveTransaction | null;
+	activeTransaction: Transaction | null;
 };
 
+const INITIAL_USER_DATA = getUserData();
+
 const INITIAL_STATE: UserContextState = {
-	userId: getUserId(),
-	wallet: {
-		assets: [],
-	},
+	userId: INITIAL_USER_DATA.userId,
 	activeTransaction: null,
-	activity: [
-		{
-			id: '1233312123',
-			url: '',
-			type: TransactionType.MINT,
-			displayName: 'Mint',
-			executedOn: '12344923934', // add a date lib to format
-			incomingToken: {
-				symbol: 'TK2',
-				name: 'Token',
-				address: '0x00',
-			},
-			value: '3000',
-		},
-		{
-			id: '1233312123',
-			url: '',
-			type: TransactionType.SWAP,
-			displayName: 'Swap',
-			executedOn: '12344923934', // add a date lib to format
-			incomingToken: {
-				symbol: 'TK2',
-				name: 'Token2',
-				address: '0x00',
-			},
-			outgoingToken: {
-				symbol: 'TK1',
-				name: 'Token1',
-				address: '0x00',
-			},
-			value: '2000',
-		},
-	],
+	activity: INITIAL_USER_DATA.activity,
 };
-type UserContextAction =
-	| updateUserIdAction
-	| updateAssetAction
-	| addActivityAction
-	| addAssetAction
-	| addActiveAction
-	| removeActiveAction;
+type UserContextAction = updateUserIdAction | addActiveAction | removeActiveAction;
 
 const reducer = (state: UserContextState, action: UserContextAction): UserContextState => {
 	switch (action.type) {
@@ -163,29 +94,21 @@ const reducer = (state: UserContextState, action: UserContextAction): UserContex
 			return {
 				...state,
 				userId: action.payload.userId,
-				wallet: {
-					assets: [],
-				},
 				activity: [],
 			};
-		case ActionTypes.UPDATE_ASSET:
-			return produce(state, (draft) => {
-				draft.wallet.assets = draft.wallet.assets.map((asset) =>
-					asset.token === action.payload.asset.token ? action.payload.asset : asset,
-				);
-			});
-		case ActionTypes.ADD_ASSET:
-			return produce(state, (draft) => {
-				draft.wallet.assets.push(action.payload.asset);
-			});
-		case ActionTypes.ADD_TRANSACTION:
-			return produce(state, (draft) => {
-				draft.activity.push(action.payload.activity);
-			});
 		case ActionTypes.SET_ACTIVE_TRANSACTION:
+			localStorage.setItem(
+				STORAGE_KEY,
+				JSON.stringify({
+					userId: state.userId,
+					activity: [...state.activity, action.payload],
+				}),
+			);
+
 			return {
 				...state,
 				activeTransaction: action.payload,
+				activity: [...state.activity, action.payload],
 			};
 		case ActionTypes.UNSET_ACTIVE_TRANSACTION:
 			return {

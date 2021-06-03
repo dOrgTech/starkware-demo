@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { httpClient } from '../utils/http';
-import { TransactionStatus, TransactionType } from '../types';
+import { TransactionStatus, APITransactionType } from '../types';
 
 interface BlockArgs {
 	blockId: string;
@@ -8,14 +8,14 @@ interface BlockArgs {
 
 interface DeployTransaction {
 	contract_address: string;
-	type: TransactionType.DEPLOY;
+	type: APITransactionType.DEPLOY;
 }
 
 interface InvokeTransaction {
 	entry_point_selector: string;
 	contract_address: string;
 	calldata: string[];
-	type: TransactionType.INVOKE_FUNCTION;
+	type: APITransactionType.INVOKE_FUNCTION;
 }
 
 interface BlockResponse {

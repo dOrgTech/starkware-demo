@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, Typography } from '@material-ui/core';
+import { styled } from '@material-ui/core';
 import { Transaction, TransactionType } from 'context/user';
 import mintIcon from 'assets/icons/mint-icon.svg';
 import swapIcon from 'assets/icons/swap-icon.svg';
@@ -23,9 +23,9 @@ const ActivityDescription = styled('div')({
 	display: 'flex',
 	flexDirection: 'row',
 });
-const ActivityValue = styled(Typography)({
-	fontSize: 18,
-});
+// const ActivityValue = styled(Typography)({
+// 	fontSize: 18,
+// });
 const ActivityIcon = styled('img')({
 	height: '32px',
 	width: '32px',
@@ -67,12 +67,12 @@ export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({ tr
 					<ActivityIcon src={transaction.type === TransactionType.MINT ? mintIcon : swapIcon} />
 				</Flex>
 				<ColumnFlex>
-					<ActivityType>{transaction.displayName}</ActivityType>
-					<ActivityDate>{transaction.executedOn}</ActivityDate>
+					<ActivityType>{transaction.type}</ActivityType>
+					<ActivityDate>{transaction.timestamp}</ActivityDate>
 				</ColumnFlex>
 			</ActivityDescription>
 			<ColumnFlex>
-				<ActivityValue color="textPrimary">{`+${transaction.value} ${transaction.incomingToken.name}`}</ActivityValue>
+				{/* <ActivityValue color="textPrimary">{`+${transaction.args} ${transaction.incomingToken.name}`}</ActivityValue> */}
 			</ColumnFlex>
 		</ActivityListItem>
 	);
