@@ -72,7 +72,7 @@ export const theme = createMuiTheme({
 					borderRadius: 10,
 				},
 				'*::-webkit-scrollbar-thumb': {
-					backgroundColor: hexToRgba('#535387', 0.28),
+					backgroundColor: hexToRgba('#6C76CF', 0.3),
 					borderRadius: 10,
 				},
 			},
