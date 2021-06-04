@@ -38,12 +38,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }));
 
-const SnackbarCloseButton = ({ key }: { key: SnackbarKey }): JSX.Element => {
+const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }): JSX.Element => {
 	const classes = useStyles();
 	const { closeSnackbar } = useSnackbar();
 
 	return (
-		<IconButton onClick={() => closeSnackbar(key)}>
+		<IconButton onClick={() => closeSnackbar(snackbarKey)}>
 			<IconClose className={classes.close} />
 		</IconButton>
 	);
@@ -54,7 +54,7 @@ export const SnackbarProvider: React.FC = ({ children }) => {
 
 	return (
 		<MaterialSnackbarProvider
-			action={(key) => <SnackbarCloseButton key={key} />}
+			action={(key) => <SnackbarCloseButton snackbarKey={key} />}
 			anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 			classes={{
 				variantSuccess: classes.success,
