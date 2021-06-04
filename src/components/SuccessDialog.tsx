@@ -1,8 +1,7 @@
 import React, { useCallback, useContext } from 'react';
-import { Box, Button, Dialog, Grid, makeStyles, styled, Typography } from '@material-ui/core';
+import { Box, Button, Dialog, Grid, Link, makeStyles, styled, Typography } from '@material-ui/core';
 import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { TokenIcon } from './common/TokenIcon';
-import { ExternalLink } from './common/ExternalLink';
 
 const StyledContainer = styled(Box)({
 	maxWidth: '100%',
@@ -34,7 +33,7 @@ const StyledText = styled(Typography)({
 	padding: 22,
 });
 
-const StyledLink = styled(ExternalLink)({
+const StyledLink = styled(Link)({
 	margin: 'auto',
 	textAlign: 'center',
 	paddingBottom: 35,
