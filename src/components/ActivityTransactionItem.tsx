@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { styled, Typography } from '@material-ui/core';
 import { TransactionType } from 'context/user';
 import mintIcon from 'assets/icons/mint-icon.svg';
 import swapIcon from 'assets/icons/swap-icon.svg';
+import pendingMintIcon from 'assets/icons/pending-mint.svg';
+import pendingSwapIcon from 'assets/icons/pending-swap.svg';
 
 const ActivityListItem = styled('div')({
 	height: '81px',
@@ -71,11 +73,26 @@ export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
 	timestamp,
 	pending,
 }) => {
+	const iconSrc = useMemo(() => {
+		if (type === TransactionType.MINT) {
+			if (pending) {
+				return pendingMintIcon;
+			}
+
+			return mintIcon;
+		}
+
+		if (pending) {
+			return pendingSwapIcon;
+		}
+
+		return swapIcon;
+	}, [pending, type]);
 	return (
 		<ActivityListItem>
 			<ActivityDescription>
 				<Flex>
-					<ActivityIcon src={type === TransactionType.MINT ? mintIcon : swapIcon} />
+					<ActivityIcon src={iconSrc} />
 				</Flex>
 				<ColumnFlex>
 					<ActivityType>{type}</ActivityType>

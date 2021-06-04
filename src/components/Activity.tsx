@@ -12,9 +12,12 @@ const ActivityListWrapper = styled('div')({
 
 export const Activity = (): JSX.Element => {
 	const { state: userState } = useContext(UserContext);
-	const activity = userState.activity;
 
 	const formattedActivity = useMemo(() => {
+		const activity = userState.activeTransaction
+			? [userState.activeTransaction, ...userState.activity]
+			: userState.activity;
+
 		return activity
 			.map((transaction) => {
 				const pending = userState.activeTransaction?.id === transaction.id;
@@ -57,7 +60,7 @@ export const Activity = (): JSX.Element => {
 				};
 			})
 			.flat();
-	}, [activity, userState.activeTransaction]);
+	}, [userState.activeTransaction, userState.activity]);
 
 	return (
 		<Grid container>

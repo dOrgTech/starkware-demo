@@ -1,0 +1,14 @@
+<svg width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title id="swap-direction-title">swap direction</title>
+    <desc id="swap-direction-description">invert the tokens swap operation direction</desc>
+    <g opacity="0.6">
+        <path d="M18.619 1.43581L13.238 7.36134" stroke="#74B0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18.619 1.43582L24 7.36135" stroke="#74B0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18.619 19.2124V2.17651" stroke="#74B0FF" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <g opacity="0.6">
+        <path d="M6.99212 26.323L1.6111 20.3962" stroke="#74B0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.99215 26.323L12.3732 20.3962" stroke="#74B0FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.99212 8.5426L6.99212 25.5822" stroke="#74B0FF" stroke-width="2" stroke-linecap="round"/>
+    </g>
+</svg>

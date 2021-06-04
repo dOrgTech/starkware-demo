@@ -62,6 +62,11 @@ export type updateUserIdAction = {
 	};
 };
 
+export type addTransactionAction = {
+	type: ActionTypes.ADD_TRANSACTION;
+	payload: Transaction;
+};
+
 export type addActiveAction = {
 	type: ActionTypes.SET_ACTIVE_TRANSACTION;
 	payload: Transaction;
@@ -84,7 +89,11 @@ const INITIAL_STATE: UserContextState = {
 	activeTransaction: null,
 	activity: INITIAL_USER_DATA.activity,
 };
-type UserContextAction = updateUserIdAction | addActiveAction | removeActiveAction;
+type UserContextAction =
+	| updateUserIdAction
+	| addActiveAction
+	| removeActiveAction
+	| addTransactionAction;
 
 const reducer = (state: UserContextState, action: UserContextAction): UserContextState => {
 	switch (action.type) {
@@ -95,6 +104,11 @@ const reducer = (state: UserContextState, action: UserContextAction): UserContex
 				activity: [],
 			};
 		case ActionTypes.SET_ACTIVE_TRANSACTION:
+			return {
+				...state,
+				activeTransaction: action.payload,
+			};
+		case ActionTypes.ADD_TRANSACTION:
 			localStorage.setItem(
 				STORAGE_KEY,
 				JSON.stringify({
@@ -105,7 +119,6 @@ const reducer = (state: UserContextState, action: UserContextAction): UserContex
 
 			return {
 				...state,
-				activeTransaction: action.payload,
 				activity: [...state.activity, action.payload],
 			};
 		case ActionTypes.UNSET_ACTIVE_TRANSACTION:
