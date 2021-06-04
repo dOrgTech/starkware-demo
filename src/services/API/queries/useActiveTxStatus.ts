@@ -22,14 +22,29 @@ export const useActiveTxStatus = () => {
 		if (!activeTransaction) return;
 
 		if (activeTransaction.type === TransactionType.MINT) {
-			const { mint1 } = activeTransaction.args;
+			const { mint1, mint2 } = activeTransaction.args;
+
+			if (!mint2) {
+				notificationDispatch({
+					type: NotificationsActionTypes.OPEN_SUCCESS,
+					payload: {
+						title: `Success!`,
+						icon: mint1.token.icon,
+						text: `Received ${mint1.amount} ${mint1.token.symbol}`,
+						link: '0xb7d91c4........fa84fc5e6f',
+						buttonText: 'Go Back',
+					},
+				});
+				return;
+			}
+
 			notificationDispatch({
-				type: NotificationsActionTypes.OPEN_SUCCESS,
+				type: NotificationsActionTypes.OPEN_MULTI_TOKEN_SUCCESS,
 				payload: {
 					title: `Success!`,
-					icon: mint1.token.icon,
-					text: `Received ${mint1.amount} ${mint1.token.symbol}`,
-					link: '0xb7d91c4........fa84fc5e6f',
+					icons: [mint1.token.icon, mint2.token.icon],
+					text: `Minted ${mint1.amount} ${mint1.token.symbol} & ${mint2.amount} ${mint2.token.symbol}`,
+					links: ['0xb7d91c4........fa84fc5e6f', '0xb7d91c4........fa84fc5e6f'],
 					buttonText: 'Go Back',
 				},
 			});
