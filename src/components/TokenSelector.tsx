@@ -1,13 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Box, Grid, IconButton, styled, Typography } from '@material-ui/core';
 
+import { Token } from 'models/token';
 import { TokenIcon } from './common/TokenIcon';
+import { TokenSelectDialog } from './TokenSelectDialog';
+import { RoundedButton } from './common/RoundedButton';
 import { ReactComponent as DropdownArrow } from 'assets/icons/dropdown-arrow.svg';
 import { ReactComponent as PlaceholderToken } from 'assets/tokens/placeholder.svg';
-import { TokenSelectDialog } from './TokenSelectDialog';
-import { useState } from 'react';
-import { Token } from 'models/token';
-import { RoundedButton } from './common/RoundedButton';
 
 const StyledTokenContainer = styled(Box)({
 	width: '100%',

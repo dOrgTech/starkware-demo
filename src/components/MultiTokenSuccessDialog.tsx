@@ -92,18 +92,10 @@ export const MultiTokenSuccessDialog: React.FC = () => {
 							{multiTokenSuccess.text}
 						</StyledText>
 						<StyledLinkContainer container direction="column" alignItems="center" spacing={1}>
-							{multiTokenSuccess.links.map((link, i) => (
+							{multiTokenSuccess.txIds.map((txId, i) => (
 								<Grid item key={`link-${i}`} container justify="center">
 									<Grid item>
-										<ExternalLink
-											variant="subtitle1"
-											color="secondary"
-											href="https://etherscan.io/"
-											target="_blank"
-											rel="noreferrer"
-										>
-											{link}
-										</ExternalLink>
+										<ExternalLink txId={txId} />
 									</Grid>
 								</Grid>
 							))}

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
 	DialogProps,
-	Theme,
 	styled,
 	makeStyles,
 	Dialog,
@@ -18,17 +17,12 @@ import IconButton from '@material-ui/core/IconButton';
 import { ReactComponent as CloseIcon } from 'assets/icons/close.svg';
 import { TokenIcon } from './common/TokenIcon';
 import { Token } from 'models/token';
-import { useTokenBalances } from '../services/API/token/hooks/useTokenBalances';
+import { useAccountBalance } from '../services/API/queries/useAccountBalance';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
 	root: {
 		width: '100%',
 		padding: 0,
-	},
-	dialog: {
-		position: 'absolute',
-		top: 100,
-		borderRadius: theme.spacing(1),
 	},
 	scrollPaper: {
 		alignItems: 'baseline',
@@ -74,14 +68,13 @@ export const TokenSelectDialog = ({
 	handleSelect,
 	...props
 }: Props): JSX.Element => {
-	const { data: tokenBalances } = useTokenBalances();
+	const { data: tokenBalances } = useAccountBalance();
 	const classes = useStyles();
 
 	return (
 		<Dialog
 			{...props}
 			classes={{
-				paper: classes.dialog,
 				scrollPaper: classes.scrollPaper,
 			}}
 			fullWidth
@@ -107,9 +100,7 @@ export const TokenSelectDialog = ({
 								</ListItemAvatar>
 								<StyledListItemText primary={token.symbol} />
 								<Typography color="textPrimary" variant="body1">
-									{tokenBalances?.find(
-										(tokenBalance) => tokenBalance.token.symbol === token?.symbol,
-									)?.amount || '0.0'}
+									{tokenBalances?.get(token.id) || '0.0'}
 								</Typography>
 							</ListItem>
 						</React.Fragment>

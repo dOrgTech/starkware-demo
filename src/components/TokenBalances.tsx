@@ -1,66 +1,81 @@
-import { Grid, GridProps, styled, Theme, Typography } from '@material-ui/core';
+import React from 'react';
+import { Grid, GridProps, makeStyles, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import hexToRgba from 'hex-to-rgba';
-import React, { useMemo } from 'react';
-import { useTokenBalances } from 'services/API/token/hooks/useTokenBalances';
+import { useAccountBalance } from '../services/API/queries/useAccountBalance';
+import { tokens } from '../constants';
 
-const BalanceBox = styled(Grid)(({ tokenColor }: { theme: Theme; tokenColor: string }) => ({
-	height: 42,
-	minWidth: 164,
-	background: hexToRgba(tokenColor, 0.1),
-	borderRadius: 6,
-	'& > div': {
-		height: '100%',
-	},
-	margin: '8px',
-}));
+interface StyleProps {
+	tokenColor: string;
+}
 
-const BalanceText = styled(Typography)(({ tokenColor }: { theme: Theme; tokenColor: string }) => ({
-	fontWeight: 400,
-	color: tokenColor,
-	fontSize: 18,
-	display: 'inline-block',
-}));
+const useStyles = ({ tokenColor }: StyleProps) => {
+	return makeStyles((theme) => ({
+		box: {
+			height: 42,
+			minWidth: 164,
+			background: hexToRgba(tokenColor, 0.1),
+			borderRadius: 6,
+			'& > div': {
+				height: '100%',
+			},
+			margin: '8px',
+		},
+		text: {
+			fontWeight: 400,
+			color: tokenColor,
+			fontSize: 18,
+			display: 'inline-block',
+		},
+		loader: {
+			width: theme.spacing(4),
+			fontSize: 18,
+		},
+		amountContainer: {
+			marginRight: 6,
+		},
+	}));
+};
 
 interface Props extends GridProps {
 	symbol: string;
 	color: string;
-	amount: string;
+	amount?: string;
 }
 
-const TokenBalance: React.FC<Props> = ({ symbol, color, amount, ...props }) => {
+const TokenBalance = ({ symbol, color, amount, className, ...props }: Props): JSX.Element => {
+	const classes = useStyles({ tokenColor: color })();
+
 	return (
-		<BalanceBox item tokenColor={color} {...props}>
+		<Grid item className={`${className} ${classes.box}`} {...props}>
 			<Grid container justify="center" alignItems="center">
+				<Grid className={classes.amountContainer} item>
+					{amount ? (
+						<Typography className={classes.text}>{amount}</Typography>
+					) : (
+						<Skeleton className={classes.loader} />
+					)}
+				</Grid>
 				<Grid item>
-					<BalanceText tokenColor={color}>
-						{amount} {symbol}
-					</BalanceText>
+					<Typography className={classes.text}>{symbol}</Typography>
 				</Grid>
 			</Grid>
-		</BalanceBox>
+		</Grid>
 	);
 };
 
-export const TokenBalances: React.FC = () => {
-	const { data } = useTokenBalances();
-
-	const balances = useMemo(() => {
-		if (!data) {
-			return [];
-		}
-
-		return data;
-	}, [data]);
+export const TokenBalances = (): JSX.Element => {
+	const { data: balances } = useAccountBalance();
 
 	return (
 		<Grid container>
-			{balances.map((balance, i) => {
+			{tokens.map(({ id, symbol, color }, index) => {
 				return (
 					<TokenBalance
-						key={`balance-${i}`}
-						symbol={balance.token.symbol}
-						color={balance.token.color}
-						amount={balance.amount}
+						key={`balance-${symbol}-${index}`}
+						symbol={symbol}
+						color={color}
+						amount={balances?.get(id)}
 						xs={12}
 						sm={3}
 					/>

@@ -1,5 +1,14 @@
 import React, { useCallback, useContext } from 'react';
-import { Box, Button, Dialog, Grid, makeStyles, styled, Typography } from '@material-ui/core';
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogContent,
+	Grid,
+	makeStyles,
+	styled,
+	Typography,
+} from '@material-ui/core';
 import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { TokenIcon } from './common/TokenIcon';
 import { ExternalLink } from './common/ExternalLink';
@@ -34,17 +43,14 @@ const StyledText = styled(Typography)({
 	padding: 22,
 });
 
-const StyledLink = styled(ExternalLink)({
+const StyledLinkContainer = styled(Grid)({
 	margin: 'auto',
 	textAlign: 'center',
-	paddingBottom: 35,
+	marginBottom: 35,
 	display: 'block',
 });
 
 const useStyles = makeStyles({
-	dialog: {
-		top: 100,
-	},
 	scrollPaper: {
 		alignItems: 'baseline',
 	},
@@ -68,45 +74,45 @@ export const SuccessDialog: React.FC = () => {
 			open={success.open}
 			onClose={handleClose}
 			classes={{
-				paper: classes.dialog,
 				scrollPaper: classes.scrollPaper,
 			}}
+			fullWidth
+			maxWidth="xs"
 		>
-			<StyledContainer>
-				<Grid container justify="space-between" direction="column">
-					<Grid item>
-						<StyledTitle variant="h4" color="textPrimary">
-							{success.title}
-						</StyledTitle>
-						<StyledIconContainer>
-							<TokenIcon icon={success.icon} size="large" />
-						</StyledIconContainer>
-						<StyledText variant="body2" color="textPrimary">
-							{success.text}
-						</StyledText>
-						<StyledLink
-							variant="subtitle1"
-							color="secondary"
-							href="https://etherscan.io/"
-							target="_blank"
-							rel="noreferrer"
-						>
-							{success.link}
-						</StyledLink>
+			<DialogContent>
+				<StyledContainer>
+					<Grid container justify="space-between" direction="column">
+						<Grid item>
+							<StyledTitle variant="h4" color="textPrimary">
+								{success.title}
+							</StyledTitle>
+							<StyledIconContainer>
+								<TokenIcon icon={success.icon} size="large" />
+							</StyledIconContainer>
+							<StyledText variant="body2" color="textPrimary">
+								{success.text}
+							</StyledText>
+
+							<StyledLinkContainer container direction="column" alignItems="center" spacing={1}>
+								<Grid item>
+									<ExternalLink txId={success.txId} />
+								</Grid>
+							</StyledLinkContainer>
+						</Grid>
+						<Grid item>
+							<Button
+								variant="contained"
+								color="secondary"
+								fullWidth
+								disableElevation
+								onClick={handleClose}
+							>
+								{success.buttonText}
+							</Button>
+						</Grid>
 					</Grid>
-					<Grid item>
-						<Button
-							variant="contained"
-							color="secondary"
-							fullWidth
-							disableElevation
-							onClick={handleClose}
-						>
-							{success.buttonText}
-						</Button>
-					</Grid>
-				</Grid>
-			</StyledContainer>
+				</StyledContainer>
+			</DialogContent>
 		</Dialog>
 	);
 };

@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 export interface Token {
 	id: string;
 	name: string;
@@ -13,6 +15,6 @@ export interface TokenBalance {
 }
 
 export interface ConversionRate {
-	from: number;
-	to: number;
+	from: BigNumber;
+	to: BigNumber;
 }

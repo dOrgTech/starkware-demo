@@ -6,12 +6,13 @@ import {
 	IconButton,
 	useMediaQuery,
 	useTheme,
+	Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Sidemenu } from './Sidemenu';
 import { TokenBalances } from './TokenBalances';
 import MenuIcon from '@material-ui/icons/Menu';
-import Starknet from 'assets/starknet.svg';
+import { StarknetLogo } from './common/StarknetLogo';
 
 const StyledAppBar = styled(AppBar)({
 	boxShadow: 'unset',
@@ -19,15 +20,9 @@ const StyledAppBar = styled(AppBar)({
 	alignItems: 'center',
 });
 
-const StarkNetLogo = styled('img')({
-	width: 196,
-	height: 39,
-	margin: 'auto',
-});
-
 const MenuBar = styled(Grid)({
 	width: 'calc(100% + 40px)',
-	margin: '-10px -10px 0 -10px',
+	margin: '-10px -10px 30px -10px',
 	alignItems: 'center',
 });
 
@@ -50,7 +45,7 @@ export const Navbar: React.FC = () => {
 				{isMobile && (
 					<MenuBar container justify="space-between">
 						<Grid item>
-							<StarkNetLogo src={Starknet} />
+							<StarknetLogo />
 						</Grid>
 						<Grid item>
 							<IconButton color="primary" size="medium" onClick={() => setOpen(!open)}>
@@ -59,7 +54,15 @@ export const Navbar: React.FC = () => {
 						</Grid>
 					</MenuBar>
 				)}
-				<Grid justify={isMobile ? 'center' : 'flex-end'} container alignItems="center">
+				<Grid
+					justify={isMobile ? 'center' : 'space-between'}
+					container
+					alignItems="center"
+					spacing={1}
+				>
+					<Grid item>
+						<Typography>Example Contract - Simple AMM</Typography>
+					</Grid>
 					<Grid item>
 						<TokenBalances />
 					</Grid>

@@ -13,12 +13,12 @@ import {
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
-import { ConversionRate, Token } from 'models/token';
+import { ConversionRate } from 'models/token';
 import { ReactComponent as CloseIcon } from '../assets/icons/close.svg';
 import { ReactComponent as ArrowDownIcon } from '../assets/icons/arrow-down.svg';
 import { ReactComponent as SwapIcon } from '../assets/icons/swap.svg';
 import { TokenIcon } from './common/TokenIcon';
-import { SwapReceipt } from '../models/swap';
+import { SwapInformation, SwapReceipt } from '../models/swap';
 
 const StyledCloseButton = styled(IconButton)(({ theme }) => ({
 	position: 'absolute',
@@ -58,11 +58,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 		width: '100%',
 		padding: 0,
 	},
-	dialog: {
-		position: 'absolute',
-		top: 100,
-		borderRadius: theme.spacing(1),
-	},
 	scrollPaper: {
 		alignItems: 'baseline',
 	},
@@ -89,13 +84,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }));
 
-type SwapCandidate = Pick<Token, 'symbol' | 'icon'> & {
-	amount: string;
-};
-
 interface Props extends DialogProps {
-	from?: SwapCandidate;
-	to?: SwapCandidate;
+	from?: SwapInformation;
+	to?: SwapInformation;
 	conversionRate: ConversionRate;
 	onClose: () => void;
 	onSwap: (receipt: SwapReceipt) => void;
@@ -107,7 +98,6 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 	return (
 		<Dialog
 			classes={{
-				paper: classes.dialog,
 				scrollPaper: classes.scrollPaper,
 			}}
 			fullWidth
@@ -126,7 +116,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 						<StyledRow item container>
 							<Grid item container alignItems="center" xs>
 								<Grid item>
-									<TokenIcon icon={from.icon} />
+									<TokenIcon icon={from.token.icon} />
 								</Grid>
 								<Grid item className={classes.amount}>
 									<Typography variant="body1" color="textPrimary">
@@ -136,7 +126,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 							</Grid>
 							<Grid item xs>
 								<StyledEndAlignText variant="body1" color="textPrimary">
-									{from.symbol}
+									{from.token.symbol}
 								</StyledEndAlignText>
 							</Grid>
 						</StyledRow>
@@ -146,7 +136,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 						<StyledRow item container>
 							<Grid item container alignItems="center" xs>
 								<Grid item>
-									<TokenIcon icon={to.icon} />
+									<TokenIcon icon={to.token.icon} />
 								</Grid>
 								<Grid item className={classes.amount}>
 									<Typography variant="body1" color="textPrimary">
@@ -156,7 +146,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 							</Grid>
 							<Grid item xs>
 								<StyledEndAlignText variant="body1" color="textPrimary">
-									{to.symbol}
+									{to.token.symbol}
 								</StyledEndAlignText>
 							</Grid>
 						</StyledRow>
@@ -177,7 +167,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 							>
 								<Grid item>
 									<StyledSummaryText variant="body1" color="textPrimary">
-										{`${to.amount} ${to.symbol} / ${from.symbol}`}
+										{`${to.amount} ${to.token.symbol} / ${from.token.symbol}`}
 									</StyledSummaryText>
 								</Grid>
 								<Grid item>
@@ -193,8 +183,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								disableElevation
 								onClick={() => {
 									if (!to) return;
-									const { amount, ...token } = to;
-									onSwap({ id: '123', token, amount });
+									onSwap({ from, to });
 								}}
 							>
 								Confirm Swap

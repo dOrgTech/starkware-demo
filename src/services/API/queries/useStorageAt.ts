@@ -1,21 +1,22 @@
 import { useQuery } from 'react-query';
-import { HTTPClient } from '../../http';
+import BigNumber from 'bignumber.js';
+import { httpClient } from '../utils/http';
 
 export interface StorageArgs {
 	contractAddress: string;
 	key: string;
-}
-
-interface StorageResult {
-	value: unknown;
+	blockId: string | null;
 }
 
 export const useStorageAt = (args: StorageArgs) => {
-	return useQuery<StorageResult, Error>(['storageAt', args], async () => {
-		//TODO
-		const httpClient = HTTPClient.create({ baseURL: '', timeout: 500, headers: {} });
-		const { data } = await httpClient.get('');
-
-		return data;
-	});
+	return useQuery<string, Error>(
+		['storageAt', args.contractAddress, args.key, args.blockId],
+		async () => {
+			const contractNumber = new BigNumber(args.contractAddress).toNumber();
+			const { data } = await httpClient.get<string>(
+				`feeder_gateway/get_storage_at?contractAddress=${contractNumber}&key=${args.key}&blockId=${args.blockId}`,
+			);
+			return data;
+		},
+	);
 };
