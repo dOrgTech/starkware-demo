@@ -23,11 +23,11 @@ export const theme = createMuiTheme({
 			disabled: 'rgba(250, 250, 245, 0.25)',
 			disabledBackground: 'rgba(145, 145, 183, 0.15)',
 		},
-		info: {
+		success: {
 			main: '#74B0FF',
 		},
-		success: {
-			main: '#9E3B5A',
+		info: {
+			main: '#733461',
 		},
 		error: {
 			main: '#9E3B5A',

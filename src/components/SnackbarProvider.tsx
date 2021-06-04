@@ -9,6 +9,11 @@ import SuccessIcon from 'assets/icons/success.svg';
 import ErrorIcon from 'assets/icons/error.svg';
 
 const useStyles = makeStyles((theme: Theme) => ({
+	root: {
+		[theme.breakpoints.up('sm')]: {
+			width: 350,
+		},
+	},
 	success: {
 		backgroundColor: theme.palette.success.main,
 		fontSize: `18px !important`,
@@ -57,6 +62,7 @@ export const SnackbarProvider: React.FC = ({ children }) => {
 			action={(key) => <SnackbarCloseButton snackbarKey={key} />}
 			anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 			classes={{
+				root: classes.root,
 				variantSuccess: classes.success,
 				variantError: classes.error,
 				variantInfo: classes.info,
