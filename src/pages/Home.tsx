@@ -76,6 +76,12 @@ const TABS = [
 	},
 ];
 
+const tabsUnderlyingBorderWidths: Record<string, number> = {
+	mint: 43,
+	swap: 52,
+	activity: 70,
+};
+
 export const Home = (): JSX.Element => {
 	const tabsStyles = useTabsStyles();
 	const tabStyles = useTabStyles();
@@ -97,7 +103,9 @@ export const Home = (): JSX.Element => {
 		<Container maxWidth="lg">
 			<CardContainer>
 				<Tabs
-					TabIndicatorProps={{ children: <span /> }}
+					TabIndicatorProps={{
+						children: <span style={{ width: tabsUnderlyingBorderWidths[selectedTab] }} />,
+					}}
 					classes={tabsStyles}
 					value={selectedTab}
 					onChange={handleTabSelected}
