@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { callContract } from '../utils/callContract';
 import { UserContext } from 'context/user';
-import { CONTRACT_ADDRESS, tokens } from '../../../constants';
+import { CONTRACT_ADDRESS, GET_ACCOUNT_TOKEN_BALANCE_ENTRYPOINT, tokens } from '../../../constants';
 import { useSnackbar } from 'notistack';
 
 interface BalancesFetchResult {
@@ -27,8 +27,7 @@ export const useAccountBalance = (blockId?: string) => {
 							contract_address: CONTRACT_ADDRESS,
 							blockId: blockId || null,
 							calldata: [userId, id],
-							entry_point_selector:
-								'0x37cad3b31fe9762e3caec6c2649772a660084f23004801193311ff36dc54fe',
+							entry_point_selector: GET_ACCOUNT_TOKEN_BALANCE_ENTRYPOINT,
 						}),
 					),
 				);

@@ -1,4 +1,4 @@
-import { CONTRACT_ADDRESS } from '../../../constants';
+import { ADD_DEMO_TOKEN_ENTRYPOINT, CONTRACT_ADDRESS } from '../../../constants';
 import { useMutation } from 'react-query';
 import dayjs from 'dayjs';
 import { APITransactionType, TransactionResponse } from '../types';
@@ -29,7 +29,7 @@ export const useMint = () => {
 	} = useMutation<TransactionResponse, Error, MintArgs>(async (args) => {
 		const result = await sendTransaction({
 			contract_address: CONTRACT_ADDRESS,
-			entry_point_selector: '0x120ae4faee4a97bc466bde8ca3c7db157f3cf16e8a66acf49c2c4d0a068e89c',
+			entry_point_selector: ADD_DEMO_TOKEN_ENTRYPOINT,
 			type: APITransactionType.INVOKE_FUNCTION,
 			calldata: [userId, args.mint1.amount, args.mint2?.amount || '0'],
 		});
