@@ -1,5 +1,10 @@
 import { useContext, useState } from 'react';
-import { ActionTypes as UserActionTypes, TransactionType, UserContext } from 'context/user';
+import {
+	ActionTypes as UserActionTypes,
+	Transaction,
+	TransactionType,
+	UserContext,
+} from 'context/user';
 import {
 	ActionTypes as NotificationsActionTypes,
 	NotificationsContext,
@@ -67,10 +72,14 @@ export const useActiveTxStatus = () => {
 
 	const handleTxSuccess = (data: unknown) => {
 		//TODO: remove execution on rejected
-		if (data === TransactionStatus.REJECTED || data === TransactionStatus.CONFIRMED) {
+		if (data === TransactionStatus.REJECTED || data === TransactionStatus.ACCEPTED_ONCHAIN) {
 			setStop(true);
 			closeSnackbar();
 			showSuccess();
+			userDispatch({
+				type: UserActionTypes.ADD_TRANSACTION,
+				payload: activeTransaction as Transaction,
+			});
 			userDispatch({
 				type: UserActionTypes.UNSET_ACTIVE_TRANSACTION,
 			});
