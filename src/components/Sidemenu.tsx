@@ -4,9 +4,10 @@ import Block from 'assets/menu/Block.svg';
 import Document from 'assets/menu/Document.svg';
 import Download from 'assets/menu/Download.svg';
 import Starkware from 'assets/menu/Starkware.svg';
-import Starknet from 'assets/starknet.svg';
+
 import hexToRgba from 'hex-to-rgba';
 import React from 'react';
+import { StarknetLogo } from './common/StarknetLogo';
 
 const StyledContainer = styled(Grid)({
 	height: '100%',
@@ -51,17 +52,11 @@ const LogoContainer = styled(Grid)({
 	height: 115,
 });
 
-const StarkNetLogo = styled('img')({
-	width: 196,
-	height: 39,
-	margin: 'auto',
-});
-
 export const Sidemenu: React.FC = () => {
 	return (
 		<StyledContainer container direction="column" alignItems="center">
 			<LogoContainer item container justify="center" alignItems="center">
-				<StarkNetLogo src={Starknet} />
+				<StarknetLogo />
 			</LogoContainer>
 			<MenuItems item container spacing={5} direction="column" alignItems="center">
 				{links.map(({ label, icon, url }, i) => (
