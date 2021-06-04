@@ -25,13 +25,13 @@ ReactDOM.render(
 			<ThemeProvider theme={theme}>
 				<CssBaseline>
 					<Router>
-						<UserProvider>
-							<NotificationsProvider>
-								<SnackbarProvider>
+						<NotificationsProvider>
+							<SnackbarProvider>
+								<UserProvider>
 									<App />
-								</SnackbarProvider>
-							</NotificationsProvider>
-						</UserProvider>
+								</UserProvider>
+							</SnackbarProvider>
+						</NotificationsProvider>
 					</Router>
 				</CssBaseline>
 			</ThemeProvider>
