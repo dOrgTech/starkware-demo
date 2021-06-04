@@ -51,6 +51,9 @@ export const theme = createMuiTheme({
 		h5: {
 			fontSize: '18px',
 		},
+		h6: {
+			fontSize: '11px',
+		},
 	},
 	overrides: {
 		MuiButton: {
