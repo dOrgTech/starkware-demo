@@ -22,3 +22,5 @@ export const tokens = [
 
 export const CONTRACT_ADDRESS =
 	'0x0000000000000000000000000000000000000000000000000000000000000005';
+
+export const EXPLORER_URL = 'https://dev.voyager.online';
