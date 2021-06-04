@@ -9,7 +9,7 @@ import {
 	ActionTypes as NotificationsActionTypes,
 	NotificationsContext,
 } from 'context/notifications';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { TransactionStatus } from '../types';
 import { httpClient } from '../utils/http';
 import { useTxNotifications } from '../../../hooks/notifications';
@@ -21,6 +21,8 @@ export const useActiveTxStatus = () => {
 	} = useContext(UserContext);
 	const { dispatch: notificationDispatch } = useContext(NotificationsContext);
 	const [stop, setStop] = useState(false);
+
+	const queryClient = useQueryClient();
 	const { showSuccess, showError, closeSnackbar } = useTxNotifications();
 
 	const displayNotifications = () => {
@@ -73,6 +75,7 @@ export const useActiveTxStatus = () => {
 	const handleTxSuccess = (data: unknown) => {
 		//TODO: remove execution on rejected
 		if (data === TransactionStatus.REJECTED || data === TransactionStatus.ACCEPTED_ONCHAIN) {
+			queryClient.resetQueries('accountBalance');
 			setStop(true);
 			closeSnackbar();
 			showSuccess();
