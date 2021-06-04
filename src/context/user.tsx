@@ -1,7 +1,12 @@
-import React, { createContext, Dispatch, useReducer } from 'react';
+import { useTxNotifications } from 'hooks/notifications';
+import React, { createContext, Dispatch, useContext, useReducer, useState } from 'react';
+import { useQueryClient, useQuery } from 'react-query';
 import { MintArgs } from 'services/API/mutations/useMint';
 import { SwapArgs } from 'services/API/mutations/useSwap';
+import { TransactionStatus } from 'services/API/types';
+import { httpClient } from 'services/API/utils/http';
 import { randomUserId } from '../utils/random';
+import { ActionTypes as NotificationsActionTypes, NotificationsContext } from './notifications';
 
 const STORAGE_PREFIX = `starkware`;
 const STORAGE_KEY = `${STORAGE_PREFIX}:user`;
@@ -143,5 +148,106 @@ export const UserContext = createContext<Context>({
 
 export const UserProvider: React.FC = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+	const [stop, setStop] = useState(false);
+
+	const queryClient = useQueryClient();
+	const { showSuccess, showError, closeSnackbar } = useTxNotifications();
+	const { dispatch: notificationDispatch } = useContext(NotificationsContext);
+
+	const displayNotifications = () => {
+		if (!state.activeTransaction) return;
+
+		if (state.activeTransaction.type === TransactionType.MINT) {
+			const { mint1, mint2 } = state.activeTransaction.args;
+
+			if (!mint2) {
+				notificationDispatch({
+					type: NotificationsActionTypes.OPEN_SUCCESS,
+					payload: {
+						title: `Success!`,
+						icon: mint1.token.icon,
+						text: `Received ${mint1.amount} ${mint1.token.symbol}`,
+						txId: state.activeTransaction.id,
+						buttonText: 'Go Back',
+					},
+				});
+				return;
+			}
+
+			notificationDispatch({
+				type: NotificationsActionTypes.OPEN_MULTI_TOKEN_SUCCESS,
+				payload: {
+					title: `Success!`,
+					icons: [mint1.token.icon, mint2.token.icon],
+					text: `Minted ${mint1.amount} ${mint1.token.symbol} & ${mint2.amount} ${mint2.token.symbol}`,
+					txIds: [state.activeTransaction.id],
+					buttonText: 'Go Back',
+				},
+			});
+		}
+
+		if (state.activeTransaction.type === TransactionType.SWAP) {
+			const { to } = state.activeTransaction.args;
+			notificationDispatch({
+				type: NotificationsActionTypes.OPEN_SUCCESS,
+				payload: {
+					title: `Success!`,
+					icon: to.token.icon,
+					text: `Received ${to.amount} ${to.token.symbol}`,
+					txId: state.activeTransaction.id,
+					buttonText: 'Go Back',
+				},
+			});
+		}
+	};
+
+	const handleTxSuccess = (data: unknown) => {
+		//TODO: remove execution on rejected
+		if (data === TransactionStatus.REJECTED || data === TransactionStatus.ACCEPTED_ONCHAIN) {
+			queryClient.resetQueries('accountBalance');
+			setStop(true);
+			closeSnackbar();
+			showSuccess();
+			dispatch({
+				type: ActionTypes.ADD_TRANSACTION,
+				payload: state.activeTransaction as Transaction,
+			});
+			dispatch({
+				type: ActionTypes.UNSET_ACTIVE_TRANSACTION,
+			});
+			displayNotifications();
+		}
+	};
+
+	const handleTxError = (error: unknown) => {
+		console.error(`Error while querying for Tx ID ${state.activeTransaction?.id}: ${error}`);
+		setStop(true);
+		closeSnackbar();
+		showError();
+		dispatch({
+			type: ActionTypes.UNSET_ACTIVE_TRANSACTION,
+		});
+	};
+
+	useQuery(
+		['txStatus', state.activeTransaction],
+		async () => {
+			setStop(false);
+			const { data } = await httpClient.get<string>(
+				`feeder_gateway/get_transaction_status?transactionId=${state.activeTransaction?.id}`,
+			);
+
+			return data;
+		},
+		{
+			onSuccess: handleTxSuccess,
+			onError: handleTxError,
+			enabled: !!state.activeTransaction,
+			refetchInterval: stop ? false : 10000,
+			refetchIntervalInBackground: true,
+			refetchOnWindowFocus: false,
+		},
+	);
+
 	return <UserContext.Provider value={{ state, dispatch }}>{children}</UserContext.Provider>;
 };

@@ -2,7 +2,6 @@ import { ActionTypes, TransactionType, UserContext } from 'context/user';
 import { useContext } from 'react';
 import dayjs from 'dayjs';
 import { useMutation } from 'react-query';
-import { useActiveTxStatus } from '../queries/useActiveTxStatus';
 import { APITransactionType, TransactionResponse } from '../types';
 import { sendTransaction } from '../utils/sendTransaction';
 import { SwapInformation } from '../../../models/swap';
@@ -21,12 +20,7 @@ export const useSwap = () => {
 	} = useContext(UserContext);
 	const { showPendingTransaction } = useTxNotifications();
 
-	const {
-		mutate,
-		data: swapData,
-		error: swapError,
-		isLoading: swapIsLoading,
-	} = useMutation<TransactionResponse, Error, SwapArgs>(async ({ from, to }) => {
+	return useMutation<TransactionResponse, Error, SwapArgs>(async ({ from, to }) => {
 		const result = await sendTransaction({
 			contract_address: CONTRACT_ADDRESS,
 			entry_point_selector: SWAP_ENTRYPOINT,
@@ -50,15 +44,4 @@ export const useSwap = () => {
 
 		return result;
 	});
-
-	const { isStopped, data, error } = useActiveTxStatus();
-
-	return {
-		mutate,
-		txStatus: data,
-		isStopped,
-		data: swapData,
-		error: swapError || error,
-		swapLoading: swapIsLoading,
-	};
 };
