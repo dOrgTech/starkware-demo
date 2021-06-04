@@ -58,7 +58,7 @@ export const useActiveTxStatus = () => {
 					title: `Success!`,
 					icon: to.token.icon,
 					text: `Received ${to.amount} ${to.token.symbol}`,
-					txId: '0xb7d91c4........fa84fc5e6f',
+					txId: activeTransaction.id,
 					buttonText: 'Go Back',
 				},
 			});
