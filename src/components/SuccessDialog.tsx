@@ -5,13 +5,13 @@ import {
 	Dialog,
 	DialogContent,
 	Grid,
-	Link,
 	makeStyles,
 	styled,
 	Typography,
 } from '@material-ui/core';
 import { ActionTypes, NotificationsContext } from 'context/notifications';
 import { TokenIcon } from './common/TokenIcon';
+import { ExternalLink } from './common/ExternalLink';
 
 const StyledContainer = styled(Box)({
 	maxWidth: '100%',
@@ -43,10 +43,10 @@ const StyledText = styled(Typography)({
 	padding: 22,
 });
 
-const StyledLink = styled(Link)({
+const StyledLinkContainer = styled(Grid)({
 	margin: 'auto',
 	textAlign: 'center',
-	paddingBottom: 35,
+	marginBottom: 35,
 	display: 'block',
 });
 
@@ -92,15 +92,12 @@ export const SuccessDialog: React.FC = () => {
 							<StyledText variant="body2" color="textPrimary">
 								{success.text}
 							</StyledText>
-							<StyledLink
-								variant="subtitle1"
-								color="secondary"
-								href="https://etherscan.io/"
-								target="_blank"
-								rel="noreferrer"
-							>
-								{success.link}
-							</StyledLink>
+
+							<StyledLinkContainer container direction="column" alignItems="center" spacing={1}>
+								<Grid item>
+									<ExternalLink txId={success.txId} />
+								</Grid>
+							</StyledLinkContainer>
 						</Grid>
 						<Grid item>
 							<Button

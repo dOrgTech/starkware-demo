@@ -31,7 +31,7 @@ export const useActiveTxStatus = () => {
 						title: `Success!`,
 						icon: mint1.token.icon,
 						text: `Received ${mint1.amount} ${mint1.token.symbol}`,
-						link: '0xb7d91c4........fa84fc5e6f',
+						txId: activeTransaction.id,
 						buttonText: 'Go Back',
 					},
 				});
@@ -44,7 +44,7 @@ export const useActiveTxStatus = () => {
 					title: `Success!`,
 					icons: [mint1.token.icon, mint2.token.icon],
 					text: `Minted ${mint1.amount} ${mint1.token.symbol} & ${mint2.amount} ${mint2.token.symbol}`,
-					links: ['0xb7d91c4........fa84fc5e6f', '0xb7d91c4........fa84fc5e6f'],
+					txIds: [activeTransaction.id],
 					buttonText: 'Go Back',
 				},
 			});
@@ -58,7 +58,7 @@ export const useActiveTxStatus = () => {
 					title: `Success!`,
 					icon: to.token.icon,
 					text: `Received ${to.amount} ${to.token.symbol}`,
-					link: '0xb7d91c4........fa84fc5e6f',
+					txId: '0xb7d91c4........fa84fc5e6f',
 					buttonText: 'Go Back',
 				},
 			});

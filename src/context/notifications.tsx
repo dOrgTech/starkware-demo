@@ -27,7 +27,7 @@ export type OpenSuccessAction = {
 		title: string;
 		icon: string;
 		text: string;
-		link: string;
+		txId: string;
 		buttonText: string;
 	};
 };
@@ -38,7 +38,7 @@ export type OpenMultiTokenSuccessAction = {
 		title: string;
 		icons: string[];
 		text: string;
-		links: string[];
+		txIds: string[];
 		buttonText: string;
 	};
 };
@@ -65,7 +65,7 @@ export interface NotificationContextState {
 		title: string;
 		icon: string;
 		text: string;
-		link: string;
+		txId: string;
 		buttonText: string;
 	};
 	multiTokenSuccess: {
@@ -73,7 +73,7 @@ export interface NotificationContextState {
 		title: string;
 		icons: string[];
 		text: string;
-		links: string[];
+		txIds: string[];
 		buttonText: string;
 	};
 	loading: boolean;
@@ -91,7 +91,7 @@ const INITIAL_STATE: NotificationContextState = {
 		title: '',
 		icon: '',
 		text: '',
-		link: '',
+		txId: '',
 		buttonText: '',
 	},
 	multiTokenSuccess: {
@@ -99,7 +99,7 @@ const INITIAL_STATE: NotificationContextState = {
 		title: '',
 		icons: [],
 		text: '',
-		links: [],
+		txIds: [],
 		buttonText: '',
 	},
 	loading: false,
