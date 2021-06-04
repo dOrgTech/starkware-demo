@@ -3,16 +3,30 @@ import { MintArgs } from 'services/API/mutations/useMint';
 import { SwapArgs } from 'services/API/mutations/useSwap';
 import { randomUserId } from '../utils/random';
 
-const getUserId = (): string => {
-	const storedUserId = localStorage.getItem('userId');
+const STORAGE_PREFIX = `starkware`;
+const STORAGE_KEY = `${STORAGE_PREFIX}:user`;
 
-	if (storedUserId) {
-		return storedUserId;
+interface UserData {
+	activity: Transaction[];
+	userId: string;
+}
+
+const getUserData = (): UserData => {
+	const userDataString = localStorage.getItem(STORAGE_KEY);
+
+	if (userDataString) {
+		return JSON.parse(userDataString);
 	}
 
 	const userId = randomUserId();
-	localStorage.setItem('userId', userId);
-	return userId;
+	const userData = {
+		userId,
+		activity: [],
+	};
+
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+
+	return userData;
 };
 
 export enum TransactionType {
@@ -32,24 +46,19 @@ export type Transaction =
 			id: string;
 			type: TransactionType.MINT;
 			args: MintArgs;
+			timestamp: string;
 	  }
 	| {
 			id: string;
 			type: TransactionType.SWAP;
 			args: SwapArgs;
+			timestamp: string;
 	  };
 
 export type updateUserIdAction = {
 	type: ActionTypes.UPDATE_USER_ID;
 	payload: {
 		userId: string;
-	};
-};
-
-export type addActivityAction = {
-	type: ActionTypes.ADD_TRANSACTION;
-	payload: {
-		activity: Transaction;
 	};
 };
 
@@ -68,16 +77,14 @@ export type UserContextState = {
 	activeTransaction: Transaction | null;
 };
 
+const INITIAL_USER_DATA = getUserData();
+
 const INITIAL_STATE: UserContextState = {
-	userId: getUserId(),
+	userId: INITIAL_USER_DATA.userId,
 	activeTransaction: null,
-	activity: [],
+	activity: INITIAL_USER_DATA.activity,
 };
-type UserContextAction =
-	| updateUserIdAction
-	| addActivityAction
-	| addActiveAction
-	| removeActiveAction;
+type UserContextAction = updateUserIdAction | addActiveAction | removeActiveAction;
 
 const reducer = (state: UserContextState, action: UserContextAction): UserContextState => {
 	switch (action.type) {
@@ -87,15 +94,19 @@ const reducer = (state: UserContextState, action: UserContextAction): UserContex
 				userId: action.payload.userId,
 				activity: [],
 			};
-		case ActionTypes.ADD_TRANSACTION:
-			return {
-				...state,
-				activity: [...state.activity, action.payload.activity],
-			};
 		case ActionTypes.SET_ACTIVE_TRANSACTION:
+			localStorage.setItem(
+				STORAGE_KEY,
+				JSON.stringify({
+					userId: state.userId,
+					activity: [...state.activity, action.payload],
+				}),
+			);
+
 			return {
 				...state,
 				activeTransaction: action.payload,
+				activity: [...state.activity, action.payload],
 			};
 		case ActionTypes.UNSET_ACTIVE_TRANSACTION:
 			return {

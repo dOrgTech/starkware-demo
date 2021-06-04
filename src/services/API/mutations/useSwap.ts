@@ -1,5 +1,6 @@
 import { ActionTypes, TransactionType, UserContext } from 'context/user';
 import { useContext } from 'react';
+import dayjs from 'dayjs';
 import { useMutation } from 'react-query';
 import { useActiveTxStatus } from '../queries/useActiveTxStatus';
 import { APITransactionType, TransactionResponse } from '../types';
@@ -43,6 +44,7 @@ export const useSwap = () => {
 					from,
 					to,
 				},
+				timestamp: dayjs().toString(),
 			},
 		});
 

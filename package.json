@@ -15,6 +15,7 @@
 		"@types/react-router-dom": "^5.1.7",
 		"axios": "^0.21.1",
 		"bignumber.js": "^9.0.1",
+		"dayjs": "^1.10.5",
 		"hex-to-rgba": "^2.0.1",
 		"notistack": "^1.0.9",
 		"react": "^17.0.2",
