@@ -17,6 +17,8 @@ export const Activity = (): JSX.Element => {
 	const formattedActivity = useMemo(() => {
 		return activity
 			.map((transaction) => {
+				const pending = userState.activeTransaction?.id === transaction.id;
+
 				if (transaction.type === TransactionType.MINT) {
 					if (transaction.args.mint2) {
 						return [
@@ -25,12 +27,14 @@ export const Activity = (): JSX.Element => {
 								timestamp: transaction.timestamp,
 								amount: transaction.args.mint1.amount,
 								symbol: transaction.args.mint1.token.symbol,
+								pending,
 							},
 							{
 								type: transaction.type,
 								timestamp: transaction.timestamp,
 								amount: transaction.args.mint2.amount,
 								symbol: transaction.args.mint2.token.symbol,
+								pending,
 							},
 						];
 					}
@@ -40,6 +44,7 @@ export const Activity = (): JSX.Element => {
 						timestamp: transaction.timestamp,
 						amount: transaction.args.mint1.amount,
 						symbol: transaction.args.mint1.token.symbol,
+						pending,
 					};
 				}
 
@@ -48,10 +53,11 @@ export const Activity = (): JSX.Element => {
 					timestamp: transaction.timestamp,
 					amount: transaction.args.to.amount,
 					symbol: transaction.args.to.token.symbol,
+					pending,
 				};
 			})
 			.flat();
-	}, [activity]);
+	}, [activity, userState.activeTransaction]);
 
 	return (
 		<Grid container>

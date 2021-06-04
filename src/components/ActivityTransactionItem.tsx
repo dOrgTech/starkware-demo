@@ -62,12 +62,14 @@ interface ActivityTransactionProps {
 	amount: string;
 	symbol: string;
 	timestamp: string;
+	pending: boolean;
 }
 export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
 	type,
 	amount,
 	symbol,
 	timestamp,
+	pending,
 }) => {
 	return (
 		<ActivityListItem>
@@ -77,7 +79,10 @@ export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
 				</Flex>
 				<ColumnFlex>
 					<ActivityType>{type}</ActivityType>
-					<ActivityDate>{dayjs(timestamp).format('MMM DD')}</ActivityDate>
+					<ActivityDate>
+						{dayjs(timestamp).format('MMM DD')}
+						{pending ? ' • Pending' : ''}
+					</ActivityDate>
 				</ColumnFlex>
 			</ActivityDescription>
 			<ColumnFlex>
