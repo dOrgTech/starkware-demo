@@ -10,6 +10,7 @@ import pendingSwapIcon from 'assets/icons/pending-swap.svg';
 const ActivityListItem = styled('div')({
 	height: '81px',
 	width: '100%',
+	padding: '0 40px 0 35px',
 	display: 'flex',
 	justifyContent: 'space-between',
 	boxSizing: 'border-box',
@@ -35,11 +36,12 @@ const ActivityIcon = styled('img')({
 });
 const ActivityType = styled('div')({
 	height: 'fit-content',
-	marginBottom: '13px',
+	marginBottom: '4px',
 
 	fontWeight: 'normal',
 	fontSize: '18px',
 	color: '#FAFAF5',
+	textTransform: 'capitalize',
 });
 const ActivityDate = styled('div')({
 	fontSize: '14px',
@@ -95,7 +97,7 @@ export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
 					<ActivityIcon src={iconSrc} />
 				</Flex>
 				<ColumnFlex>
-					<ActivityType>{type}</ActivityType>
+					<ActivityType>{type.toLowerCase()}</ActivityType>
 					<ActivityDate>
 						{dayjs(timestamp).format('MMM DD')}
 						{pending ? ' • Pending' : ''}
