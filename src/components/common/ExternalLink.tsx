@@ -1,9 +1,9 @@
 import React from 'react';
-import CallMadeIcon from '@material-ui/icons/CallMade';
 import ContentCopyIcon from '@material-ui/icons/FileCopyOutlined';
-import { Grid, Link, LinkProps, styled } from '@material-ui/core';
+import { Grid, Link, styled, Tooltip, Typography } from '@material-ui/core';
+import { EXPLORER_URL } from '../../constants';
 
-const ArrowIcon = styled(CallMadeIcon)({
+const ExplorerText = styled(Typography)({
 	fontSize: '14px',
 });
 
@@ -17,25 +17,48 @@ const StyledContainer = styled(Grid)({
 	width: 'unset',
 });
 
-export const ExternalLink: React.FC<LinkProps> = ({ children, href, ...props }) => {
+interface Props {
+	txId: string;
+}
+
+export const ExternalLink = ({ txId }: Props): JSX.Element => {
+	const [isCopied, setIsCopied] = React.useState(false);
+
 	const handleCopy = () => {
-		navigator.clipboard.writeText(href || '');
+		setIsCopied(true);
+		navigator.clipboard.writeText(txId);
 	};
 
 	return (
-		<StyledContainer container spacing={1} justify="center">
+		<StyledContainer container spacing={1} justify="center" alignItems="center">
 			<Grid item>
-				<Link href={href} {...props}>
-					{children}
+				<ExplorerText>View on Block Explorer: </ExplorerText>
+			</Grid>
+			<Grid item>
+				<Link
+					href={`${EXPLORER_URL}/tx/${txId}`}
+					target="_blank"
+					rel="noreferrer"
+					variant="subtitle1"
+					color="secondary"
+				>
+					{txId}
 				</Link>
 			</Grid>
 			<Grid item>
-				<CopyIcon onClick={handleCopy} />
-			</Grid>
-			<Grid item>
-				<Link href={href} {...props}>
-					<ArrowIcon />
-				</Link>
+				<Tooltip
+					title={isCopied ? 'Copied!' : 'Copy'}
+					arrow
+					placement="top"
+					leaveTouchDelay={0}
+					onClose={() => {
+						setTimeout(() => {
+							setIsCopied(false);
+						}, 500);
+					}}
+				>
+					<CopyIcon onClick={handleCopy} />
+				</Tooltip>
 			</Grid>
 		</StyledContainer>
 	);

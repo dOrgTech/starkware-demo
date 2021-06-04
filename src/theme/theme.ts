@@ -23,6 +23,15 @@ export const theme = createMuiTheme({
 			disabled: 'rgba(250, 250, 245, 0.25)',
 			disabledBackground: 'rgba(145, 145, 183, 0.15)',
 		},
+		info: {
+			main: '#74B0FF',
+		},
+		success: {
+			main: '#9E3B5A',
+		},
+		error: {
+			main: '#9E3B5A',
+		},
 	},
 	typography: {
 		fontFamily: 'IBM Plex Sans',
@@ -56,6 +65,21 @@ export const theme = createMuiTheme({
 		},
 	},
 	overrides: {
+		MuiCssBaseline: {
+			'@global': {
+				'*::-webkit-scrollbar': {
+					width: 4,
+				},
+				'*::-webkit-scrollbar-track': {
+					'-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.3)',
+					borderRadius: 10,
+				},
+				'*::-webkit-scrollbar-thumb': {
+					backgroundColor: hexToRgba('#6C76CF', 0.3),
+					borderRadius: 10,
+				},
+			},
+		},
 		MuiButton: {
 			root: {
 				textTransform: 'unset',

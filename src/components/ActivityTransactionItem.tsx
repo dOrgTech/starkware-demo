@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import dayjs from 'dayjs';
 import { styled, Typography } from '@material-ui/core';
-import { Transaction, TransactionType } from 'context/user';
+import { TransactionType } from 'context/user';
 import mintIcon from 'assets/icons/mint-icon.svg';
 import swapIcon from 'assets/icons/swap-icon.svg';
+import pendingMintIcon from 'assets/icons/pending-mint.svg';
+import pendingSwapIcon from 'assets/icons/pending-swap.svg';
 
 const ActivityListItem = styled('div')({
 	height: '81px',
 	width: '100%',
+	padding: '0 40px 0 35px',
 	display: 'flex',
 	justifyContent: 'space-between',
 	boxSizing: 'border-box',
@@ -32,11 +36,12 @@ const ActivityIcon = styled('img')({
 });
 const ActivityType = styled('div')({
 	height: 'fit-content',
-	marginBottom: '13px',
+	marginBottom: '4px',
 
 	fontWeight: 'normal',
 	fontSize: '18px',
 	color: '#FAFAF5',
+	textTransform: 'capitalize',
 });
 const ActivityDate = styled('div')({
 	fontSize: '14px',
@@ -57,22 +62,50 @@ const ColumnFlex = styled('div')({
 });
 
 interface ActivityTransactionProps {
-	transaction: Transaction;
+	type: TransactionType;
+	amount: string;
+	symbol: string;
+	timestamp: string;
+	pending: boolean;
 }
-export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({ transaction }) => {
+export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
+	type,
+	amount,
+	symbol,
+	timestamp,
+	pending,
+}) => {
+	const iconSrc = useMemo(() => {
+		if (type === TransactionType.MINT) {
+			if (pending) {
+				return pendingMintIcon;
+			}
+
+			return mintIcon;
+		}
+
+		if (pending) {
+			return pendingSwapIcon;
+		}
+
+		return swapIcon;
+	}, [pending, type]);
 	return (
 		<ActivityListItem>
 			<ActivityDescription>
 				<Flex>
-					<ActivityIcon src={transaction.type === TransactionType.MINT ? mintIcon : swapIcon} />
+					<ActivityIcon src={iconSrc} />
 				</Flex>
 				<ColumnFlex>
-					<ActivityType>{transaction.displayName}</ActivityType>
-					<ActivityDate>{transaction.executedOn}</ActivityDate>
+					<ActivityType>{type.toLowerCase()}</ActivityType>
+					<ActivityDate>
+						{dayjs(timestamp).format('MMM DD')}
+						{pending ? ' • Pending' : ''}
+					</ActivityDate>
 				</ColumnFlex>
 			</ActivityDescription>
 			<ColumnFlex>
-				<ActivityValue color="textPrimary">{`+${transaction.value} ${transaction.incomingToken.name}`}</ActivityValue>
+				<ActivityValue color="textPrimary">{`+${amount} ${symbol}`}</ActivityValue>
 			</ColumnFlex>
 		</ActivityListItem>
 	);
