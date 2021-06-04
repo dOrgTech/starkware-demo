@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import App from 'App';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
@@ -22,15 +23,17 @@ ReactDOM.render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
-				<Router>
-					<UserProvider>
-						<NotificationsProvider>
-							<SnackbarProvider>
-								<App />
-							</SnackbarProvider>
-						</NotificationsProvider>
-					</UserProvider>
-				</Router>
+				<CssBaseline>
+					<Router>
+						<UserProvider>
+							<NotificationsProvider>
+								<SnackbarProvider>
+									<App />
+								</SnackbarProvider>
+							</NotificationsProvider>
+						</UserProvider>
+					</Router>
+				</CssBaseline>
 			</ThemeProvider>
 			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>

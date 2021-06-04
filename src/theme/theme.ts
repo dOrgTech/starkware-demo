@@ -62,6 +62,21 @@ export const theme = createMuiTheme({
 		},
 	},
 	overrides: {
+		MuiCssBaseline: {
+			'@global': {
+				'*::-webkit-scrollbar': {
+					width: 4,
+				},
+				'*::-webkit-scrollbar-track': {
+					'-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.3)',
+					borderRadius: 10,
+				},
+				'*::-webkit-scrollbar-thumb': {
+					backgroundColor: hexToRgba('#535387', 0.28),
+					borderRadius: 10,
+				},
+			},
+		},
 		MuiButton: {
 			root: {
 				textTransform: 'unset',

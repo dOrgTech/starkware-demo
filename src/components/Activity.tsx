@@ -2,25 +2,12 @@ import React, { useContext, useMemo } from 'react';
 import { Grid, styled } from '@material-ui/core';
 import { UserContext, TransactionType } from 'context/user';
 import { ActivityTransactionItem } from 'components/ActivityTransactionItem';
-import hexToRgba from 'hex-to-rgba';
 
-const ActivityListWrapper = styled('div')(({ theme }) => ({
+const ActivityListWrapper = styled('div')(() => ({
 	maxHeight: '431px',
 	height: 'fit-content',
 	margin: '0 -33px -30px -33px',
 	overflowY: 'auto',
-
-	'&::-webkit-scrollbar': {
-		width: 4,
-	},
-	'&::-webkit-scrollbar-track': {
-		'-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.3)',
-		borderRadius: 10,
-	},
-	'&::-webkit-scrollbar-thumb': {
-		backgroundColor: hexToRgba(theme.palette.secondary.main, 0.2),
-		borderRadius: 10,
-	},
 }));
 
 export const Activity = (): JSX.Element => {
