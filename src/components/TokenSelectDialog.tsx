@@ -1,7 +1,6 @@
 import React from 'react';
 import {
 	DialogProps,
-	Theme,
 	styled,
 	makeStyles,
 	Dialog,
@@ -20,15 +19,10 @@ import { TokenIcon } from './common/TokenIcon';
 import { Token } from 'models/token';
 import { useTokenBalances } from '../services/API/token/hooks/useTokenBalances';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
 	root: {
 		width: '100%',
 		padding: 0,
-	},
-	dialog: {
-		position: 'absolute',
-		top: 100,
-		borderRadius: theme.spacing(1),
 	},
 	scrollPaper: {
 		alignItems: 'baseline',
@@ -81,7 +75,6 @@ export const TokenSelectDialog = ({
 		<Dialog
 			{...props}
 			classes={{
-				paper: classes.dialog,
 				scrollPaper: classes.scrollPaper,
 			}}
 			fullWidth
