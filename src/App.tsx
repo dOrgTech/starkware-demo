@@ -19,9 +19,11 @@ function App() {
 	const { isLoading } = useAccountBalance();
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+	const isFirstRender = React.useRef(true);
 
 	React.useEffect(() => {
-		if (isLoading) {
+		if (isLoading && isFirstRender.current) {
+			isFirstRender.current = false;
 			dispatch({ type: ActionTypes.SHOW_LOADING });
 		} else {
 			dispatch({ type: ActionTypes.HIDE_LOADING });
