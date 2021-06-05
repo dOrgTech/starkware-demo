@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react';
-import { Grid, styled } from '@material-ui/core';
+import { Divider, Grid, styled, Typography } from '@material-ui/core';
 import { UserContext, TransactionType } from 'context/user';
 import { ActivityTransactionItem } from 'components/ActivityTransactionItem';
 
@@ -9,6 +9,16 @@ const ActivityListWrapper = styled('div')(() => ({
 	margin: '0 -33px -30px -33px',
 	overflowY: 'auto',
 }));
+
+const PlaceholderActivityContent = styled(Grid)({
+	height: 403,
+	textAlign: 'center',
+});
+
+const PlaceholderDivider = styled(Divider)({
+	backgroundColor: 'rgb(193,193,255,0.2)',
+	margin: '0 -33px -30px -33px',
+});
 
 export const Activity = (): JSX.Element => {
 	const { state: userState } = useContext(UserContext);
@@ -62,14 +72,35 @@ export const Activity = (): JSX.Element => {
 			.flat();
 	}, [userState.activeTransaction, userState.activity]);
 
+	const ActivityList = () => {
+		if (formattedActivity.length === 0) {
+			return (
+				<>
+					<PlaceholderDivider />
+					<PlaceholderActivityContent container alignItems="center">
+						<Grid item xs={12}>
+							<Typography variant="body1" color="textSecondary">
+								No transactions
+							</Typography>
+						</Grid>
+					</PlaceholderActivityContent>
+				</>
+			);
+		}
+
+		return (
+			<ActivityListWrapper>
+				{formattedActivity.map((transaction, i) => (
+					<ActivityTransactionItem key={`transaction-${i}`} {...transaction} />
+				))}
+			</ActivityListWrapper>
+		);
+	};
+
 	return (
 		<Grid container>
 			<Grid item xs={12}>
-				<ActivityListWrapper>
-					{formattedActivity.map((transaction, i) => (
-						<ActivityTransactionItem key={`transaction-${i}`} {...transaction} />
-					))}
-				</ActivityListWrapper>
+				<ActivityList />
 			</Grid>
 		</Grid>
 	);
