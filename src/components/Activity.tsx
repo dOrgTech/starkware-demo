@@ -1,7 +1,8 @@
 import React, { useContext, useMemo } from 'react';
-import { Divider, Grid, styled, Typography } from '@material-ui/core';
+import { Grid, styled, Typography } from '@material-ui/core';
 import { UserContext, TransactionType } from 'context/user';
 import { ActivityTransactionItem } from 'components/ActivityTransactionItem';
+import { ReactComponent as DisabledLogo } from 'assets/disabled-logo.svg';
 
 const ActivityListWrapper = styled('div')(() => ({
 	maxHeight: '431px',
@@ -11,13 +12,13 @@ const ActivityListWrapper = styled('div')(() => ({
 }));
 
 const PlaceholderActivityContent = styled(Grid)({
-	height: 403,
+	height: 294,
 	textAlign: 'center',
+	marginTop: -22,
 });
 
-const PlaceholderDivider = styled(Divider)({
-	backgroundColor: 'rgb(193,193,255,0.2)',
-	margin: '0 -33px -30px -33px',
+const NoTransactionsText = styled(Typography)({
+	fontWeight: 500,
 });
 
 export const Activity = (): JSX.Element => {
@@ -40,6 +41,7 @@ export const Activity = (): JSX.Element => {
 								timestamp: transaction.timestamp,
 								amount: transaction.args.mint1.amount,
 								symbol: transaction.args.mint1.token.symbol,
+								id: transaction.id,
 								pending,
 							},
 							{
@@ -47,6 +49,7 @@ export const Activity = (): JSX.Element => {
 								timestamp: transaction.timestamp,
 								amount: transaction.args.mint2.amount,
 								symbol: transaction.args.mint2.token.symbol,
+								id: transaction.id,
 								pending,
 							},
 						];
@@ -57,6 +60,7 @@ export const Activity = (): JSX.Element => {
 						timestamp: transaction.timestamp,
 						amount: transaction.args.mint1.amount,
 						symbol: transaction.args.mint1.token.symbol,
+						id: transaction.id,
 						pending,
 					};
 				}
@@ -66,6 +70,7 @@ export const Activity = (): JSX.Element => {
 					timestamp: transaction.timestamp,
 					amount: transaction.args.to.amount,
 					symbol: transaction.args.to.token.symbol,
+					id: transaction.id,
 					pending,
 				};
 			})
@@ -76,12 +81,20 @@ export const Activity = (): JSX.Element => {
 		if (formattedActivity.length === 0) {
 			return (
 				<>
-					<PlaceholderDivider />
-					<PlaceholderActivityContent container alignItems="center">
-						<Grid item xs={12}>
-							<Typography variant="body1" color="textSecondary">
+					<PlaceholderActivityContent
+						container
+						direction="column"
+						spacing={2}
+						alignItems="center"
+						justify="center"
+					>
+						<Grid item>
+							<DisabledLogo />
+						</Grid>
+						<Grid item>
+							<NoTransactionsText variant="body2" color="textSecondary">
 								No transactions
-							</Typography>
+							</NoTransactionsText>
 						</Grid>
 					</PlaceholderActivityContent>
 				</>
