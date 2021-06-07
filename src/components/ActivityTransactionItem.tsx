@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { styled, Typography } from '@material-ui/core';
+import { styled, Typography, Link } from '@material-ui/core';
 import { TransactionType } from 'context/user';
 import mintIcon from 'assets/icons/mint-icon.svg';
 import swapIcon from 'assets/icons/swap-icon.svg';
 import pendingMintIcon from 'assets/icons/pending-mint.svg';
 import pendingSwapIcon from 'assets/icons/pending-swap.svg';
+import { EXPLORER_URL } from '../constants';
 
 const ActivityListItem = styled('div')({
 	height: '81px',
@@ -67,6 +68,7 @@ interface ActivityTransactionProps {
 	symbol: string;
 	timestamp: string;
 	pending: boolean;
+	id: string;
 }
 export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
 	type,
@@ -74,6 +76,7 @@ export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
 	symbol,
 	timestamp,
 	pending,
+	id,
 }) => {
 	const iconSrc = useMemo(() => {
 		if (type === TransactionType.MINT) {
@@ -91,22 +94,24 @@ export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
 		return swapIcon;
 	}, [pending, type]);
 	return (
-		<ActivityListItem>
-			<ActivityDescription>
-				<Flex>
-					<ActivityIcon src={iconSrc} />
-				</Flex>
+		<Link href={`${EXPLORER_URL}/tx/${id}`} target="_blank" rel="noreferrer">
+			<ActivityListItem>
+				<ActivityDescription>
+					<Flex>
+						<ActivityIcon src={iconSrc} />
+					</Flex>
+					<ColumnFlex>
+						<ActivityType>{type.toLowerCase()}</ActivityType>
+						<ActivityDate>
+							{dayjs(timestamp).format('MMM DD')}
+							{pending ? ' • Pending' : ''}
+						</ActivityDate>
+					</ColumnFlex>
+				</ActivityDescription>
 				<ColumnFlex>
-					<ActivityType>{type.toLowerCase()}</ActivityType>
-					<ActivityDate>
-						{dayjs(timestamp).format('MMM DD')}
-						{pending ? ' • Pending' : ''}
-					</ActivityDate>
+					<ActivityValue color="textPrimary">{`+${amount} ${symbol}`}</ActivityValue>
 				</ColumnFlex>
-			</ActivityDescription>
-			<ColumnFlex>
-				<ActivityValue color="textPrimary">{`+${amount} ${symbol}`}</ActivityValue>
-			</ColumnFlex>
-		</ActivityListItem>
+			</ActivityListItem>
+		</Link>
 	);
 };
