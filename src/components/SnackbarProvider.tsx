@@ -11,7 +11,7 @@ import ErrorIcon from 'assets/icons/error.svg';
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		[theme.breakpoints.up('sm')]: {
-			minWidth: 350,
+			width: 350,
 		},
 	},
 	success: {
