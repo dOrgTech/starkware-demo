@@ -35,15 +35,15 @@ const MenuItemText = styled(Typography)({
 const MenuIcon = styled('img')({
 	width: 15,
 	height: 15,
-	marginRight: 12,
+	// marginRight: 12,
 });
 
 const links: MenuLink[] = [
-	{ label: 'What is StarkNet?', icon: Star, url: '/' },
-	{ label: 'Block Explorer', icon: Block, url: EXPLORER_URL },
 	{ label: 'Documentation', icon: Document, url: 'http://cairo-lang.org/docs/hello_starknet/' },
 	{ label: 'See the Code', icon: Github, url: 'https://github.com/dOrgTech/starkware-demo/' },
-	{ label: 'StarkWare', icon: Starkware, url: 'https://starkware.co/' },
+	{ label: 'Block Explorer', icon: Block, url: EXPLORER_URL },
+	{ label: 'What is StarkNet?', icon: Star, url: '/' },
+	{ label: 'StarkNet Planets Alpha', icon: Starkware, url: 'https://starkware.co/' },
 ];
 
 const MenuItems = styled(Grid)({
@@ -70,8 +70,14 @@ export const Sidemenu: React.FC = () => {
 					{links.map(({ label, icon, url }, i) => (
 						<MenuItem item key={`menulink-${i}`}>
 							<Link href={url} target="_blank" rel="noreferrer">
-								<MenuIcon src={icon} />
-								<MenuItemText>{label}</MenuItemText>
+								<Grid container spacing={2} wrap="nowrap">
+									<Grid item>
+										<MenuIcon src={icon} />
+									</Grid>
+									<Grid item>
+										<MenuItemText>{label}</MenuItemText>
+									</Grid>
+								</Grid>
 							</Link>
 						</MenuItem>
 					))}
