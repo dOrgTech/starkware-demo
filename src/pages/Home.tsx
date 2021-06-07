@@ -5,7 +5,7 @@ import { Mint } from 'components/Mint';
 import { Swap } from 'components/Swap';
 import { Activity } from 'components/Activity';
 
-const CardContainer = styled(Box)({
+const CardContainer = styled(Box)(({ theme }) => ({
 	margin: 'auto',
 	width: '100%',
 	maxWidth: '440px',
@@ -16,7 +16,10 @@ const CardContainer = styled(Box)({
 	boxSizing: 'border-box',
 	boxShadow: '0px 8px 15px 3px rgba(7, 7, 7, 0.13)',
 	borderRadius: '8px',
-});
+	[theme.breakpoints.only('xs')]: {
+		marginBottom: theme.spacing(5),
+	},
+}));
 
 const CardContent = styled(Box)({
 	paddingTop: 22,

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Button, Grid, styled } from '@material-ui/core';
+import { Box, Button, Grid, styled } from '@material-ui/core';
 
 import { Token } from '../models/token';
 import { DarkBox } from './common/DarkBox';
@@ -17,17 +17,13 @@ const StyledInputContainer = styled(Grid)(({ theme }) => ({
 	},
 }));
 
-const StyledContainer = styled(Grid)({
-	'& > *': {
-		marginBottom: '25.5px',
-	},
+const StyledMint2Container = styled(Grid)({
+	marginTop: 16,
 });
 
 const StyledAddButtonContainer = styled(Grid)({
-	'& > *': {
-		marginBottom: '10px',
-	},
 	textAlign: 'center',
+	marginTop: 18,
 });
 
 const StyledAddTokenButton = styled(Button)(({ theme }) => ({
@@ -87,7 +83,7 @@ export const Mint = (): JSX.Element => {
 
 	return (
 		<Grid container>
-			<StyledContainer item xs={12}>
+			<Grid item xs={12}>
 				<DarkBox>
 					<Grid container alignItems="center">
 						<Grid item xs aria-label="token to swap">
@@ -108,9 +104,16 @@ export const Mint = (): JSX.Element => {
 						)}
 					</Grid>
 				</DarkBox>
-			</StyledContainer>
+			</Grid>
+			{mintToken1 && !mintToken2 && (
+				<StyledAddButtonContainer item xs={12}>
+					<StyledAddTokenButton color="secondary" onClick={handleAddToken}>
+						+ Add Token
+					</StyledAddTokenButton>
+				</StyledAddButtonContainer>
+			)}
 			{mintToken2 && (
-				<StyledContainer item xs={12}>
+				<StyledMint2Container item xs={12}>
 					<DarkBox>
 						<Grid container alignItems="center">
 							<Grid item xs aria-label="token to swap">
@@ -129,26 +132,21 @@ export const Mint = (): JSX.Element => {
 							</StyledInputContainer>
 						</Grid>
 					</DarkBox>
-				</StyledContainer>
-			)}
-			{mintToken1 && !mintToken2 && (
-				<StyledAddButtonContainer item xs={12}>
-					<StyledAddTokenButton color="secondary" onClick={handleAddToken}>
-						+ Add Token
-					</StyledAddTokenButton>
-				</StyledAddButtonContainer>
+				</StyledMint2Container>
 			)}
 			<Grid item xs={12}>
-				<Button
-					variant="contained"
-					color="secondary"
-					fullWidth
-					disableElevation
-					disabled={(!mintAmount1 && !mintAmount2) || !!error || !!activeTransaction}
-					onClick={handleMint}
-				>
-					{activeTransaction ? <BouncingDots /> : actionButtonText}
-				</Button>
+				<Box clone marginTop={mintToken1 && !mintToken2 ? '18px' : '32px'}>
+					<Button
+						variant="contained"
+						color="secondary"
+						fullWidth
+						disableElevation
+						disabled={(!mintAmount1 && !mintAmount2) || !!error || !!activeTransaction}
+						onClick={handleMint}
+					>
+						{activeTransaction ? <BouncingDots /> : actionButtonText}
+					</Button>
+				</Box>
 			</Grid>
 		</Grid>
 	);
