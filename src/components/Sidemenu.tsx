@@ -62,7 +62,7 @@ const CollaborationContainer = styled(MenuItem)({
 export const Sidemenu: React.FC = () => {
 	return (
 		<StyledContainer container direction="column" alignItems="center" justify="space-between">
-			<Grid item container>
+			<Grid item container justify="center">
 				<LogoContainer item container justify="center" alignItems="center">
 					<StarknetLogo />
 				</LogoContainer>
@@ -75,7 +75,7 @@ export const Sidemenu: React.FC = () => {
 										<MenuIcon src={icon} />
 									</Grid>
 									<Grid item>
-										<MenuItemText>{label}</MenuItemText>
+										<MenuItemText variant="h5">{label}</MenuItemText>
 									</Grid>
 								</Grid>
 							</Link>
@@ -84,7 +84,7 @@ export const Sidemenu: React.FC = () => {
 				</MenuItems>
 			</Grid>
 			<MenuItems item container direction="column" alignItems="center">
-				<CollaborationContainer item container alignItems="center">
+				<CollaborationContainer item container alignItems="center" justify="center">
 					<Link href={'https://www.dorg.tech/#/'} target="_blank" rel="noreferrer">
 						<Collaboration />
 					</Link>
