@@ -35,7 +35,6 @@ const MenuItemText = styled(Typography)({
 const MenuIcon = styled('img')({
 	width: 15,
 	height: 15,
-	// marginRight: 12,
 });
 
 const links: MenuLink[] = [

@@ -201,9 +201,9 @@ export const UserProvider: React.FC = ({ children }) => {
 		}
 	};
 
-	const handleTxSuccess = (data: unknown) => {
+	const handleTxSuccess = (data: TransactionStatus) => {
 		//TODO: remove execution on rejected
-		if (data === TransactionStatus.REJECTED || data === TransactionStatus.ACCEPTED_ONCHAIN) {
+		if (data.tx_status === 'PENDING' && data.block_id) {
 			queryClient.resetQueries('accountBalance');
 			setStop(true);
 			closeSnackbar();

@@ -66,16 +66,18 @@ export const Swap = (): JSX.Element => {
 	} = useContext(UserContext);
 	const { mutate: makeSwap } = useSwap();
 
+	const options = useFilteredTokens();
+
 	const [showConfirm, setShowConfirm] = useState(false);
-	const [fromToken, setFromToken] = useState<Token | undefined>();
+	const [fromToken, setFromToken] = useState<Token | undefined>(options[0]);
 	const [fromAmount, setFromAmount] = useState<string>();
-	const [toToken, setToToken] = useState<Token>();
+	const [toToken, setToToken] = useState<Token | undefined>(options[1]);
 	const [toAmount, setToAmount] = useState<string>();
 
 	const fromBalance = useTokenBalance(fromToken);
 	const toBalance = useTokenBalance(toToken);
 	const conversionRates = useConversionRates(fromToken, toToken);
-	const options = useFilteredTokens(fromToken);
+
 	const fromError = useConversionError(fromToken, fromAmount, fromBalance);
 	const toError = useConversionError(toToken, toAmount);
 	const maxAmountError = Number(fromAmount) > 1000 ? 'Max swap limit is 1000' : undefined;

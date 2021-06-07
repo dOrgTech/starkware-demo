@@ -23,7 +23,7 @@ interface BlockResponse {
 	txs: {
 		[blockNumber: string]: DeployTransaction | InvokeTransaction;
 	};
-	status: TransactionStatus.PENDING;
+	status: TransactionStatus;
 	state_root: string;
 	sequence_number: number;
 	block_id: number;

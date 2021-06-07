@@ -35,12 +35,12 @@ export const Mint = (): JSX.Element => {
 		state: { activeTransaction },
 	} = useContext(UserContext);
 	const { mutate } = useMint();
-	const [mintToken1, setMintToken1] = useState<Token>();
+	const options = useFilteredTokens();
+	const [mintToken1, setMintToken1] = useState<Token>(options[0]);
 	const [mintToken2, setMintToken2] = useState<Token>();
 	const [mintAmount1, setMintAmount1] = useState<string>('1000');
 	const [mintAmount2, setMintAmount2] = useState<string>('1000');
 
-	const options = useFilteredTokens(mintToken1);
 	const mint1Error = useMintError(mintToken1, mintAmount1);
 	const mint2Error = useMintError(mintToken2, mintAmount2);
 	const error = mint1Error || (mintToken2 && mint2Error);
