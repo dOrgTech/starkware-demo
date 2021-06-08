@@ -70,7 +70,7 @@ export const Swap = (): JSX.Element => {
 	const {
 		state: { activeTransaction },
 	} = useContext(UserContext);
-	const { mutate: makeSwap } = useSwap();
+	const { mutate: makeSwap, isLoading } = useSwap();
 
 	const options = useFilteredTokens();
 
@@ -255,10 +255,10 @@ export const Swap = (): JSX.Element => {
 						color="secondary"
 						fullWidth
 						disableElevation
-						disabled={!!error || !!activeTransaction}
+						disabled={!!error || !!activeTransaction || !!isLoading}
 						onClick={() => setShowConfirm(true)}
 					>
-						{activeTransaction ? <BouncingDots /> : actionButtonText}
+						{activeTransaction || isLoading ? <BouncingDots /> : actionButtonText}
 					</StyledSwapButton>
 				</Grid>
 			</Grid>

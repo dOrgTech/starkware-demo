@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Button,
 	Dialog,
@@ -92,6 +92,13 @@ interface Props extends DialogProps {
 
 export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) => {
 	const classes = useStyles();
+	const [sent, isSent] = useState(false);
+
+	useEffect(() => {
+		if (!open) {
+			isSent(false);
+		}
+	}, [open]);
 
 	return (
 		<Dialog
@@ -179,8 +186,10 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								color="secondary"
 								fullWidth
 								disableElevation
+								disabled={sent}
 								onClick={() => {
 									if (!to) return;
+									isSent(true);
 									onSwap({ from, to });
 								}}
 							>
