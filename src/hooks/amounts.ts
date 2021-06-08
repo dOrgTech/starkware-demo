@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { ConversionRate, Token } from 'models/token';
-import { getConversionRate } from '../utils/rates';
+import { usePoolBalance } from '../services/API/queries/usePoolBalance';
+import { calculateSwapValue } from '../utils/swap';
 
 export const useConversionError = (
 	token?: Token,
@@ -20,12 +21,20 @@ export const useConversionError = (
 	return undefined;
 };
 
-export const useConversionRates = (fromToken?: Token, toToken?: Token): ConversionRate => {
-	if (!fromToken || !toToken) {
-		return { from: new BigNumber(1), to: new BigNumber(1) };
-	}
+export const useConversionRates = (
+	fromToken?: Token,
+	toToken?: Token,
+): ConversionRate | undefined => {
+	const { data: poolBalance } = usePoolBalance();
+	const poolFromBalance = fromToken ? poolBalance?.get(fromToken.id) : undefined;
+	const poolToBalance = toToken ? poolBalance?.get(toToken.id) : undefined;
 
-	return getConversionRate(fromToken.price, toToken.price);
+	if (!fromToken || !toToken || !poolFromBalance || !poolToBalance) return;
+
+	return {
+		from: calculateSwapValue(poolFromBalance, poolToBalance, '1'),
+		to: calculateSwapValue(poolToBalance, poolFromBalance, '1'),
+	};
 };
 
 export const useMintError = (token?: Token, amount?: string): string | undefined => {
