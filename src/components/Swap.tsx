@@ -8,12 +8,14 @@ import { Token } from 'models/token';
 import { RoundedButton } from './common/RoundedButton';
 import { ConfirmSwapDialog } from './ConfirmSwapDialog';
 import { useConversionError, useConversionRates } from '../hooks/amounts';
-import { getConversionRate } from '../utils/rates';
+import { calculateSwapValue } from '../utils/swap';
 import { SwapReceipt } from '../models/swap';
 import { useFilteredTokens, useTokenBalance } from '../hooks/tokens';
 import { useSwap } from '../services/API/mutations/useSwap';
 import { BouncingDots } from './common/BouncingDots';
+import { usePoolBalance } from '../services/API/queries/usePoolBalance';
 import { UserContext } from '../context/user';
+import { Skeleton } from '@material-ui/lab';
 
 const StyledArrowsContainer = styled(Grid)({
 	width: '100%',
@@ -45,6 +47,10 @@ const StyledEndText = styled(StyledRightLabelText)({
 	textAlign: 'end',
 });
 
+const ConversionSkeleton = styled(Skeleton)({
+	display: 'inline-block',
+});
+
 const Labels = ({ leftText, rightText }: { leftText: string; rightText: string }): JSX.Element => (
 	<StyledLabelsContainer container justify="space-between">
 		<Grid item>
@@ -64,7 +70,7 @@ export const Swap = (): JSX.Element => {
 	const {
 		state: { activeTransaction },
 	} = useContext(UserContext);
-	const { mutate: makeSwap } = useSwap();
+	const { mutate: makeSwap, isLoading } = useSwap();
 
 	const options = useFilteredTokens();
 
@@ -74,12 +80,16 @@ export const Swap = (): JSX.Element => {
 	const [toToken, setToToken] = useState<Token | undefined>(options[1]);
 	const [toAmount, setToAmount] = useState<string>();
 
+	const { data: poolBalance } = usePoolBalance();
 	const fromBalance = useTokenBalance(fromToken);
 	const toBalance = useTokenBalance(toToken);
 	const conversionRates = useConversionRates(fromToken, toToken);
 
 	const fromError = useConversionError(fromToken, fromAmount, fromBalance);
 	const toError = useConversionError(toToken, toAmount);
+
+	const poolFromBalance = fromToken ? poolBalance?.get(fromToken.id) : undefined;
+	const poolToBalance = toToken ? poolBalance?.get(toToken.id) : undefined;
 	const maxAmountError = Number(fromAmount) > 1000 ? 'Max swap limit is 1000' : undefined;
 	const error = maxAmountError || fromError || toError;
 	const actionButtonText = error || 'Swap';
@@ -106,8 +116,8 @@ export const Swap = (): JSX.Element => {
 		setToToken(token);
 
 		if (fromToken && fromAmount) {
-			const conversionRate = getConversionRate(fromToken.price, token.price);
-			setToAmount(conversionRate.from.multipliedBy(fromAmount).toString());
+			if (!poolFromBalance || !poolToBalance) return;
+			setToAmount(calculateSwapValue(poolFromBalance, poolToBalance, fromAmount).toString());
 		}
 	};
 
@@ -121,7 +131,9 @@ export const Swap = (): JSX.Element => {
 			return;
 		}
 
-		setToAmount(conversionRates.from.multipliedBy(amount).toString());
+		if (!poolFromBalance || !poolToBalance) return;
+
+		setToAmount(calculateSwapValue(poolFromBalance, poolToBalance, amount).toString());
 	};
 
 	const handleToAmountChange = (amount: string) => {
@@ -132,7 +144,9 @@ export const Swap = (): JSX.Element => {
 			return;
 		}
 
-		setFromAmount(conversionRates.to.multipliedBy(amount).toString());
+		if (!poolFromBalance || !poolToBalance) return;
+
+		setFromAmount(calculateSwapValue(poolFromBalance, poolToBalance, amount).toString());
 	};
 
 	const handleSwap = (receipt: SwapReceipt) => {
@@ -222,10 +236,17 @@ export const Swap = (): JSX.Element => {
 				</Grid>
 				{fromToken && toToken && (
 					<StyledConversionContainer item xs={12}>
-						<StyledEndText
-							variant="subtitle1"
-							color="textSecondary"
-						>{`1 ${fromToken.symbol} = ${conversionRates.from} ${toToken.symbol}`}</StyledEndText>
+						<StyledEndText variant="subtitle1" color="textSecondary">
+							<span>{`1 ${fromToken.symbol} = `}</span>
+							<span>
+								{conversionRates ? (
+									conversionRates.from.toString()
+								) : (
+									<ConversionSkeleton width={20} />
+								)}
+							</span>
+							<span>{` ${toToken.symbol}`}</span>
+						</StyledEndText>
 					</StyledConversionContainer>
 				)}
 				<Grid item xs={12}>
@@ -234,16 +255,15 @@ export const Swap = (): JSX.Element => {
 						color="secondary"
 						fullWidth
 						disableElevation
-						disabled={!!error || !!activeTransaction}
+						disabled={!!error || !!activeTransaction || !!isLoading}
 						onClick={() => setShowConfirm(true)}
 					>
-						{activeTransaction ? <BouncingDots /> : actionButtonText}
+						{activeTransaction || isLoading ? <BouncingDots /> : actionButtonText}
 					</StyledSwapButton>
 				</Grid>
 			</Grid>
 			<ConfirmSwapDialog
 				open={showConfirm && !!fromAmount && !!toAmount}
-				conversionRate={conversionRates}
 				from={fromToken && fromAmount ? { token: fromToken, amount: fromAmount } : undefined}
 				to={toToken && toAmount ? { token: toToken, amount: toAmount } : undefined}
 				onClose={() => setShowConfirm(false)}

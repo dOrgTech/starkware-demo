@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { useTxNotifications } from 'hooks/notifications';
 import React, { createContext, Dispatch, useContext, useReducer, useState } from 'react';
 import { useQueryClient, useQuery } from 'react-query';
@@ -166,7 +167,9 @@ export const UserProvider: React.FC = ({ children }) => {
 					payload: {
 						title: `Success!`,
 						icon: mint1.token.icon,
-						text: `Received ${mint1.amount} ${mint1.token.symbol}`,
+						text: `Received ${Number(new BigNumber(mint1.amount).toFixed(6))} ${
+							mint1.token.symbol
+						}`,
 						txId: state.activeTransaction.id,
 						buttonText: 'Go Back',
 					},
@@ -179,7 +182,9 @@ export const UserProvider: React.FC = ({ children }) => {
 				payload: {
 					title: `Success!`,
 					icons: [mint1.token.icon, mint2.token.icon],
-					text: `Minted ${mint1.amount} ${mint1.token.symbol} & ${mint2.amount} ${mint2.token.symbol}`,
+					text: `Minted ${Number(new BigNumber(mint1.amount).toFixed(6))} ${
+						mint1.token.symbol
+					} & ${Number(new BigNumber(mint2.amount).toFixed(6))} ${mint2.token.symbol}`,
 					txIds: [state.activeTransaction.id],
 					buttonText: 'Go Back',
 				},
@@ -193,7 +198,7 @@ export const UserProvider: React.FC = ({ children }) => {
 				payload: {
 					title: `Success!`,
 					icon: to.token.icon,
-					text: `Received ${to.amount} ${to.token.symbol}`,
+					text: `Received ${Number(new BigNumber(to.amount).toFixed(6))} ${to.token.symbol}`,
 					txId: state.activeTransaction.id,
 					buttonText: 'Go Back',
 				},

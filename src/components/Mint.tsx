@@ -34,7 +34,7 @@ export const Mint = (): JSX.Element => {
 	const {
 		state: { activeTransaction },
 	} = useContext(UserContext);
-	const { mutate } = useMint();
+	const { mutate, isLoading } = useMint();
 
 	const [mintToken1, setMintToken1] = useState<Token>();
 	const [mintToken2, setMintToken2] = useState<Token>();
@@ -142,10 +142,12 @@ export const Mint = (): JSX.Element => {
 						color="secondary"
 						fullWidth
 						disableElevation
-						disabled={(!mintAmount1 && !mintAmount2) || !!error || !!activeTransaction}
+						disabled={
+							(!mintAmount1 && !mintAmount2) || !!error || !!activeTransaction || !!isLoading
+						}
 						onClick={handleMint}
 					>
-						{activeTransaction ? <BouncingDots /> : actionButtonText}
+						{activeTransaction || isLoading ? <BouncingDots /> : actionButtonText}
 					</Button>
 				</Box>
 			</Grid>

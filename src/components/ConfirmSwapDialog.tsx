@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Button,
 	Dialog,
@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
-import { ConversionRate } from 'models/token';
 import { ReactComponent as CloseIcon } from '../assets/icons/close.svg';
 import { ReactComponent as ArrowDownIcon } from '../assets/icons/arrow-down.svg';
 import { ReactComponent as SwapIcon } from '../assets/icons/swap.svg';
@@ -87,13 +86,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface Props extends DialogProps {
 	from?: SwapInformation;
 	to?: SwapInformation;
-	conversionRate: ConversionRate;
 	onClose: () => void;
 	onSwap: (receipt: SwapReceipt) => void;
 }
 
 export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) => {
 	const classes = useStyles();
+	const [sent, isSent] = useState(false);
+
+	useEffect(() => {
+		if (!open) {
+			isSent(false);
+		}
+	}, [open]);
 
 	return (
 		<Dialog
@@ -181,8 +186,10 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								color="secondary"
 								fullWidth
 								disableElevation
+								disabled={sent}
 								onClick={() => {
 									if (!to) return;
+									isSent(true);
 									onSwap({ from, to });
 								}}
 							>

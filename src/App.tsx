@@ -6,6 +6,7 @@ import { ActionTypes, NotificationsContext } from './context/notifications';
 import { Sidemenu } from 'components/Sidemenu';
 import { useMediaQuery } from '@material-ui/core';
 import { useAccountBalance } from './services/API/queries/useAccountBalance';
+import { usePoolBalance } from './services/API/queries/usePoolBalance';
 
 const MainContainer = styled(Grid)({
 	background:
@@ -16,10 +17,12 @@ const MainContainer = styled(Grid)({
 
 function App() {
 	const { dispatch } = React.useContext(NotificationsContext);
-	const { isLoading } = useAccountBalance();
+	const { isLoading: isLoadingPoolBalance } = usePoolBalance();
+	const { isLoading: isLoadingAccount } = useAccountBalance();
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 	const isFirstRender = React.useRef(true);
+	const isLoading = isLoadingAccount || isLoadingPoolBalance;
 
 	React.useEffect(() => {
 		if (isLoading && isFirstRender.current) {
