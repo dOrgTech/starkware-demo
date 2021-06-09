@@ -99,7 +99,7 @@ exports[`Mint can change mint amount 1`] = `
                   autocomplete="off"
                   class="MuiInputBase-input-315"
                   pattern="^[0-9]*[.,]?[0-9]*$"
-                  placeholder="0.00"
+                  placeholder="0"
                   type="text"
                   value="500"
                 />
@@ -248,7 +248,7 @@ exports[`Mint can select mint token 1`] = `
                   autocomplete="off"
                   class="MuiInputBase-input-315"
                   pattern="^[0-9]*[.,]?[0-9]*$"
-                  placeholder="0.00"
+                  placeholder="0"
                   type="text"
                   value="1000"
                 />
