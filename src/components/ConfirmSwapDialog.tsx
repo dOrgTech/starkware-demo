@@ -18,7 +18,6 @@ import { ReactComponent as ArrowDownIcon } from '../assets/icons/arrow-down.svg'
 import { ReactComponent as SwapIcon } from '../assets/icons/swap.svg';
 import { TokenIcon } from './common/TokenIcon';
 import { SwapInformation, SwapReceipt } from '../models/swap';
-import BigNumber from 'bignumber.js';
 
 const StyledCloseButton = styled(IconButton)(({ theme }) => ({
 	position: 'absolute',
@@ -126,7 +125,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								</Grid>
 								<Grid item className={classes.amount}>
 									<Typography variant="body1" color="textPrimary">
-										{Number(new BigNumber(from.amount).toFixed(6))}
+										{from.amount}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -146,7 +145,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								</Grid>
 								<Grid item className={classes.amount}>
 									<Typography variant="body1" color="textPrimary">
-										{Number(new BigNumber(to.amount).toFixed(6))}
+										{to.amount}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -173,9 +172,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 							>
 								<Grid item>
 									<StyledSummaryText variant="body1" color="textPrimary">
-										{`${Number(new BigNumber(to.amount).toFixed(6))} ${to.token.symbol} / ${
-											from.token.symbol
-										}`}
+										{`${to.amount} ${to.token.symbol} / ${from.token.symbol}`}
 									</StyledSummaryText>
 								</Grid>
 								<Grid item>

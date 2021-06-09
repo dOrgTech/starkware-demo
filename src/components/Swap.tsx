@@ -117,7 +117,11 @@ export const Swap = (): JSX.Element => {
 
 		if (fromToken && fromAmount) {
 			if (!poolFromBalance || !poolToBalance) return;
-			setToAmount(calculateSwapValue(poolFromBalance, poolToBalance, fromAmount).toString());
+			setToAmount(
+				Math.floor(
+					calculateSwapValue(poolFromBalance, poolToBalance, fromAmount).toNumber(),
+				).toString(),
+			);
 		}
 	};
 
@@ -133,7 +137,9 @@ export const Swap = (): JSX.Element => {
 
 		if (!poolFromBalance || !poolToBalance) return;
 
-		setToAmount(calculateSwapValue(poolFromBalance, poolToBalance, amount).toString());
+		setToAmount(
+			Math.floor(calculateSwapValue(poolFromBalance, poolToBalance, amount).toNumber()).toString(),
+		);
 	};
 
 	const handleToAmountChange = (amount: string) => {
@@ -146,7 +152,9 @@ export const Swap = (): JSX.Element => {
 
 		if (!poolFromBalance || !poolToBalance) return;
 
-		setFromAmount(calculateSwapValue(poolFromBalance, poolToBalance, amount).toString());
+		setFromAmount(
+			Math.floor(calculateSwapValue(poolFromBalance, poolToBalance, amount).toNumber()).toString(),
+		);
 	};
 
 	const handleSwap = (receipt: SwapReceipt) => {

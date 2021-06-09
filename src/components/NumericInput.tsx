@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 function isValidChange(input: string): boolean {
 	// matches one or many digits followed by an optional single "." appearance that's followed by one or more digits
-	const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
+	const inputRegex = RegExp(`^\\d*(?:\\\\[])?\\d*$`);
 	// remove any non-numeric invalid characters
 	const cleanInput = input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 	return inputRegex.test(cleanInput);
@@ -28,7 +28,7 @@ function isValidChange(input: string): boolean {
 
 export const NumericInput = ({
 	value = '',
-	placeholder = '0.00',
+	placeholder = '0',
 	disabled = false,
 	className = '',
 	inputProps = {},
@@ -46,6 +46,8 @@ export const NumericInput = ({
 		}
 	};
 
+	const roundedValue = Math.floor(Number(value) || 0).toString();
+
 	return (
 		<InputBase
 			fullWidth
@@ -54,7 +56,7 @@ export const NumericInput = ({
 			autoCorrect="off"
 			spellCheck="false"
 			type="text"
-			value={value}
+			value={roundedValue}
 			placeholder={placeholder}
 			disabled={disabled}
 			inputProps={{ ...inputProps, pattern: '^[0-9]*[.,]?[0-9]*$' }}
