@@ -42,6 +42,7 @@ const StyledPrice = styled(StyledSummaryText)({
 
 const StyledArrowIcon = styled(ArrowDownIcon)({
 	paddingLeft: 9,
+	width: 25,
 });
 
 const StyledEndAlignText = styled(Typography)({
