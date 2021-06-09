@@ -146,45 +146,32 @@ export const Swap = (): JSX.Element => {
 					<Labels leftText="From" rightText={fromBalance ? `Balance: ${fromBalance}` : ''} />
 					<DarkBox>
 						<Grid container alignItems="center">
-							{fromToken && (
-								<>
-									<Grid item xs aria-label="token to swap">
-										<SelectedToken token={fromToken} />
+							<Grid item xs aria-label="token to swap">
+								<SelectedToken token={fromToken} />
+							</Grid>
+							<Grid item container xs={4} sm={6} spacing={1} justify="flex-end" alignItems="center">
+								<Grid item xs={12} sm={6}>
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to swap',
+										}}
+										value={fromAmount}
+										handleChange={(change) => handleFromAmountChange(change)}
+									/>
+								</Grid>
+								{fromBalance && (
+									<Grid item xs={12} sm={6}>
+										<RoundedButton
+											onClick={() => {
+												if (!fromBalance) return;
+												handleFromAmountChange(fromBalance);
+											}}
+										>
+											Max
+										</RoundedButton>
 									</Grid>
-
-									<Grid
-										item
-										container
-										xs={4}
-										sm={6}
-										spacing={1}
-										justify="flex-end"
-										alignItems="center"
-									>
-										<Grid item xs={12} sm={6}>
-											<NumericInput
-												inputProps={{
-													'aria-label': 'amount of token to swap',
-												}}
-												value={fromAmount}
-												handleChange={(change) => handleFromAmountChange(change)}
-											/>
-										</Grid>
-										{fromBalance && (
-											<Grid item xs={12} sm={6}>
-												<RoundedButton
-													onClick={() => {
-														if (!fromBalance) return;
-														handleFromAmountChange(fromBalance);
-													}}
-												>
-													Max
-												</RoundedButton>
-											</Grid>
-										)}
-									</Grid>
-								</>
-							)}
+								)}
+							</Grid>
 						</Grid>
 					</DarkBox>
 				</Grid>
@@ -201,47 +188,41 @@ export const Swap = (): JSX.Element => {
 					<Labels leftText="To" rightText={toBalance ? `Balance: ${toBalance}` : ''} />
 					<DarkBox>
 						<Grid container alignItems="center">
-							{toToken && (
-								<>
-									<Grid item xs aria-label="token to be swapped">
-										<SelectedToken token={toToken} />
-									</Grid>
-									<Grid item xs={4} sm={6} container alignItems="center">
-										<NumericInput
-											inputProps={{
-												'aria-label': 'amount of token to be swapped',
-											}}
-											value={toAmount}
-											handleChange={(change) => handleToAmountChange(change)}
-										/>
-									</Grid>
-								</>
-							)}
+							<Grid item xs aria-label="token to be swapped">
+								<SelectedToken token={toToken} />
+							</Grid>
+							<Grid item xs={4} sm={6} container alignItems="center">
+								<NumericInput
+									inputProps={{
+										'aria-label': 'amount of token to be swapped',
+									}}
+									value={toAmount}
+									handleChange={(change) => handleToAmountChange(change)}
+								/>
+							</Grid>
 						</Grid>
 					</DarkBox>
 				</Grid>
-				{fromToken && toToken && (
-					<StyledConversionContainer item xs={12}>
-						<StyledEndText variant="subtitle1" color="textSecondary">
-							<span>{`1 ${fromToken.symbol} = `}</span>
-							<span>
-								{conversionRates ? (
-									conversionRates.from.toString()
-								) : (
-									<ConversionSkeleton width={20} />
-								)}
-							</span>
-							<span>{` ${toToken.symbol}`}</span>
-						</StyledEndText>
-					</StyledConversionContainer>
-				)}
+				<StyledConversionContainer item xs={12}>
+					<StyledEndText variant="subtitle1" color="textSecondary">
+						<span>{`1 ${fromToken.symbol} = `}</span>
+						<span>
+							{conversionRates ? (
+								conversionRates.from.toString()
+							) : (
+								<ConversionSkeleton width={20} />
+							)}
+						</span>
+						<span>{` ${toToken.symbol}`}</span>
+					</StyledEndText>
+				</StyledConversionContainer>
 				<Grid item xs={12}>
 					<StyledSwapButton
 						variant="contained"
 						color="secondary"
 						fullWidth
 						disableElevation
-						disabled={!!error || !!activeTransaction || !!isLoading}
+						disabled={!!error || !!activeTransaction || isLoading}
 						onClick={() => setShowConfirm(true)}
 					>
 						{activeTransaction || isLoading ? <BouncingDots /> : actionButtonText}
