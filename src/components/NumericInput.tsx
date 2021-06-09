@@ -46,7 +46,7 @@ export const NumericInput = ({
 		}
 	};
 
-	const roundedValue = Math.floor(Number(value) || 0).toString();
+	const roundedValue = Math.floor(Number(value));
 
 	return (
 		<InputBase
@@ -56,7 +56,7 @@ export const NumericInput = ({
 			autoCorrect="off"
 			spellCheck="false"
 			type="text"
-			value={roundedValue}
+			value={roundedValue || ''}
 			placeholder={placeholder}
 			disabled={disabled}
 			inputProps={{ ...inputProps, pattern: '^[0-9]*[.,]?[0-9]*$' }}
