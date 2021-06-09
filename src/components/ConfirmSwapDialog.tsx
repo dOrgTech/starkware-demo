@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Button,
 	Dialog,
@@ -13,12 +13,12 @@ import {
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
-import { ConversionRate } from 'models/token';
 import { ReactComponent as CloseIcon } from '../assets/icons/close.svg';
 import { ReactComponent as ArrowDownIcon } from '../assets/icons/arrow-down.svg';
 import { ReactComponent as SwapIcon } from '../assets/icons/swap.svg';
 import { TokenIcon } from './common/TokenIcon';
 import { SwapInformation, SwapReceipt } from '../models/swap';
+import BigNumber from 'bignumber.js';
 
 const StyledCloseButton = styled(IconButton)(({ theme }) => ({
 	position: 'absolute',
@@ -87,13 +87,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface Props extends DialogProps {
 	from?: SwapInformation;
 	to?: SwapInformation;
-	conversionRate: ConversionRate;
 	onClose: () => void;
 	onSwap: (receipt: SwapReceipt) => void;
 }
 
 export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) => {
 	const classes = useStyles();
+	const [sent, isSent] = useState(false);
+
+	useEffect(() => {
+		if (!open) {
+			isSent(false);
+		}
+	}, [open]);
 
 	return (
 		<Dialog
@@ -140,7 +146,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								</Grid>
 								<Grid item className={classes.amount}>
 									<Typography variant="body1" color="textPrimary">
-										{to.amount}
+										{Number(new BigNumber(to.amount).toFixed(6))}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -167,7 +173,9 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 							>
 								<Grid item>
 									<StyledSummaryText variant="body1" color="textPrimary">
-										{`${to.amount} ${to.token.symbol} / ${from.token.symbol}`}
+										{`${Number(new BigNumber(to.amount).toFixed(6))} ${to.token.symbol} / ${
+											from.token.symbol
+										}`}
 									</StyledSummaryText>
 								</Grid>
 								<Grid item>
@@ -181,8 +189,10 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								color="secondary"
 								fullWidth
 								disableElevation
+								disabled={sent}
 								onClick={() => {
 									if (!to) return;
+									isSent(true);
 									onSwap({ from, to });
 								}}
 							>

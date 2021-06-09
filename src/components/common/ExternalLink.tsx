@@ -21,6 +21,10 @@ interface Props {
 	txId: string;
 }
 
+const StyledLinkContainer = styled(Grid)({
+	marginTop: '-5px',
+});
+
 export const ExternalLink = ({ txId }: Props): JSX.Element => {
 	const [isCopied, setIsCopied] = React.useState(false);
 
@@ -34,7 +38,7 @@ export const ExternalLink = ({ txId }: Props): JSX.Element => {
 			<Grid item>
 				<ExplorerText>View on Block Explorer: </ExplorerText>
 			</Grid>
-			<Grid item>
+			<StyledLinkContainer item>
 				<Link
 					href={`${EXPLORER_URL}/tx/${txId}`}
 					target="_blank"
@@ -44,7 +48,7 @@ export const ExternalLink = ({ txId }: Props): JSX.Element => {
 				>
 					{txId}
 				</Link>
-			</Grid>
+			</StyledLinkContainer>
 			<Grid item>
 				<Tooltip
 					title={isCopied ? 'Copied!' : 'Copy'}

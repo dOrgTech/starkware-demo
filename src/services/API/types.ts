@@ -7,11 +7,20 @@ export enum APITransactionType {
 	DEPLOY = 'DEPLOY',
 }
 
-export enum TransactionStatus {
-	PENDING = 'PENDING',
-	REJECTED = 'REJECTED',
-	ACCEPTED_ONCHAIN = 'ACCEPTED_ONCHAIN',
-}
+export type TransactionStatus =
+	| {
+			tx_status: 'RECEIVED';
+	  }
+	| {
+			tx_status: 'PENDING';
+			block_id: string;
+	  }
+	| {
+			tx_status: 'REJECTED';
+	  }
+	| {
+			tx_status: 'ACCEPTED_ONCHAIN';
+	  };
 
 export interface TransactionArgs {
 	calldata: string[];

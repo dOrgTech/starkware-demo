@@ -1,6 +1,5 @@
 import React from 'react';
 import { Avatar, AvatarProps, styled } from '@material-ui/core';
-import { useMemo } from 'react';
 
 export type LogoSize = 'default' | 'medium' | 'large';
 
@@ -19,21 +18,28 @@ const TokenLogoContainer = styled(Avatar)((props: { dimension: number }) => ({
 	},
 }));
 
-export const TokenIcon: React.FC<TokenIconProps> = ({ icon, size = 'default', ...props }) => {
-	const iconSize: number = useMemo(() => {
-		switch (size) {
-			case 'default':
-				return 32;
-			case 'medium':
-				return 48;
-			case 'large':
-				return 66;
-		}
-	}, [size]);
+export const TokenIcon: React.FC<TokenIconProps> = React.memo(function component({
+	icon,
+	size = 'default',
+	...props
+}) {
+	let iconSize: number;
+
+	switch (size) {
+		case 'default':
+			iconSize = 32;
+			break;
+		case 'medium':
+			iconSize = 48;
+			break;
+		case 'large':
+			iconSize = 66;
+			break;
+	}
 
 	return (
 		<TokenLogoContainer dimension={iconSize} {...props}>
 			<img src={icon} alt="token icon" />
 		</TokenLogoContainer>
 	);
-};
+});
