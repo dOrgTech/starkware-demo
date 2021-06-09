@@ -74,7 +74,8 @@ export const Activity = (): JSX.Element => {
 					pending,
 				};
 			})
-			.flat();
+			.flat()
+			.sort((a, b) => Number(b.id) - Number(a.id));
 	}, [userState.activeTransaction, userState.activity]);
 
 	const ActivityList = () => {
