@@ -109,9 +109,7 @@ export const ActivityTransactionItem: React.FC<ActivityTransactionProps> = ({
 					</ColumnFlex>
 				</ActivityDescription>
 				<ColumnFlex>
-					<ActivityValue color="textPrimary">{`+${Number(
-						Number(amount).toFixed(6),
-					)} ${symbol}`}</ActivityValue>
+					<ActivityValue color="textPrimary">{`+${amount} ${symbol}`}</ActivityValue>
 				</ColumnFlex>
 			</ActivityListItem>
 		</Link>
