@@ -136,7 +136,7 @@ export const Mint = (): JSX.Element => {
 				</StyledMint2Container>
 			)}
 			<Grid item xs={12}>
-				<Box clone marginTop={mintToken1 && !mintToken2 ? '18px' : '32px'}>
+				<Box clone marginTop={!mintToken1 ? '32px' : mintToken1 && !mintToken2 ? '18px' : '32px'}>
 					<Button
 						variant="contained"
 						color="secondary"
