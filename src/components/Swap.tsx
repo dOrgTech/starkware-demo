@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Button, Grid, IconButton, styled, Typography } from '@material-ui/core';
 import { ReactComponent as SwapDirection } from 'assets/icons/swap-direction.svg';
-import { TokenSelector } from './TokenSelector';
+import { SelectedToken } from './TokenSelector';
 import { DarkBox } from './common/DarkBox';
 import { NumericInput } from './NumericInput';
 import { Token } from 'models/token';
@@ -71,14 +71,13 @@ export const Swap = (): JSX.Element => {
 		state: { activeTransaction },
 	} = useContext(UserContext);
 	const { mutate: makeSwap, isLoading } = useSwap();
-
 	const options = useFilteredTokens();
 
 	const [showConfirm, setShowConfirm] = useState(false);
-	const [fromToken, setFromToken] = useState<Token | undefined>(options[0]);
-	const [fromAmount, setFromAmount] = useState<string>();
-	const [toToken, setToToken] = useState<Token | undefined>(options[1]);
-	const [toAmount, setToAmount] = useState<string>();
+	const [fromToken, setFromToken] = useState<Token>(options[0]);
+	const [fromAmount, setFromAmount] = useState<string>('');
+	const [toToken, setToToken] = useState<Token>(options[1]);
+	const [toAmount, setToAmount] = useState<string>('');
 
 	const { data: poolBalance } = usePoolBalance();
 	const fromBalance = useTokenBalance(fromToken);
@@ -103,50 +102,36 @@ export const Swap = (): JSX.Element => {
 		setToToken(fromToken);
 	};
 
-	const handleFromTokenSelected = (token: Token) => {
-		if (toToken && token.symbol === toToken.symbol) {
-			setToToken(undefined);
-		}
-
-		setFromAmount(undefined);
-		setFromToken(token);
-	};
-
-	const handleToTokenSelected = (token: Token) => {
-		setToToken(token);
-
-		if (fromToken && fromAmount) {
-			if (!poolFromBalance || !poolToBalance) return;
-			setToAmount(calculateSwapValue(poolFromBalance, poolToBalance, fromAmount).toString());
-		}
-	};
-
 	const handleFromAmountChange = (amount: string) => {
 		setFromAmount(amount);
 
 		if (!toToken) return;
 
 		if (!amount) {
-			setToAmount(undefined);
+			setToAmount('');
 			return;
 		}
 
 		if (!poolFromBalance || !poolToBalance) return;
 
-		setToAmount(calculateSwapValue(poolFromBalance, poolToBalance, amount).toString());
+		setToAmount(
+			Math.floor(calculateSwapValue(poolFromBalance, poolToBalance, amount).toNumber()).toString(),
+		);
 	};
 
 	const handleToAmountChange = (amount: string) => {
 		setToAmount(amount);
 
 		if (!amount) {
-			setFromAmount(undefined);
+			setFromAmount('');
 			return;
 		}
 
 		if (!poolFromBalance || !poolToBalance) return;
 
-		setFromAmount(calculateSwapValue(poolFromBalance, poolToBalance, amount).toString());
+		setFromAmount(
+			Math.floor(calculateSwapValue(poolFromBalance, poolToBalance, amount).toNumber()).toString(),
+		);
 	};
 
 	const handleSwap = (receipt: SwapReceipt) => {
@@ -162,45 +147,31 @@ export const Swap = (): JSX.Element => {
 					<DarkBox>
 						<Grid container alignItems="center">
 							<Grid item xs aria-label="token to swap">
-								<TokenSelector
-									value={fromToken}
-									options={options}
-									onChange={handleFromTokenSelected}
-								/>
+								<SelectedToken token={fromToken} />
 							</Grid>
-							{fromToken && (
-								<Grid
-									item
-									container
-									xs={4}
-									sm={6}
-									spacing={1}
-									justify="flex-end"
-									alignItems="center"
-								>
-									<Grid item xs={12} sm={6}>
-										<NumericInput
-											inputProps={{
-												'aria-label': 'amount of token to swap',
-											}}
-											value={fromAmount}
-											handleChange={(change) => handleFromAmountChange(change)}
-										/>
-									</Grid>
-									{fromBalance && (
-										<Grid item xs={12} sm={6}>
-											<RoundedButton
-												onClick={() => {
-													if (!fromBalance) return;
-													handleFromAmountChange(fromBalance);
-												}}
-											>
-												Max
-											</RoundedButton>
-										</Grid>
-									)}
+							<Grid item container xs={4} sm={6} spacing={1} justify="flex-end" alignItems="center">
+								<Grid item xs={12} sm={6}>
+									<NumericInput
+										inputProps={{
+											'aria-label': 'amount of token to swap',
+										}}
+										value={fromAmount}
+										handleChange={(change) => handleFromAmountChange(change)}
+									/>
 								</Grid>
-							)}
+								{fromBalance && (
+									<Grid item xs={12} sm={6}>
+										<RoundedButton
+											onClick={() => {
+												if (!fromBalance) return;
+												handleFromAmountChange(fromBalance);
+											}}
+										>
+											Max
+										</RoundedButton>
+									</Grid>
+								)}
+							</Grid>
 						</Grid>
 					</DarkBox>
 				</Grid>
@@ -218,44 +189,40 @@ export const Swap = (): JSX.Element => {
 					<DarkBox>
 						<Grid container alignItems="center">
 							<Grid item xs aria-label="token to be swapped">
-								<TokenSelector value={toToken} options={options} onChange={handleToTokenSelected} />
+								<SelectedToken token={toToken} />
 							</Grid>
-							{toToken && (
-								<Grid item xs={4} sm={6} container alignItems="center">
-									<NumericInput
-										inputProps={{
-											'aria-label': 'amount of token to be swapped',
-										}}
-										value={toAmount}
-										handleChange={(change) => handleToAmountChange(change)}
-									/>
-								</Grid>
-							)}
+							<Grid item xs={4} sm={6} container alignItems="center">
+								<NumericInput
+									inputProps={{
+										'aria-label': 'amount of token to be swapped',
+									}}
+									value={toAmount}
+									handleChange={(change) => handleToAmountChange(change)}
+								/>
+							</Grid>
 						</Grid>
 					</DarkBox>
 				</Grid>
-				{fromToken && toToken && (
-					<StyledConversionContainer item xs={12}>
-						<StyledEndText variant="subtitle1" color="textSecondary">
-							<span>{`1 ${fromToken.symbol} = `}</span>
-							<span>
-								{conversionRates ? (
-									conversionRates.from.toString()
-								) : (
-									<ConversionSkeleton width={20} />
-								)}
-							</span>
-							<span>{` ${toToken.symbol}`}</span>
-						</StyledEndText>
-					</StyledConversionContainer>
-				)}
+				<StyledConversionContainer item xs={12}>
+					<StyledEndText variant="subtitle1" color="textSecondary">
+						<span>{`1 ${fromToken.symbol} = `}</span>
+						<span>
+							{conversionRates ? (
+								conversionRates.from.toString()
+							) : (
+								<ConversionSkeleton width={20} />
+							)}
+						</span>
+						<span>{` ${toToken.symbol}`}</span>
+					</StyledEndText>
+				</StyledConversionContainer>
 				<Grid item xs={12}>
 					<StyledSwapButton
 						variant="contained"
 						color="secondary"
 						fullWidth
 						disableElevation
-						disabled={!!error || !!activeTransaction || !!isLoading}
+						disabled={!!error || !!activeTransaction || isLoading}
 						onClick={() => setShowConfirm(true)}
 					>
 						{activeTransaction || isLoading ? <BouncingDots /> : actionButtonText}
@@ -264,8 +231,8 @@ export const Swap = (): JSX.Element => {
 			</Grid>
 			<ConfirmSwapDialog
 				open={showConfirm && !!fromAmount && !!toAmount}
-				from={fromToken && fromAmount ? { token: fromToken, amount: fromAmount } : undefined}
-				to={toToken && toAmount ? { token: toToken, amount: toAmount } : undefined}
+				from={{ token: fromToken, amount: fromAmount }}
+				to={{ token: toToken, amount: toAmount }}
 				onClose={() => setShowConfirm(false)}
 				onSwap={handleSwap}
 			/>
