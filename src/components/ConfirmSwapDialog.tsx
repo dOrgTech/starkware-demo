@@ -126,7 +126,7 @@ export const ConfirmSwapDialog = ({ open, from, to, onClose, onSwap }: Props) =>
 								</Grid>
 								<Grid item className={classes.amount}>
 									<Typography variant="body1" color="textPrimary">
-										{from.amount}
+										{Number(new BigNumber(from.amount).toFixed(6))}
 									</Typography>
 								</Grid>
 							</Grid>
