@@ -3,13 +3,17 @@
 exports[`NumericInput displays placeholder 1`] = `
 <div>
   <div
+    autocorrect="off"
     class="MuiInputBase-root-2  makeStyles-input-1 MuiInputBase-fullWidth-12"
+    inputmode="decimal"
+    spellcheck="false"
   >
     <input
+      autocomplete="off"
       class="MuiInputBase-input-13"
       pattern="^[0-9]*[.,]?[0-9]*$"
       placeholder="0.123"
-      type="tel"
+      type="text"
       value=""
     />
   </div>
