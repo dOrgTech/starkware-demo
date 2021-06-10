@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, Button, Grid, styled } from '@material-ui/core';
+import { Button, Grid, makeStyles, styled } from '@material-ui/core';
 
 import { Token } from '../models/token';
 import { DarkBox } from './common/DarkBox';
@@ -30,6 +30,14 @@ const StyledAddTokenButton = styled(Button)(({ theme }) => ({
 	fontSize: theme.spacing(2),
 }));
 
+const useButtonStyles = (isSingleMint: boolean) => {
+	return makeStyles({
+		actionButton: {
+			marginTop: isSingleMint ? 18 : 32,
+		},
+	});
+};
+
 export const Mint = (): JSX.Element => {
 	const {
 		state: { activeTransaction },
@@ -41,6 +49,7 @@ export const Mint = (): JSX.Element => {
 	const [mintAmount1, setMintAmount1] = useState<string>('1000');
 	const [mintAmount2, setMintAmount2] = useState<string>('1000');
 
+	const buttonClasses = useButtonStyles(!!mintToken1 && !mintToken2)();
 	const options = useFilteredTokens(mintToken1);
 	const mint1Error = useMintError(mintToken1, mintAmount1);
 	const mint2Error = useMintError(mintToken2, mintAmount2);
@@ -136,20 +145,17 @@ export const Mint = (): JSX.Element => {
 				</StyledMint2Container>
 			)}
 			<Grid item xs={12}>
-				<Box clone marginTop={'32px'}>
-					<Button
-						variant="contained"
-						color="secondary"
-						fullWidth
-						disableElevation
-						disabled={
-							(!mintAmount1 && !mintAmount2) || !!error || !!activeTransaction || !!isLoading
-						}
-						onClick={handleMint}
-					>
-						{activeTransaction || isLoading ? <BouncingDots /> : actionButtonText}
-					</Button>
-				</Box>
+				<Button
+					className={buttonClasses.actionButton}
+					variant="contained"
+					color="secondary"
+					fullWidth
+					disableElevation
+					disabled={(!mintAmount1 && !mintAmount2) || !!error || !!activeTransaction || isLoading}
+					onClick={handleMint}
+				>
+					{activeTransaction || isLoading ? <BouncingDots /> : actionButtonText}
+				</Button>
 			</Grid>
 		</Grid>
 	);
