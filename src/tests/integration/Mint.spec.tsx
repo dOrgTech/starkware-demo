@@ -1,17 +1,15 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 
-import { customRender, screen, fireEvent, within, waitForElementToBeRemoved } from '../utils';
+import { customRender, screen, fireEvent, within } from '../utils';
 import { Mint } from '../../components/Mint';
 
 describe('Mint', () => {
 	const setupMintToken = async () => {
 		const { container } = customRender(<Mint />);
-		fireEvent.click(screen.getByRole('button', { name: /Select a Token/i }));
-		// TODO: replace name with actual tokens from useQuery
+		fireEvent.click(screen.getAllByRole('button', { name: /Select a Token/i })[0]);
 		const dialog = screen.getByRole('presentation');
 		fireEvent.click(within(dialog).getByText(/TK1/i));
-		await waitForElementToBeRemoved(dialog); // close dialog
 		return container;
 	};
 
@@ -27,8 +25,8 @@ describe('Mint', () => {
 
 	it('can change mint amount', async () => {
 		const container = await setupMintToken();
-		fireEvent.change(screen.getByLabelText(/mint amount/i), {
-			target: { value: '128' },
+		fireEvent.change(screen.getByDisplayValue('1000'), {
+			target: { value: '500' },
 		});
 		expect(container).toMatchSnapshot();
 	});

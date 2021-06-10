@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TokenSelectorDialog displays list of tokens 1`] = `
+<body
+  style="padding-right: 0px; overflow: hidden;"
+>
+  <div
+    aria-hidden="true"
+  />
+  <div
+    class="MuiDialog-root-6"
+    role="presentation"
+    style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiBackdrop-root-21"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    />
+    <div
+      data-test="sentinelStart"
+      tabindex="0"
+    />
+    <div
+      class="MuiDialog-container-9 MuiDialog-scrollPaper-7 makeStyles-scrollPaper-2"
+      role="none presentation"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      tabindex="-1"
+    >
+      <div
+        class="MuiPaper-root-23 MuiDialog-paper-10 MuiDialog-paperScrollPaper-11 MuiDialog-paperWidthXs-14 MuiDialog-paperFullWidth-19 MuiPaper-elevation24-50 MuiPaper-rounded-24"
+        role="dialog"
+      >
+        <div
+          class="MuiDialogTitle-root-51 makeStyles-dialogTitle-4"
+        >
+          <h6
+            class="MuiTypography-root-53 WithStyles(ForwardRef(Typography))-root-52 MuiTypography-h6-63"
+          >
+            Select a token
+          </h6>
+          <button
+            aria-label="close"
+            class="MuiButtonBase-root-94 MuiIconButton-root-85 WithStyles(ForwardRef(IconButton))-root-83 WithStyles(ForwardRef(IconButton))-root-84"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label-93"
+            >
+              <svg>
+                close.svg
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root-136"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiDialogContent-root-97 makeStyles-dialogContent-5"
+        >
+          <ul
+            class="MuiList-root-99 makeStyles-root-1 MuiList-padding-100"
+          >
+            <div
+              aria-disabled="false"
+              class="MuiButtonBase-root-94 MuiListItem-root-103 MuiListItem-gutters-110 makeStyles-gutters-3 MuiListItem-button-111"
+              role="button"
+              tabindex="0"
+            >
+              <div
+                class="MuiListItemAvatar-root-114"
+              >
+                <div
+                  class="MuiAvatar-root-118 MuiAvatar-circle-120 WithStyles(ForwardRef(Avatar))-root-116 WithStyles(ForwardRef(Avatar))-root-117 MuiAvatar-colorDefault-119"
+                  dimension="32"
+                >
+                  <img
+                    alt="token icon"
+                    src="token.svg"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiListItemText-root-128 WithStyles(ForwardRef(ListItemText))-root-126 WithStyles(ForwardRef(ListItemText))-root-127"
+              >
+                <span
+                  class="MuiTypography-root-53 MuiListItemText-primary-132 MuiTypography-body1-55 MuiTypography-displayBlock-82"
+                >
+                  TK1
+                </span>
+              </div>
+              <p
+                class="MuiTypography-root-53 MuiTypography-body1-55 MuiTypography-colorTextPrimary-78"
+              >
+                0.0
+              </p>
+              <span
+                class="MuiTouchRipple-root-136"
+              />
+            </div>
+            <div
+              aria-disabled="false"
+              class="MuiButtonBase-root-94 MuiListItem-root-103 MuiListItem-gutters-110 makeStyles-gutters-3 MuiListItem-button-111"
+              role="button"
+              tabindex="0"
+            >
+              <div
+                class="MuiListItemAvatar-root-114"
+              >
+                <div
+                  class="MuiAvatar-root-118 MuiAvatar-circle-120 WithStyles(ForwardRef(Avatar))-root-116 WithStyles(ForwardRef(Avatar))-root-134 MuiAvatar-colorDefault-119"
+                  dimension="32"
+                >
+                  <img
+                    alt="token icon"
+                    src="token2.svg"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiListItemText-root-128 WithStyles(ForwardRef(ListItemText))-root-126 WithStyles(ForwardRef(ListItemText))-root-135"
+              >
+                <span
+                  class="MuiTypography-root-53 MuiListItemText-primary-132 MuiTypography-body1-55 MuiTypography-displayBlock-82"
+                >
+                  TK2
+                </span>
+              </div>
+              <p
+                class="MuiTypography-root-53 MuiTypography-body1-55 MuiTypography-colorTextPrimary-78"
+              >
+                0.0
+              </p>
+              <span
+                class="MuiTouchRipple-root-136"
+              />
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      data-test="sentinelEnd"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;

@@ -3,97 +3,147 @@
 exports[`Mint can change mint amount 1`] = `
 <div>
   <div
-    class="MuiBox-root-2 MuiBox-root-3 Styled(MuiBox)-root-1"
+    class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+        class="MuiBox-root-105 MuiBox-root-106 Styled(MuiBox)-root-104"
       >
         <div
-          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+          class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-align-items-xs-center-10"
         >
           <div
-            class="MuiGrid-root-4 MuiGrid-item-6"
+            aria-label="token to swap"
+            class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-true-35"
           >
             <div
-              class="MuiBox-root-2 MuiBox-root-322 Styled(MuiBox)-root-294"
+              class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-align-items-xs-center-10"
             >
               <div
-                class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-spacing-xs-1-27 MuiGrid-align-items-xs-center-13"
+                class="MuiGrid-root-1 MuiGrid-item-3"
               >
                 <div
-                  class="MuiGrid-root-4 MuiGrid-item-6"
+                  class="MuiBox-root-105 MuiBox-root-325 Styled(MuiBox)-root-294"
                 >
                   <div
-                    class="MuiAvatar-root-276 MuiAvatar-circle-278 WithStyles(ForwardRef(Avatar))-root-274 WithStyles(ForwardRef(Avatar))-root-323 MuiAvatar-colorDefault-277"
-                    dimension="48"
+                    class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-align-items-xs-center-10"
                   >
-                    <svg>
-                      token.svg
-                    </svg>
+                    <div
+                      class="MuiGrid-root-1 MuiGrid-item-3"
+                    >
+                      <div
+                        class="MuiAvatar-root-276 MuiAvatar-circle-278 WithStyles(ForwardRef(Avatar))-root-274 WithStyles(ForwardRef(Avatar))-root-326 MuiAvatar-colorDefault-277"
+                        dimension="48"
+                      >
+                        <img
+                          alt="token icon"
+                          src="token.svg"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-true-35"
+                    >
+                      <div
+                        class="MuiBox-root-105 MuiBox-root-328 Styled(MuiBox)-root-297 Styled(MuiBox)-root-327"
+                      >
+                        <p
+                          class="MuiTypography-root-214 WithStyles(ForwardRef(Typography))-root-300 MuiTypography-body1-216 MuiTypography-colorTextPrimary-239"
+                        >
+                          TK1
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root-1 MuiGrid-item-3"
+                    >
+                      <button
+                        aria-label="change token"
+                        class="MuiButtonBase-root-138 MuiIconButton-root-246"
+                        tabindex="0"
+                        type="button"
+                      >
+                        <span
+                          class="MuiIconButton-label-254"
+                        >
+                          <svg>
+                            dropdown-arrow.svg
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTouchRipple-root-172"
+                        />
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
-                >
-                  <div
-                    class="MuiBox-root-2 MuiBox-root-324 Styled(MuiBox)-root-297"
-                  >
-                    <p
-                      class="MuiTypography-root-214 WithStyles(ForwardRef(Typography))-root-299 MuiTypography-body1-216 MuiTypography-colorTextPrimary-239"
-                    >
-                      TK1
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="MuiGrid-root-4 MuiGrid-item-6"
-                >
-                  <button
-                    aria-label="change token"
-                    class="MuiButtonBase-root-138 MuiIconButton-root-246"
-                    tabindex="0"
-                    type="button"
-                  >
-                    <span
-                      class="MuiIconButton-label-254"
-                    >
-                      <svg>
-                        dropdown-arrow.svg
-                      </svg>
-                    </span>
-                    <span
-                      class="MuiTouchRipple-root-325"
-                    />
-                  </button>
-                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-301 WithStyles(ForwardRef(Grid))-root-302 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-align-items-xs-center-10 MuiGrid-grid-xs-4-39 MuiGrid-grid-sm-6-55"
+          >
+            <div
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-true-35"
+            >
+              <div
+                autocorrect="off"
+                class="MuiInputBase-root-304  makeStyles-input-303 MuiInputBase-fullWidth-314"
+                inputmode="decimal"
+                spellcheck="false"
+              >
+                <input
+                  aria-label="amount of token to swap"
+                  autocomplete="off"
+                  class="MuiInputBase-input-315"
+                  pattern="^[0-9]*[.,]?[0-9]*$"
+                  placeholder="0"
+                  type="text"
+                  value="500"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="MuiGrid-root-4 WithStyles(ForwardRef(Grid))-root-302 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+    </div>
+    <div
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-322 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+    >
+      <button
+        class="MuiButtonBase-root-138 MuiButton-root-109 MuiButton-text-111 WithStyles(ForwardRef(Button))-root-323 WithStyles(ForwardRef(Button))-root-324 MuiButton-textSecondary-113"
+        tabindex="0"
+        type="button"
       >
-        <div
-          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13 MuiGrid-justify-xs-flex-end-23"
+        <span
+          class="MuiButton-label-110"
         >
-          <div
-            class="MuiInputBase-root-304  makeStyles-input-303 MuiInputBase-fullWidth-314"
-          >
-            <input
-              aria-label="mint amount"
-              class="MuiInputBase-input-315"
-              pattern="^[0-9]*[.,]?[0-9]*$"
-              placeholder="0.00"
-              type="tel"
-              value="128"
-            />
-          </div>
-        </div>
-      </div>
+          + Add Token
+        </span>
+        <span
+          class="MuiTouchRipple-root-172"
+        />
+      </button>
+    </div>
+    <div
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+    >
+      <button
+        class="MuiButtonBase-root-138 MuiButton-root-109 MuiButton-contained-117 MuiBox-root-105 MuiBox-root-161 MuiButton-containedSecondary-119 MuiButton-disableElevation-120 MuiButton-fullWidth-132"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label-110"
+        >
+          Mint
+        </span>
+        <span
+          class="MuiTouchRipple-root-172"
+        />
+      </button>
     </div>
   </div>
 </div>
@@ -102,97 +152,147 @@ exports[`Mint can change mint amount 1`] = `
 exports[`Mint can select mint token 1`] = `
 <div>
   <div
-    class="MuiBox-root-2 MuiBox-root-3 Styled(MuiBox)-root-1"
+    class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+        class="MuiBox-root-105 MuiBox-root-106 Styled(MuiBox)-root-104"
       >
         <div
-          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+          class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-align-items-xs-center-10"
         >
           <div
-            class="MuiGrid-root-4 MuiGrid-item-6"
+            aria-label="token to swap"
+            class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-true-35"
           >
             <div
-              class="MuiBox-root-2 MuiBox-root-295 Styled(MuiBox)-root-294"
+              class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-align-items-xs-center-10"
             >
               <div
-                class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-spacing-xs-1-27 MuiGrid-align-items-xs-center-13"
+                class="MuiGrid-root-1 MuiGrid-item-3"
               >
                 <div
-                  class="MuiGrid-root-4 MuiGrid-item-6"
+                  class="MuiBox-root-105 MuiBox-root-295 Styled(MuiBox)-root-294"
                 >
                   <div
-                    class="MuiAvatar-root-276 MuiAvatar-circle-278 WithStyles(ForwardRef(Avatar))-root-274 WithStyles(ForwardRef(Avatar))-root-296 MuiAvatar-colorDefault-277"
-                    dimension="48"
+                    class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-align-items-xs-center-10"
                   >
-                    <svg>
-                      token.svg
-                    </svg>
+                    <div
+                      class="MuiGrid-root-1 MuiGrid-item-3"
+                    >
+                      <div
+                        class="MuiAvatar-root-276 MuiAvatar-circle-278 WithStyles(ForwardRef(Avatar))-root-274 WithStyles(ForwardRef(Avatar))-root-296 MuiAvatar-colorDefault-277"
+                        dimension="48"
+                      >
+                        <img
+                          alt="token icon"
+                          src="token.svg"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-true-35"
+                    >
+                      <div
+                        class="MuiBox-root-105 MuiBox-root-299 Styled(MuiBox)-root-297 Styled(MuiBox)-root-298"
+                      >
+                        <p
+                          class="MuiTypography-root-214 WithStyles(ForwardRef(Typography))-root-300 MuiTypography-body1-216 MuiTypography-colorTextPrimary-239"
+                        >
+                          TK1
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root-1 MuiGrid-item-3"
+                    >
+                      <button
+                        aria-label="change token"
+                        class="MuiButtonBase-root-138 MuiIconButton-root-246"
+                        tabindex="0"
+                        type="button"
+                      >
+                        <span
+                          class="MuiIconButton-label-254"
+                        >
+                          <svg>
+                            dropdown-arrow.svg
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTouchRipple-root-172"
+                        />
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
-                >
-                  <div
-                    class="MuiBox-root-2 MuiBox-root-298 Styled(MuiBox)-root-297"
-                  >
-                    <p
-                      class="MuiTypography-root-214 WithStyles(ForwardRef(Typography))-root-299 MuiTypography-body1-216 MuiTypography-colorTextPrimary-239"
-                    >
-                      TK1
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="MuiGrid-root-4 MuiGrid-item-6"
-                >
-                  <button
-                    aria-label="change token"
-                    class="MuiButtonBase-root-138 MuiIconButton-root-246"
-                    tabindex="0"
-                    type="button"
-                  >
-                    <span
-                      class="MuiIconButton-label-254"
-                    >
-                      <svg>
-                        dropdown-arrow.svg
-                      </svg>
-                    </span>
-                    <span
-                      class="MuiTouchRipple-root-172"
-                    />
-                  </button>
-                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-301 WithStyles(ForwardRef(Grid))-root-302 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-align-items-xs-center-10 MuiGrid-grid-xs-4-39 MuiGrid-grid-sm-6-55"
+          >
+            <div
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-true-35"
+            >
+              <div
+                autocorrect="off"
+                class="MuiInputBase-root-304  makeStyles-input-303 MuiInputBase-fullWidth-314"
+                inputmode="decimal"
+                spellcheck="false"
+              >
+                <input
+                  aria-label="amount of token to swap"
+                  autocomplete="off"
+                  class="MuiInputBase-input-315"
+                  pattern="^[0-9]*[.,]?[0-9]*$"
+                  placeholder="0"
+                  type="text"
+                  value="1000"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="MuiGrid-root-4 WithStyles(ForwardRef(Grid))-root-302 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+    </div>
+    <div
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-322 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+    >
+      <button
+        class="MuiButtonBase-root-138 MuiButton-root-109 MuiButton-text-111 WithStyles(ForwardRef(Button))-root-323 WithStyles(ForwardRef(Button))-root-324 MuiButton-textSecondary-113"
+        tabindex="0"
+        type="button"
       >
-        <div
-          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13 MuiGrid-justify-xs-flex-end-23"
+        <span
+          class="MuiButton-label-110"
         >
-          <div
-            class="MuiInputBase-root-304  makeStyles-input-303 MuiInputBase-fullWidth-314"
-          >
-            <input
-              aria-label="mint amount"
-              class="MuiInputBase-input-315"
-              pattern="^[0-9]*[.,]?[0-9]*$"
-              placeholder="0.00"
-              type="tel"
-              value=""
-            />
-          </div>
-        </div>
-      </div>
+          + Add Token
+        </span>
+        <span
+          class="MuiTouchRipple-root-172"
+        />
+      </button>
+    </div>
+    <div
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+    >
+      <button
+        class="MuiButtonBase-root-138 MuiButton-root-109 MuiButton-contained-117 MuiBox-root-105 MuiBox-root-161 MuiButton-containedSecondary-119 MuiButton-disableElevation-120 MuiButton-fullWidth-132"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label-110"
+        >
+          Mint
+        </span>
+        <span
+          class="MuiTouchRipple-root-172"
+        />
+      </button>
     </div>
   </div>
 </div>
@@ -201,48 +301,73 @@ exports[`Mint can select mint token 1`] = `
 exports[`Mint displays empty token selector initially 1`] = `
 <div>
   <div
-    class="MuiBox-root-2 MuiBox-root-3 Styled(MuiBox)-root-1"
+    class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
+        class="MuiBox-root-105 MuiBox-root-106 Styled(MuiBox)-root-104"
       >
         <div
-          class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-align-items-xs-center-13"
+          class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-align-items-xs-center-10"
         >
           <div
-            class="MuiGrid-root-4 MuiGrid-container-5 MuiGrid-spacing-xs-1-27 MuiGrid-align-items-xs-center-13"
+            aria-label="token to swap"
+            class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-true-35"
           >
             <div
-              class="MuiGrid-root-4 MuiGrid-item-6"
+              class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-align-items-xs-center-10"
             >
-              <svg>
-                placeholder.svg
-              </svg>
-            </div>
-            <div
-              class="MuiGrid-root-4 MuiGrid-item-6 MuiGrid-grid-xs-true-38"
-            >
-              <button
-                class="MuiButtonBase-root-138 MuiButton-root-109 makeStyles-root-107 MuiButton-outlined-114 MuiButton-outlinedSecondary-116"
-                tabindex="0"
-                type="button"
+              <div
+                class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-align-items-xs-center-10"
               >
-                <span
-                  class="MuiButton-label-110 makeStyles-label-108"
+                <div
+                  class="MuiGrid-root-1 MuiGrid-item-3"
                 >
-                  Select a Token
-                </span>
-                <span
-                  class="MuiTouchRipple-root-162"
-                />
-              </button>
+                  <svg>
+                    placeholder.svg
+                  </svg>
+                </div>
+                <div
+                  class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-true-35"
+                >
+                  <button
+                    class="MuiButtonBase-root-138 MuiButton-root-109 makeStyles-root-107 MuiButton-outlined-114 MuiButton-outlinedSecondary-116"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiButton-label-110 makeStyles-label-108"
+                    >
+                      Select a Token
+                    </span>
+                    <span
+                      class="MuiTouchRipple-root-162"
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+    >
+      <button
+        class="MuiButtonBase-root-138 MuiButton-root-109 MuiButton-contained-117 MuiBox-root-105 MuiBox-root-161 MuiButton-containedSecondary-119 MuiButton-disableElevation-120 MuiButton-disabled-122 MuiButton-fullWidth-132 MuiButtonBase-disabled-139"
+        disabled=""
+        tabindex="-1"
+        type="button"
+      >
+        <span
+          class="MuiButton-label-110"
+        >
+          Select a token
+        </span>
+      </button>
     </div>
   </div>
 </div>
