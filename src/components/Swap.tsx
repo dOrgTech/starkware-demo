@@ -94,10 +94,14 @@ export const Swap = (): JSX.Element => {
 	const actionButtonText = error || 'Swap';
 
 	const handleSwitch = () => {
-		if (!fromToken || !toToken) return;
+		if (!fromToken || !toToken || !poolFromBalance || !poolToBalance) return;
 
 		setFromToken(toToken);
-		setToAmount(fromAmount);
+		setToAmount(
+			Math.floor(
+				calculateSwapValue(poolToBalance, poolFromBalance, toAmount).toNumber(),
+			).toString(),
+		);
 		setFromAmount(toAmount);
 		setToToken(fromToken);
 	};
