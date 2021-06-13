@@ -39,7 +39,11 @@ const MenuIcon = styled('img')({
 
 const links: MenuLink[] = [
 	{ label: 'Documentation', icon: Document, url: 'http://cairo-lang.org/docs/hello_starknet/' },
-	{ label: 'See the Code', icon: Github, url: 'https://github.com/dOrgTech/starkware-demo/' },
+	{
+		label: 'See the Code',
+		icon: Github,
+		url: 'https://github.com/starkware-libs/cairo-lang/tree/master/src/starkware/starknet/apps/amm_sample/amm_sample.cairo',
+	},
 	{ label: 'Block Explorer', icon: Block, url: EXPLORER_URL },
 	{ label: 'What is StarkNet?', icon: Star, url: 'https://starkware.co/product/starknet/' },
 	{
