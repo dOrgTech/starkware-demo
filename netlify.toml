@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/api/*"
-  to = "https://alpha.starknet.io/:splat"
+  to = "https://alpha1.starknet.io/:splat"
   status = 200
 
 [[redirects]]
