@@ -25,7 +25,7 @@ export const StarknetLogo: React.FC = () => {
 	return (
 		<Container>
 			<StarkNetLogo src={Starknet} />
-			<Subtitle variant="h6">Planets Alpha on Ropsten</Subtitle>
+			<Subtitle variant="h6">Live on Testnet</Subtitle>
 		</Container>
 	);
 };
