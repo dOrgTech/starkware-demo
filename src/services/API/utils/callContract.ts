@@ -11,6 +11,6 @@ export async function callContract<T = Omit<CallArgs, 'blockId'>>({
 		calldata,
 		contract_address,
 		entry_point_selector,
-		signature: '',
+		signature: [],
 	});
 }
