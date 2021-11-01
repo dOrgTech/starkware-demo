@@ -13,6 +13,7 @@ export const sendTransaction = async ({
 		contract_address,
 		entry_point_selector,
 		type,
+		signature: '',
 	});
 
 	return data;
