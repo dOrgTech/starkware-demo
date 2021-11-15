@@ -43,7 +43,7 @@ export const useMint = () => {
 		dispatch({
 			type: ActionTypes.SET_ACTIVE_TRANSACTION,
 			payload: {
-				id: result.tx_id.toString(),
+				id: result.transaction_hash.toString(),
 				type: TransactionType.MINT,
 				args,
 				timestamp: dayjs().toString(),

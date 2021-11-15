@@ -2,6 +2,7 @@ import React from 'react';
 import ContentCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import { Grid, Link, styled, Tooltip, Typography } from '@material-ui/core';
 import { EXPLORER_URL } from '../../constants';
+import { toShortAddress } from 'services/API/utils/toShortAddress';
 
 const ExplorerText = styled(Typography)({
 	fontSize: '14px',
@@ -46,7 +47,7 @@ export const ExternalLink = ({ txId }: Props): JSX.Element => {
 					variant="subtitle1"
 					color="secondary"
 				>
-					{txId}
+					{toShortAddress(txId, 4)}
 				</Link>
 			</StyledLinkContainer>
 			<Grid item>

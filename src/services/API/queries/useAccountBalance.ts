@@ -4,6 +4,7 @@ import { callContract } from '../utils/callContract';
 import { UserContext } from 'context/user';
 import { CONTRACT_ADDRESS, GET_ACCOUNT_TOKEN_BALANCE_ENTRYPOINT, tokens } from '../../../constants';
 import { useSnackbar } from 'notistack';
+import BigNumber from 'bignumber.js';
 
 interface BalancesFetchResult {
 	result: number[];
@@ -35,7 +36,7 @@ export const useAccountBalance = (blockId?: string) => {
 				for (let index = 0; index < balancesInformation.length; index++) {
 					const token = tokens[index];
 					const { data: balanceInformation } = balancesInformation[index];
-					balances.set(token.id, String(balanceInformation.result[0]));
+					balances.set(token.id, new BigNumber(balanceInformation.result[0], 16).toString());
 				}
 
 				return balances;

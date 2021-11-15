@@ -234,7 +234,7 @@ export const UserProvider: React.FC = ({ children }) => {
 		async () => {
 			setStop(false);
 			const { data } = await httpClient.get<string>(
-				`feeder_gateway/get_transaction_status?transactionId=${state.activeTransaction?.id}`,
+				`feeder_gateway/get_transaction_status?transactionHash=${state.activeTransaction?.id}`,
 			);
 
 			return data;

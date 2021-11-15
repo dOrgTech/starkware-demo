@@ -3,6 +3,7 @@ import { useSnackbar } from 'notistack';
 
 import { callContract } from '../utils/callContract';
 import { CONTRACT_ADDRESS, GET_POOL_TOKEN_BALANCE_ENTRYPOINT, tokens } from '../../../constants';
+import BigNumber from 'bignumber.js';
 
 interface PoolBalanceFetchResult {
 	result: number[];
@@ -31,7 +32,7 @@ export const usePoolBalance = (blockId?: string) => {
 				for (let index = 0; index < balancesInformation.length; index++) {
 					const token = tokens[index];
 					const { data: balanceInformation } = balancesInformation[index];
-					balances.set(token.id, String(balanceInformation.result[0]));
+					balances.set(token.id, new BigNumber(balanceInformation.result[0], 16).toString());
 				}
 
 				return balances;

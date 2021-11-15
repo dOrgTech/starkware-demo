@@ -32,7 +32,7 @@ export const useSwap = () => {
 		dispatch({
 			type: ActionTypes.SET_ACTIVE_TRANSACTION,
 			payload: {
-				id: result.tx_id.toString(),
+				id: result.transaction_hash.toString(),
 				type: TransactionType.SWAP,
 				args: {
 					from,
